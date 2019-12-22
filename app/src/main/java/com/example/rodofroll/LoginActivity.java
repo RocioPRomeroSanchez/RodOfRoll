@@ -127,8 +127,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     }else{
 
-                    }
 
+                        try {
+                            LoginUser(emailEditText.getText().toString(),passEditText.getText().toString(),v);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 //Se envia un intent para acceder a la siguiente actividad
                 break;
@@ -148,6 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                if(task.isSuccessful()){
                    Snackbar.make(view, "Exito", Snackbar.LENGTH_LONG)
                            .show();
+
                }
                else{
                    Snackbar.make(view, "No se puedo registrar al usuario", Snackbar.LENGTH_LONG)
@@ -157,6 +163,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
            }
        });
 
+    }
+    public void LoginUser(String email, String password ,final View view) throws InterruptedException {
+        view.setEnabled(false);
+
+        Thread.sleep(2000);
+
+        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Snackbar.make(view, "Exito al entrar", Snackbar.LENGTH_LONG)
+                            .show();
+                }
+                else{
+                    Snackbar.make(view, "Usuario o contraseña incorrectos", Snackbar.LENGTH_LONG)
+                            .show();
+                }
+                view.setEnabled(true);
+            }
+        });
     }
     public void AnyadirToggle(EditText e ,final TextInputLayout t){
         e.addTextChangedListener(new TextWatcher() {
@@ -177,7 +203,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 
     }
-
-
-
 }
