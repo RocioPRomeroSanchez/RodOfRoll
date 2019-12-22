@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Acceso acceso;
     FirebaseAuth auth=FirebaseAuth.getInstance();
     DatabaseReference databaseReference;
-    
+
     enum Acceso{
         Registrarse, Login
 
