@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "126559126413",
+    "firebase_url": "https://rodofroll.firebaseio.com",
+    "project_id": "rodofroll",
+    "storage_bucket": "rodofroll.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126559126413:android:0e21b77ed6421977f1b3c4",
+        "android_client_info": {
+          "package_name": "com.example.rodofroll"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126559126413-balm08f1qib0cjlsjd38p1c6in6d1h6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE3sGcsRyPgXF7F9J2C3Z_8h1FklOAXnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126559126413-balm08f1qib0cjlsjd38p1c6in6d1h6u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
