@@ -3,13 +3,18 @@ package com.example.rodofroll;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -123,10 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-
-
                     }else{
-
 
                         try {
                             LoginUser(emailEditText.getText().toString(),passEditText.getText().toString(),v);
@@ -153,6 +155,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                if(task.isSuccessful()){
                    Snackbar.make(view, "Exito", Snackbar.LENGTH_LONG)
                            .show();
+                   try {
+                       Thread.sleep(2000);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+
+                   AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+                   LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
+                   final View myView = inflater.inflate(R.layout.elegirolayout, null);
+                   dialogBuilder.setView(myView);
+
+                   dialogBuilder.show();
+
 
                }
                else{
