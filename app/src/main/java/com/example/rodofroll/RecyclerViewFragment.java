@@ -30,7 +30,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
 
-public class RecyclerViewPersonajes extends Fragment {
+public class RecyclerViewFragment extends Fragment {
 
     Adapter adapter= null;
     @Nullable

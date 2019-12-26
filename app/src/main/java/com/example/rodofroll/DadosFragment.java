@@ -41,6 +41,7 @@ public class DadosFragment extends Fragment implements View.OnClickListener {
     Context context;
     ImageView imageView;
     ListView lista;
+    ImageView deleteimage;
     int tipodado;
 
     @Nullable
@@ -65,6 +66,7 @@ public class DadosFragment extends Fragment implements View.OnClickListener {
         menosnumero=view.findViewById(R.id.buttonresta1);
         lista =view.findViewById(R.id.listatiradas);
         lista.setAdapter( adaptadorlista);
+        deleteimage=view.findViewById(R.id.clearlist);
 
         cantidaddados.setOnClickListener(this);
         masnumero.setOnClickListener(this);
@@ -72,6 +74,7 @@ public class DadosFragment extends Fragment implements View.OnClickListener {
         menosmodificador.setOnClickListener(this);
         masmodificador.setOnClickListener(this);
         imageView.setOnClickListener(this);
+        deleteimage.setOnClickListener(this);
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +92,15 @@ public class DadosFragment extends Fragment implements View.OnClickListener {
                 }
 
                 sumatorio.setText( String.valueOf(suma));
+
+            }
+        });
+
+        deleteimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adaptadorlista.clear();
+                sumatorio.setText(null);
 
             }
         });
@@ -132,6 +144,8 @@ public class DadosFragment extends Fragment implements View.OnClickListener {
                         imageView.setImageDrawable(drawable);
                         tipodado=20;
                         break;
+
+
                 }
             }
 
@@ -140,6 +154,7 @@ public class DadosFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
 
 
         return view;
@@ -236,6 +251,8 @@ public class DadosFragment extends Fragment implements View.OnClickListener {
 
                 }
                 break;
+
+
         }
 
     }

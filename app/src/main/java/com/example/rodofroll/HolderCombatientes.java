@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Holder extends RecyclerView.ViewHolder {
+public class HolderCombatientes extends RecyclerView.ViewHolder {
 
     TextView txtNombre;
     ImageView imagen;
 
-    public Holder(View itemView){
+    public HolderCombatientes(View itemView){
         super(itemView);
         txtNombre=itemView.findViewById(R.id.textView);
         imagen=itemView.findViewById(R.id.imageView);

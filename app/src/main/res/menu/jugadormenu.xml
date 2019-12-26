@@ -7,6 +7,7 @@
             android:checked="true"
             android:title="Personajes"
             android:icon="@drawable/account_multiple"
+
             >
 
         </item>
@@ -18,13 +19,6 @@
             >
 
         </item>
-        <item
-            android:id="@+id/navigation_item_combat"
-            android:checked="true"
-            android:title="Combate"
-            android:icon="@drawable/sword_cross"
-            >
 
-        </item>
     </group>
 </menu>

@@ -1,7 +1,6 @@
 package com.example.rodofroll;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import javax.json.JsonReader;
 public class Adapter extends RecyclerView.Adapter {
 
     Context context;
-    Holder holder;
+    HolderCombatientes holder;
     JsonReader jr=null;
     JsonArray jA = null;
 
@@ -34,7 +33,7 @@ public class Adapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,parent,false);
-        holder=new Holder(view);
+        holder=new HolderCombatientes(view);
         return holder;
     }
 
@@ -43,7 +42,7 @@ public class Adapter extends RecyclerView.Adapter {
 
 
             Personaje p = new Personaje(jA.getJsonObject(position).getString("Nombre"),jA.getJsonObject(position).getString("Imagen"));
-            ((Holder)viewHolder).bind(p);
+            ((HolderCombatientes)viewHolder).bind(p);
 
 
     }

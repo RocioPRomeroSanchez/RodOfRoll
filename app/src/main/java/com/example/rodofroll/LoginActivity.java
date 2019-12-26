@@ -1,9 +1,11 @@
 package com.example.rodofroll;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -154,7 +157,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                      CrearsAlertDialog();
 
-
                }
                else{
                    Snackbar.make(view, "No se puedo registrar al usuario", Snackbar.LENGTH_LONG)
@@ -207,7 +209,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     public void CrearsAlertDialog(){
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
         LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
         final View myView = inflater.inflate(R.layout.elegirolayout, null);
 
@@ -224,12 +226,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
                 if(spin.getSelectedItemPosition()==0){
                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                    intent.putExtra("rol",0);
                     startActivity(intent);
+
+
                 }
                 else{
                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                    intent.putExtra("rol",1);
                     startActivity(intent);
+
                 }
+
+
+
             }
         });
         dialogBuilder.setView(myView);
