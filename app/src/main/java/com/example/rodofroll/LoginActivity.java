@@ -1,17 +1,17 @@
 package com.example.rodofroll;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -26,9 +26,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-
-import javax.xml.datatype.Duration;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener  {
 
@@ -48,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Registrarse, Login
 
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,20 +151,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
            public void onComplete(@NonNull Task<AuthResult> task) {
 
                if(task.isSuccessful()){
-                   Snackbar.make(view, "Exito", Snackbar.LENGTH_LONG)
-                           .show();
-                   try {
-                       Thread.sleep(2000);
-                   } catch (InterruptedException e) {
-                       e.printStackTrace();
-                   }
 
-                   AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                   LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
-                   final View myView = inflater.inflate(R.layout.elegirolayout, null);
-                   dialogBuilder.setView(myView);
-
-                   dialogBuilder.show();
+                     CrearsAlertDialog();
 
 
                }
@@ -188,8 +174,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Snackbar.make(view, "Exito al entrar", Snackbar.LENGTH_LONG)
-                            .show();
+
+                    CrearsAlertDialog();
+
                 }
                 else{
                     Snackbar.make(view, "Usuario o contraseña incorrectos", Snackbar.LENGTH_LONG)
@@ -216,6 +203,39 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
+
+    }
+    public void CrearsAlertDialog(){
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+        LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
+        final View myView = inflater.inflate(R.layout.elegirolayout, null);
+
+        final Spinner spin = myView.findViewById(R.id.elecrolnspinner);
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.roles, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spin.setAdapter(adapter);
+
+        Button button =myView.findViewById(R.id.aceptarrolbutton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(spin.getSelectedItemPosition()==0){
+                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        dialogBuilder.setView(myView);
+        dialogBuilder.show();
+
+
 
     }
 }

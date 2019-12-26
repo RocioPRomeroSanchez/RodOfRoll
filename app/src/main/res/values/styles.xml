@@ -8,5 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name = "android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
     </style>
+    <string-array name="rol_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+
+    </string-array>
 
 </resources>
