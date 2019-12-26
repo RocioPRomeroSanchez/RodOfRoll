@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_personajes"
+            android:checked="true"
+            android:title="Personajes"
+            android:icon="@drawable/account_multiple"
+            >
+
+        </item>
+        <item
+            android:id="@+id/navigation_item_dados"
+            android:checked="true"
+            android:title="Dados"
+            android:icon="@drawable/dice_multiple"
+            >
+
+        </item>
+        <item
+            android:id="@+id/navigation_item_combat"
+            android:checked="true"
+            android:title="Combate"
+            android:icon="@drawable/sword_cross"
+            >
+
+        </item>
+    </group>
+</menu>
