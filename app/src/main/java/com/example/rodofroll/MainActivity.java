@@ -22,7 +22,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.rodofroll.Vistas.CombateFragment;
+import com.example.rodofroll.Vistas.DadosFragment;
+import com.example.rodofroll.Vistas.RecyclerViewFragment;
+import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+      /*  FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.child(user.getUid()).child("Combates").setValue("rosa");*/
+
+
+      FireBaseUtils.CrearRef();
+      String notifcaciones = FireBaseUtils.getUser().getUid()+"notif";
+      FirebaseMessaging.getInstance().subscribeToTopic(notifcaciones);
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -180,4 +194,6 @@ public class MainActivity extends AppCompatActivity {
         dialogBuilder.setView(myView);
         dialogBuilder.show();
     }
+
+
 }

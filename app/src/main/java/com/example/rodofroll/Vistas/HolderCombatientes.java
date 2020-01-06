@@ -1,4 +1,4 @@
-package com.example.rodofroll;
+package com.example.rodofroll.Vistas;
 
 
 import android.graphics.Bitmap;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.rodofroll.Objetos.Personaje;
+import com.example.rodofroll.R;
 
 public class HolderCombatientes extends RecyclerView.ViewHolder {
 

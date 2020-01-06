@@ -1,4 +1,4 @@
-package com.example.rodofroll;
+package com.example.rodofroll.Objetos;
 
 import android.text.InputType;
 import android.util.Patterns;
@@ -6,7 +6,7 @@ import android.util.Patterns;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Validacion {
-     static boolean ValidarEdit(TextInputEditText editText) {
+     public static boolean ValidarEdit(TextInputEditText editText) {
 
          String s = editText.getText().toString();
          if(s.isEmpty()){
@@ -48,7 +48,7 @@ public class Validacion {
 
     }
 
-    static  boolean ValidarDosEdit(TextInputEditText editText ,TextInputEditText editText2){
+    public static  boolean ValidarDosEdit(TextInputEditText editText, TextInputEditText editText2){
 
          boolean bol = editText.getText().toString().equals(editText2.getText().toString());
          if(!bol){

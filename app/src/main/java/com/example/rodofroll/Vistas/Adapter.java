@@ -1,4 +1,4 @@
-package com.example.rodofroll;
+package com.example.rodofroll.Vistas;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.rodofroll.Objetos.Personaje;
+import com.example.rodofroll.R;
 
 import java.io.IOException;
 

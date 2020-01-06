@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,17 +17,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
+import com.example.rodofroll.Objetos.Validacion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener  {
 
@@ -110,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.button:
 
+                closeTecladoMovil();
                 boolean boolpass =true;
                passTextLayout.setPasswordVisibilityToggleEnabled(false);
                pass2TextLayout.setPasswordVisibilityToggleEnabled(false);
@@ -138,7 +143,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
                     }
                 }
-                //Se envia un intent para acceder a la siguiente actividad
                 break;
 
         }
@@ -159,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                }
                else{
-                   Snackbar.make(view, "No se puedo registrar al usuario", Snackbar.LENGTH_LONG)
+                   Snackbar.make(view,ErroresAuth(task.getException()), Snackbar.LENGTH_LONG)
                            .show();
                }
                view.setEnabled(true);
@@ -181,7 +185,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 }
                 else{
-                    Snackbar.make(view, "Usuario o contraseña incorrectos", Snackbar.LENGTH_LONG)
+
+                   Snackbar.make(view,ErroresAuth(task.getException()), Snackbar.LENGTH_LONG)
                             .show();
                 }
                 view.setEnabled(true);
@@ -224,6 +229,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 if(spin.getSelectedItemPosition()==0){
                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                     intent.putExtra("rol",0);
@@ -247,5 +254,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
 
+    }
+
+    public String ErroresAuth(Exception f){
+
+        if (FirebaseNetworkException.class.equals(f.getClass())) {
+            return  "Error de red";
+
+        } else if (FirebaseAuthInvalidCredentialsException.class.equals(f.getClass())) {
+            return  "Contraseña incorrecta";
+
+        } else if (FirebaseAuthUserCollisionException.class.equals(f.getClass())) {
+
+            return  "Usuario ya existente";
+        }
+        else if(FirebaseAuthInvalidUserException.class.equals(f.getClass())){
+            return  "Usuario inexistente";
+        }
+
+      return "Error";
+    }
+
+    public void closeTecladoMovil(){
+        View view = this.getCurrentFocus();
+        if(view!=null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+
+        }
     }
 }
