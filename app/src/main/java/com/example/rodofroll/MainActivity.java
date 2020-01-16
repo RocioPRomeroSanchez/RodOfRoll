@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,21 +23,46 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.rodofroll.Objetos.Combatiente;
+import com.example.rodofroll.Objetos.ComunicateToTabsListener;
+import com.example.rodofroll.Objetos.Dialogos;
+import com.example.rodofroll.Objetos.Monstruo;
+import com.example.rodofroll.Objetos.Personaje;
+import com.example.rodofroll.Objetos.onSelectedItemListener;
 import com.example.rodofroll.Vistas.CombateFragment;
 import com.example.rodofroll.Vistas.DadosFragment;
+import com.example.rodofroll.Vistas.FichaPersonajeFragment;
 import com.example.rodofroll.Vistas.RecyclerViewFragment;
-import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivity extends AppCompatActivity {
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collections;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonReader;
+import javax.json.JsonWriter;
+import javax.json.JsonWriterFactory;
+import javax.json.stream.JsonGenerator;
+
+public class MainActivity extends AppCompatActivity implements onSelectedItemListener {
 
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawerLayout;
-    boolean personajescombate;
+    File fmontruos;
+    File fpersonajes;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -48,10 +75,10 @@ public class MainActivity extends AppCompatActivity {
         ref.child(user.getUid()).child("Combates").setValue("rosa");*/
 
 
-      FireBaseUtils.CrearRef();
+   /*   FireBaseUtils.CrearRef();
       String notifcaciones = FireBaseUtils.getUser().getUid()+"notif";
       FirebaseMessaging.getInstance().subscribeToTopic(notifcaciones);
-
+*/
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -65,6 +92,23 @@ public class MainActivity extends AppCompatActivity {
             CrearMenus(R.menu.jugadormenu,i);
 
         }
+        fpersonajes= getDir("personajes.json", Context.MODE_PRIVATE);
+
+        fmontruos=getDir("monstruos.json", Context.MODE_PRIVATE);
+
+    }
+
+    public void AnyadirCombatiente(Combatiente c){
+        JSONObject jo;
+        JsonWriter jw;
+        if(c instanceof Personaje){
+           jo = (JSONObject) ((Personaje) c).ToJson();
+          //  jw.write(jo);
+        }
+        else if(c instanceof Monstruo){
+            jo = (JSONObject) ((Personaje) c).ToJson();
+        }
+
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void CrearMenus(int tipomenu, int defecto){
@@ -75,17 +119,10 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if(defecto==0){
-            Fragment fragment= new RecyclerViewFragment();
-            fragmentTransaction.replace(R.id.fragment_container,fragment);
-            fragmentTransaction.commit();
 
-        }
-        else{
-            Fragment fragment= new RecyclerViewFragment();
-            fragmentTransaction.replace(R.id.fragment_container,fragment);
-            fragmentTransaction.commit();
-        }
+        Fragment fragment= new RecyclerViewFragment();
+
+        RemplazarFragment(fragment,false);
 
 
 
@@ -101,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.closeDrawers();
                 Fragment fragment= new Fragment();
 
-
-                fragmentTransaction=fragmentManager.beginTransaction();
                 switch (menuItem.getItemId()){
 
                     case R.id.navigation_item_personajes:
@@ -124,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-                fragmentTransaction.replace(R.id.fragment_container,fragment);
-                fragmentTransaction.commit();
+
+                RemplazarFragment(fragment,false);
 
                 return  true;
 
@@ -145,9 +180,11 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.opcionuser:
-               showAlertDialog();
+
+                Dialogos.showDialogoRol(this,this);
 
                 break;
+
 
 
         }
@@ -163,37 +200,38 @@ public class MainActivity extends AppCompatActivity {
         return  true;
     }
 
-    public void showAlertDialog(){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
-        final View myView = inflater.inflate(R.layout.elegirolayout, null);
 
-        final Spinner spin = myView.findViewById(R.id.elecrolnspinner);
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.roles, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spin.setAdapter(adapter);
 
-        Button button =myView.findViewById(R.id.aceptarrolbutton);
+    @Override
+    public void onSelectedItemListener(int str, Fragment f) {
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(spin.getSelectedItemPosition()==0){
-                    getIntent().putExtra("rol",0);
-                    recreate();
+        if(f instanceof ComunicateToTabsListener ){
 
+            for(Fragment f1 : fragmentManager.getFragments()){
+                if(f1.getClass() == f.getClass()){
+
+                    ComunicateToTabsListener inter = (ComunicateToTabsListener) f1;
+                    inter.onClickParentTab();
+                    break;
                 }
-                else{
-                    getIntent().putExtra("rol",1);
-                    recreate();
 
-                }
             }
-        });
-        dialogBuilder.setView(myView);
-        dialogBuilder.show();
+        }
+
+
     }
+
+    public void RemplazarFragment(Fragment fragment,boolean apilar){
+
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,fragment);
+        if(apilar) fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+    }
+
+
 
 
 }

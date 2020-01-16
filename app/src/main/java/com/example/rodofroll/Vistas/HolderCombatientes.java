@@ -21,11 +21,11 @@ public class HolderCombatientes extends RecyclerView.ViewHolder {
     public HolderCombatientes(View itemView){
         super(itemView);
         txtNombre=itemView.findViewById(R.id.textView);
-        imagen=itemView.findViewById(R.id.imageView);
+        imagen=itemView.findViewById(R.id.CardviewimageView);
     }
     public void bind(Personaje p){
-        txtNombre.setText(p.getNombre());
-        imagen.setImageBitmap(convertirStringBitmap(p.getImagen()));
+       /* txtNombre.setText(p.getNombre());
+        imagen.setImageBitmap(convertirStringBitmap(p.getImagen()));*/
     }
 
 

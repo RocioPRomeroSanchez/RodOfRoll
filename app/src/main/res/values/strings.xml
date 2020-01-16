@@ -30,4 +30,5 @@
     <string name="login_failed">"Login failed"</string>
     <string name="aceptar">Aceptar</string>
     <string name="nombre_combate">Nombre Combate</string>
+    <string name="Nombre">Nombre</string>
 </resources>

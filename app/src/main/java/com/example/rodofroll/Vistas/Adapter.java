@@ -15,6 +15,8 @@ import java.io.IOException;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 public class Adapter extends RecyclerView.Adapter {
@@ -44,7 +46,10 @@ public class Adapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 
 
-            Personaje p = new Personaje(jA.getJsonObject(position).getString("Nombre"),jA.getJsonObject(position).getString("Imagen"));
+        JsonObject atributos =  jA.getJsonObject(position).getJsonObject("biografia");
+            Personaje p = new Personaje(atributos.getString("nombre"),atributos.getString("imagen"));
+
+
             ((HolderCombatientes)viewHolder).bind(p);
 
 

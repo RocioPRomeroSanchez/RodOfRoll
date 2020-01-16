@@ -18,7 +18,7 @@
         >
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/CardviewimageView"
             android:layout_width="100dp"
             android:layout_height="100dp">
 
@@ -31,16 +31,20 @@
             android:layout_weight="1"
             android:text="TextView"
             android:layout_gravity="center"
+            android:textColor="@android:color/white"
+
             />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/Cardview2imageView"
             android:layout_width="74dp"
             android:layout_height="48dp"
 
             android:layout_gravity="center"
             app:srcCompat="@drawable/sword_cross"
-            tools:ignore="VectorDrawableCompat" />
+            tools:ignore="VectorDrawableCompat"
+            android:visibility="invisible"
+            />
 
 
     </LinearLayout>

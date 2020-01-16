@@ -7,11 +7,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name = "android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
-    </style>
-    <string-array name="rol_array">
-        <item>Mercury</item>
-        <item>Venus</item>
 
-    </string-array>
+
+    </style>
+    <style name="EditTextInvisible" parent="Widget.AppCompat.EditText">
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="TemaEditTextInvisibles" parent="AppTheme">
+        <item name="editTextStyle">@style/EditTextInvisible</item>
+
+    </style>
+
+
+
 
 </resources>
