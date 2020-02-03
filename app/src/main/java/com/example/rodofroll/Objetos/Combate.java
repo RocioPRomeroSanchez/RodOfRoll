@@ -2,9 +2,7 @@ package com.example.rodofroll.Objetos;
 
 import androidx.annotation.NonNull;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+
 
 public class Combate {
 
@@ -17,6 +15,10 @@ public class Combate {
         this.privado = privado;
     }
 
+
+    public Combate() {
+
+    }
 
     public boolean isPrivado() {
         return privado;

@@ -17,6 +17,16 @@
             android:layout_height="270dp"
             android:src="@drawable/rolfondo" />
 
+        <TextView
+            android:id="@+id/identiftextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:text="jasdf"
+
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
+
 
     </FrameLayout>
 

@@ -2,27 +2,34 @@ package com.example.rodofroll.Objetos;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
-import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.FichaPersonajeFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+
+import java.util.Random;
 
 import static com.example.rodofroll.Objetos.MisMetodos.convertirImagenString;
-import static com.example.rodofroll.Objetos.MisMetodos.convertirStringBitmap;
 
 public class Dialogos {
 
@@ -58,7 +65,9 @@ public class Dialogos {
         dialogBuilder.show();
     }
 
-    public static void showDialogoNuevoUsuario(final Activity activity, Context context){
+    public static AlertDialog.Builder showDialogoNuevoUsuario(final MainActivity activity, final Context context){
+
+
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         final View myView = inflater.inflate(R.layout.nuevo_combatiente, null);
@@ -70,11 +79,10 @@ public class Dialogos {
         dialogBuilder.setView(myView);
        final AlertDialog alertDialog=  dialogBuilder.show();
 
-
        imageView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Toast.makeText(v.getContext(),"Aqui hay que cambiar la imagen",Toast.LENGTH_LONG).show();
+               activity.MenuEmergenteImagen(imageView);
            }
        });
 
@@ -86,17 +94,20 @@ public class Dialogos {
                     String imagen =convertirImagenString(((BitmapDrawable)imageView.getDrawable()).getBitmap());
 
                     Personaje p = new Personaje(editText.getText().toString(),imagen);
+                        activity.AnyadirCombatiente(p);
 
-
-
-                    ((MainActivity)activity).RemplazarFragment(fichaPersonajeFragment,true);
-
+                    fichaPersonajeFragment= new FichaPersonajeFragment(p);
+                    activity.RemplazarFragment(fichaPersonajeFragment,true);
 
 
                     alertDialog.dismiss();
 
 
-                };
+                }
+                else{
+                    Toast.makeText(context, "Tiene que haber una imagen",Toast.LENGTH_LONG).show();
+                }
+
 
             }
         });
@@ -107,5 +118,9 @@ public class Dialogos {
             }
         });
 
+        return dialogBuilder;
+
     }
+
+
 }

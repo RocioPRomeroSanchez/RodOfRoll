@@ -31,4 +31,8 @@
     <string name="aceptar">Aceptar</string>
     <string name="nombre_combate">Nombre Combate</string>
     <string name="Nombre">Nombre</string>
+    <string name="hacer_foto">Hacer foto</string>
+    <string name="abrir_galer_a">Abrir galería</string>
+    <string name="borrar_foto">Borrar foto</string>
+    <string name="Apodo">Apodo</string>
 </resources>

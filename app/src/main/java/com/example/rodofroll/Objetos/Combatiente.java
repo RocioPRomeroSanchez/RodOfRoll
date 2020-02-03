@@ -1,8 +1,9 @@
 package com.example.rodofroll.Objetos;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class Combatiente {
+public abstract class Combatiente implements Serializable {
 
 
     int vida;

@@ -1,59 +1,50 @@
 package com.example.rodofroll;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.os.Build;
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rodofroll.Objetos.Combatiente;
+import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.Dialogos;
-import com.example.rodofroll.Objetos.Monstruo;
+import com.example.rodofroll.Objetos.MisMetodos;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.onSelectedItemListener;
 import com.example.rodofroll.Vistas.CombateFragment;
 import com.example.rodofroll.Vistas.DadosFragment;
-import com.example.rodofroll.Vistas.FichaPersonajeFragment;
 import com.example.rodofroll.Vistas.RecyclerViewFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONObject;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collections;
+import java.io.InputStream;
+import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonReader;
-import javax.json.JsonWriter;
-import javax.json.JsonWriterFactory;
-import javax.json.stream.JsonGenerator;
 
 public class MainActivity extends AppCompatActivity implements onSelectedItemListener {
 
@@ -61,24 +52,24 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawerLayout;
-    File fmontruos;
-    File fpersonajes;
+    File personajes;
+    File monstruos;
+    public ImageView remp;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
+    private static int PHOTO_RESULT=0,PICK_IMAGE=1 ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      /*  FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child(user.getUid()).child("Combates").setValue("rosa");*/
 
 
-   /*   FireBaseUtils.CrearRef();
-      String notifcaciones = FireBaseUtils.getUser().getUid()+"notif";
-      FirebaseMessaging.getInstance().subscribeToTopic(notifcaciones);
-*/
+        FireBaseUtils.CrearRef();
+        String notifcaciones = FireBaseUtils.getUser().getUid()+"notif";
+        FirebaseMessaging.getInstance().subscribeToTopic(notifcaciones);
+
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -92,28 +83,47 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
             CrearMenus(R.menu.jugadormenu,i);
 
         }
-        fpersonajes= getDir("personajes.json", Context.MODE_PRIVATE);
 
-        fmontruos=getDir("monstruos.json", Context.MODE_PRIVATE);
 
     }
 
-    public void AnyadirCombatiente(Combatiente c){
-        JSONObject jo;
-        JsonWriter jw;
+    public void AnyadirCombatiente(Personaje c) {
+
+
         if(c instanceof Personaje){
-           jo = (JSONObject) ((Personaje) c).ToJson();
-          //  jw.write(jo);
+
+            FireBaseUtils.getRef().child(FireBaseUtils.getUser().getUid()).child("personajes").push().setValue(c.Map());
+
+        }
+
+
+     /*   if(c instanceof Personaje){
+            boolean b = personajes.exists();
+            //EscribirFichero(personajes,((Personaje) c).ToJson());
+
         }
         else if(c instanceof Monstruo){
-            jo = (JSONObject) ((Personaje) c).ToJson();
         }
+        */
+    }
+/*
+    public void LeerFichero(File file){
 
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void EscribirFichero(File file, JSONObject jsonObject) throws IOException {
+        FileWriter fileWriter = new FileWriter(personajes);
+        fileWriter.write(jsonObject.toString());
+        fileWriter.close();
+    }*/
+
+
+
     public void CrearMenus(int tipomenu, int defecto){
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         drawerLayout = findViewById(R.id.drawer_layout);
+
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
@@ -121,15 +131,16 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
 
 
         Fragment fragment= new RecyclerViewFragment();
-
         RemplazarFragment(fragment,false);
 
 
 
-        drawerLayout=findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.inflateMenu(tipomenu);
+        View hView = navigationView.getHeaderView(0);
+        TextView correo = (TextView) hView.findViewById(R.id.identiftextView);
+        correo.setText(FireBaseUtils.getUser().getDisplayName());
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -156,21 +167,13 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
                         fragment=new RecyclerViewFragment();
 
                         break;
-
-
                 }
-
                 RemplazarFragment(fragment,false);
-
                 return  true;
-
             }
 
 
         });
-
-
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -180,13 +183,8 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.opcionuser:
-
                 Dialogos.showDialogoRol(this,this);
-
                 break;
-
-
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -194,8 +192,6 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
       getMenuInflater().inflate(R.menu.menuoptions,menu);
-
-
 
         return  true;
     }
@@ -231,7 +227,81 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
 
     }
 
+    public Fragment CurrentFragment(){
+        FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        if(fragments != null){
+            for(Fragment fragment : fragments){
+                if(fragment != null && fragment.isVisible())
+                    return fragment;
+            }
+        }
+        return null;
 
+
+    }
+
+
+    public void MenuEmergenteImagen(final ImageView view){
+        PopupMenu popupMenu = new PopupMenu(getApplicationContext(),view);
+        popupMenu.getMenuInflater().inflate(R.menu.menuimagen,popupMenu.getMenu());
+
+
+        remp=view;
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.opfoto:
+                        Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intento,PHOTO_RESULT);
+                        break;
+                    case R.id.opgaleria:
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        galleryIntent.setType("image/*");
+                        startActivityForResult(galleryIntent.createChooser(galleryIntent, "Seleccione la aplicacion"), PICK_IMAGE);
+
+
+                        break;
+                    case R.id.opborrar:
+
+                        view.setImageResource(R.drawable.mago);
+                        break;
+
+                }
+
+                return true;
+            }
+        });
+        popupMenu.show();
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap resultado;
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PHOTO_RESULT && resultCode == RESULT_OK) {
+
+            if(data.hasExtra("data"))
+            {
+                resultado = ((Bitmap) data.getParcelableExtra("data"));
+                remp.setImageBitmap(resultado);
+
+            }
+
+        }
+        if(requestCode==PICK_IMAGE&&resultCode==RESULT_OK){
+
+            Uri selectedImage = data.getData();
+            resultado= MisMetodos.getScaledBitmap(selectedImage,this);
+            remp.setImageBitmap(resultado);
+        }
+
+
+    }
 
 
 }

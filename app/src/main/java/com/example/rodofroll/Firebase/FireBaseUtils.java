@@ -29,11 +29,8 @@ public  class FireBaseUtils {
 
         if(soyunico==null){
             user = FirebaseAuth.getInstance().getCurrentUser();
-
-
+            ref = FirebaseDatabase.getInstance().getReference();
         }
-
-
     }
 
     static public void CrearRef()  {

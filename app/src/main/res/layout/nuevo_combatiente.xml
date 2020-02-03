@@ -31,6 +31,7 @@
         app:srcCompat="@drawable/mago"
         android:layout_gravity="center"
 
+
         />
 
 <LinearLayout

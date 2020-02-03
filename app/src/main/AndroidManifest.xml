@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rodofroll">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+
 
     <application
         android:usesCleartextTraffic="true"
@@ -13,14 +16,14 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".LoginActivity">
-
-
-        </activity>
-        <activity android:name=".MainActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".MainActivity">
+
 
         </activity>
         <meta-data

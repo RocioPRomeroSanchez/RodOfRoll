@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:id="@+id/opfoto"
+            android:title="@string/hacer_foto"
+      />
+        <item android:id="@+id/opgaleria"
+            android:title="@string/abrir_galer_a" />
+    <item android:id="@+id/opborrar"
+        android:title="@string/borrar_foto" />
+
+
+
+</menu>

@@ -58,6 +58,25 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/apodolayout"
+            app:errorEnabled="true"
+            android:hint="@string/Apodo"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/apodoeditext"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/Password"
             app:passwordToggleEnabled="true"
             android:id="@+id/passlayout"
@@ -98,11 +117,19 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+
         <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+
             android:text="@string/Login" />
 
         <TextView
@@ -111,7 +138,6 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="@string/Registrarse"
-            android:layout_marginTop="50dp"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             />

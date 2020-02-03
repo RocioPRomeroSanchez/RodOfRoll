@@ -59,7 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:clickable="true"
-            app:srcCompat="@android:drawable/checkbox_on_background" />
+            app:srcCompat="@android:drawable/checkbox_on_background"
+            android:focusable="true" />
 
     </LinearLayout>
 

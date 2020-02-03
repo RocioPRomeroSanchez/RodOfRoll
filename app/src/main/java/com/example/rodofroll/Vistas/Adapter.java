@@ -11,52 +11,62 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 
-import java.io.IOException;
+import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
 
-public class Adapter extends RecyclerView.Adapter {
+public class Adapter extends RecyclerView.Adapter implements  View.OnClickListener{
 
-    Context context;
+    List<Personaje> personajes;
     HolderCombatientes holder;
-    JsonReader jr=null;
-    JsonArray jA = null;
+    View.OnClickListener listener,listenerimagen;
 
 
-    public Adapter(Context context) throws IOException {
-        this.context=context;
-        jr = Json.createReader(context.getAssets().open("datos/personajes"));
-        jA = jr.readArray();
+    public Adapter(List<Personaje> personajes) {
+        this.personajes = personajes;
     }
-
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,parent,false);
-        holder=new HolderCombatientes(view);
-        return holder;
+       View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,parent,false);
+       holder = new HolderCombatientes(v);
+       v.setOnClickListener(this);
+       /* holder.setOnClickImagenListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(listenerimagen!=null) listenerimagen.onClick(view);
+            }
+        });*/
+
+       return  holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Personaje p=personajes.get(position);
 
 
-        JsonObject atributos =  jA.getJsonObject(position).getJsonObject("biografia");
-            Personaje p = new Personaje(atributos.getString("nombre"),atributos.getString("imagen"));
-
-
-            ((HolderCombatientes)viewHolder).bind(p);
-
-
+        ((HolderCombatientes)holder).bind(p);
     }
 
     @Override
     public int getItemCount() {
-        return jA.size();
+        return personajes.size() ;
+    }
+
+
+    public void setOnClickCortoListener(View.OnClickListener listener)
+    {
+        this.listener=listener;
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(listener!=null)listener.onClick(v);
+    }
+    public void setOnClickImagenListener(View.OnClickListener listener)
+    {
+        this.listenerimagen=listener;
     }
 }

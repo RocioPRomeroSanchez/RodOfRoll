@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/opcionuser"
-        android:title="Opcion Parrilla"
+        android:title="Roll"
         android:icon="@drawable/crystal_ball"
-
         app:showAsAction="ifRoom" />
 
 

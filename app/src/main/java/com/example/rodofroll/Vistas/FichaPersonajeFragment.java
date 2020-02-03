@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
+import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.onSelectedItemListener;
 import com.example.rodofroll.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,6 +23,23 @@ public class FichaPersonajeFragment extends Fragment  {
 
     onSelectedItemListener milistener;
     TabLayout tabs;
+    Personaje p=null;
+
+    public FichaPersonajeFragment(Personaje p) {
+        this.p=p;
+    }
+
+    public FichaPersonajeFragment() {
+
+    }
+
+    public Personaje getPersonaje() {
+        return p;
+    }
+
+    public void setPersonaje(Personaje p) {
+        this.p = p;
+    }
 
     @Nullable
     @Override
@@ -40,8 +58,6 @@ public class FichaPersonajeFragment extends Fragment  {
         mviewPager.setAdapter(adapter);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
         final FloatingActionButton button = view.findViewById(R.id.caractfloatButton);
-
-
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
         {

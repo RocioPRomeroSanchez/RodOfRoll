@@ -7,4 +7,5 @@ import java.util.List;
 public class Usuario {
 
     List<Combate> combates;
+
 }
