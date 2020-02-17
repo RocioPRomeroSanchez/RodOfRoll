@@ -32,12 +32,19 @@ import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.Dialogos;
 import com.example.rodofroll.Objetos.MisMetodos;
 import com.example.rodofroll.Objetos.Personaje;
+import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.Objetos.onSelectedItemListener;
+import com.example.rodofroll.Vistas.Actividad;
+import com.example.rodofroll.Vistas.AnimacionFragment;
+import com.example.rodofroll.Vistas.BuscarCombateFragment;
 import com.example.rodofroll.Vistas.CombateFragment;
 import com.example.rodofroll.Vistas.DadosFragment;
 import com.example.rodofroll.Vistas.RecyclerViewFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
@@ -46,7 +53,7 @@ import java.io.InputStream;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements onSelectedItemListener {
+public class MainActivity extends Actividad implements onSelectedItemListener {
 
 
     FragmentManager fragmentManager;
@@ -54,16 +61,13 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
     DrawerLayout drawerLayout;
     File personajes;
     File monstruos;
-    public ImageView remp;
 
 
-    private static int PHOTO_RESULT=0,PICK_IMAGE=1 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         FireBaseUtils.CrearRef();
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
+
 
 
         int i = getIntent().getIntExtra("rol",0);
@@ -92,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
 
         if(c instanceof Personaje){
 
-            FireBaseUtils.getRef().child(FireBaseUtils.getUser().getUid()).child("personajes").push().setValue(c.Map());
+          FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("personajes").push().setValue(c.Map());
 
         }
 
@@ -139,7 +144,9 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
         navigationView.inflateMenu(tipomenu);
         View hView = navigationView.getHeaderView(0);
         TextView correo = (TextView) hView.findViewById(R.id.identiftextView);
-        correo.setText(FireBaseUtils.getUser().getDisplayName());
+       //String apodo = FireBaseUtils.getRef().child(FireBaseUtils.getUser().getUid()).child("nombre");
+
+  //      correo.setText(apodo);
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -159,13 +166,15 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
                         fragment=new DadosFragment();
 
                         break;
-                    case R.id.navigation_item_combat:
-                        fragment=new CombateFragment();
-                        break;
+
 
                     case R.id.navigation_item_moster:
                         fragment=new RecyclerViewFragment();
 
+                        break;
+
+                    case R.id.navigation_item_buscar_combate:
+                        fragment= new BuscarCombateFragment();
                         break;
                 }
                 RemplazarFragment(fragment,false);
@@ -182,7 +191,13 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
-            case R.id.opcionuser:
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+
+
+                break;
+            case R.id.cambiousuario:
                 Dialogos.showDialogoRol(this,this);
                 break;
         }
@@ -237,68 +252,6 @@ public class MainActivity extends AppCompatActivity implements onSelectedItemLis
             }
         }
         return null;
-
-
-    }
-
-
-    public void MenuEmergenteImagen(final ImageView view){
-        PopupMenu popupMenu = new PopupMenu(getApplicationContext(),view);
-        popupMenu.getMenuInflater().inflate(R.menu.menuimagen,popupMenu.getMenu());
-
-
-        remp=view;
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.opfoto:
-                        Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intento,PHOTO_RESULT);
-                        break;
-                    case R.id.opgaleria:
-                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        galleryIntent.setType("image/*");
-                        startActivityForResult(galleryIntent.createChooser(galleryIntent, "Seleccione la aplicacion"), PICK_IMAGE);
-
-
-                        break;
-                    case R.id.opborrar:
-
-                        view.setImageResource(R.drawable.mago);
-                        break;
-
-                }
-
-                return true;
-            }
-        });
-        popupMenu.show();
-
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap resultado;
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PHOTO_RESULT && resultCode == RESULT_OK) {
-
-            if(data.hasExtra("data"))
-            {
-                resultado = ((Bitmap) data.getParcelableExtra("data"));
-                remp.setImageBitmap(resultado);
-
-            }
-
-        }
-        if(requestCode==PICK_IMAGE&&resultCode==RESULT_OK){
-
-            Uri selectedImage = data.getData();
-            resultado= MisMetodos.getScaledBitmap(selectedImage,this);
-            remp.setImageBitmap(resultado);
-        }
 
 
     }

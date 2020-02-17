@@ -31,12 +31,7 @@ public class Adapter extends RecyclerView.Adapter implements  View.OnClickListen
        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,parent,false);
        holder = new HolderCombatientes(v);
        v.setOnClickListener(this);
-       /* holder.setOnClickImagenListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(listenerimagen!=null) listenerimagen.onClick(view);
-            }
-        });*/
+
 
        return  holder;
     }

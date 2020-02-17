@@ -17,13 +17,21 @@
             >
 
         </item>
-        <item
-            android:id="@+id/navigation_item_combat"
-            android:checked="true"
-            android:title="Combate"
-            android:icon="@drawable/sword_cross"
-            >
 
-        </item>
+
+                <item android:title="Notificaiones"
+                    android:id="@+id/navigation_item_notifications"
+                    android:icon="@drawable/carta"
+                    >
+
+                </item>
+                <item android:title="Crear combate"
+                    android:id="@+id/navigation_item_crear_combate"
+                    android:icon="@drawable/sword_cross"
+                    >
+
+                </item>
+
+
     </group>
 </menu>

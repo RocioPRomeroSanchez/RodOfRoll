@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.arch.core.util.Function;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,7 +53,8 @@ public class RecyclerViewFragment extends Fragment {
         personajes=new ArrayList<>();
         adapter = new Adapter(personajes);
 
-        final DatabaseReference personajesdb =   FireBaseUtils.getRef().child(FireBaseUtils.getUser().getUid()).child("personajes");
+
+        final DatabaseReference personajesdb =   FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("personajes");
 
 
         personajesdb.addValueEventListener(new ValueEventListener() {
@@ -105,14 +107,29 @@ public class RecyclerViewFragment extends Fragment {
         ) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+
                 return false;
             }
 
+
+
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
                 Personaje p = personajes.get(viewHolder.getAdapterPosition());
-                personajesdb.child(p.getKey()).removeValue();
+
+                Function<String,Void> function = new Function<String, Void>() {
+                    @Override
+                    public Void apply(String input) {
+                        personajesdb.child(input).removeValue();
+                        return null;
+                    }
+                };
+
+
+                Dialogos.showEliminar(p.getNombre(), getActivity(),p.getKey(),function);
+                adapter.notifyDataSetChanged();
+
             }
         } ).attachToRecyclerView(recyclerView);
 
@@ -120,6 +137,7 @@ public class RecyclerViewFragment extends Fragment {
 
         return view;
     }
+
 
 
 

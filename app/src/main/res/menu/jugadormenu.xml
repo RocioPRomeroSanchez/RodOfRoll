@@ -20,5 +20,23 @@
 
         </item>
 
+
+
+            <item android:title="Notificaiones"
+                android:id="@+id/navigation_item_notifications"
+                android:icon="@drawable/carta"
+                >
+
+            </item>
+            <item android:title="Busqueda combates"
+                android:id="@+id/navigation_item_buscar_combate"
+                android:icon="@drawable/busqueda"
+                >
+            </item>
+
+
+
+
+
     </group>
 </menu>

@@ -10,14 +10,6 @@
 
 
     </style>
-    <style name="EditTextInvisible" parent="Widget.AppCompat.EditText">
-        <item name="android:inputType">number</item>
-    </style>
-
-    <style name="TemaEditTextInvisibles" parent="AppTheme">
-        <item name="editTextStyle">@style/EditTextInvisible</item>
-
-    </style>
 
 
 
