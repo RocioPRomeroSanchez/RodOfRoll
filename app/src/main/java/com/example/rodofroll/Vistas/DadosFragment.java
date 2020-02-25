@@ -84,7 +84,7 @@ public class DadosFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
 
-                int res = Dialogos.showDialogoDado(tipodado,view,Integer.parseInt(DadosValor.getText().toString()),Integer.parseInt(ModifValor.getText().toString()),DadosFragment.this);
+                int res = Dialogos.showDialogoDado(tipodado,view,Integer.parseInt(DadosValor.getText().toString()),Integer.parseInt(ModifValor.getText().toString()),getActivity());
 
 
                 adaptadorlista.add(res);

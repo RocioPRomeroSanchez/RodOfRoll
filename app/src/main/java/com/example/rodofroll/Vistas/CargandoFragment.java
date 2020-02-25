@@ -1,4 +1,4 @@
-package com.example.rodofroll;
+package com.example.rodofroll.Vistas;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,24 +6,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.rodofroll.R;
 
 import java.util.Random;
 
-public class LogOut extends AppCompatActivity {
+public class CargandoFragment extends Fragment {
 
     LottieAnimationView mLottie;
 
+    public LottieAnimationView getmLottie() {
+        return mLottie;
+    }
+
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.cargando_layout);
-        mLottie= findViewById(R.id.animacion);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.cargando_layout,container,false);
+        mLottie= view.findViewById(R.id.animacion);
 
         Aleatorio();
+        return view;
     }
 
 
@@ -45,13 +54,22 @@ public class LogOut extends AppCompatActivity {
                 break;
         }
 
-        mLottie.playAnimation();
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        PlayAnimacion();
 
-        }
-        finish();
+
+
+
+    }
+    public void PlayAnimacion(){
+        mLottie.playAnimation();
+    }
+    public void StopAnimacion(){
+        mLottie.cancelAnimation();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        StopAnimacion();
     }
 }

@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+
+
+    <item android:title="Perfil">
+        <menu>
+        <group android:checkableBehavior="single"
+            android:id="@+id/ajustes"
+
+            >
+            <item
+                android:id="@+id/micuenta"
+                android:title="Mi cuenta"
+                android:icon="@drawable/account_circle">
+
+            </item>
+
+            <item android:title="Notificaiones"
+                android:id="@+id/navigation_item_notifications"
+                android:icon="@drawable/carta"
+                >
+
+            </item>
+        </group>
+        </menu>
+
+    </item>
+
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/opciones"
+        >
+
         <item
             android:id="@+id/navigation_item_moster"
-            android:checked="true"
+
             android:title="Monstruos"
             android:icon="@drawable/ghost"
             >
@@ -11,27 +41,19 @@
         </item>
         <item
             android:id="@+id/navigation_item_dados"
-            android:checked="true"
             android:title="Dados"
             android:icon="@drawable/dice_multiple"
             >
 
         </item>
 
-
-                <item android:title="Notificaiones"
-                    android:id="@+id/navigation_item_notifications"
-                    android:icon="@drawable/carta"
-                    >
-
-                </item>
-                <item android:title="Crear combate"
+        <item android:title="Crear combate"
                     android:id="@+id/navigation_item_crear_combate"
                     android:icon="@drawable/sword_cross"
                     >
 
-                </item>
-
-
+        </item>
     </group>
+
+
 </menu>

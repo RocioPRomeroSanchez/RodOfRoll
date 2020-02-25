@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,6 +49,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -75,6 +77,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
     FirebaseAuth auth=FirebaseAuth.getInstance();
 
     ImageView imageView;
+    Dialog dialog;
 
 
 
@@ -212,13 +215,26 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                    //firebaseStorage=FirebaseStorage.g
 
 
-               FireBaseUtils.CrearRef();
 
-               String key = FireBaseUtils.getRef().child("key").push().getKey();
+                   FireBaseUtils.CrearRef();
+
+               final String key = FireBaseUtils.getRef().child("key").push().getKey();
 
 
-                   FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("id").setValue(key);
-                FireBaseUtils.getRef().child("publico").child(key).setValue(new Usuario(apodo,email,imagen));
+               FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("id").setValue(key , new DatabaseReference.CompletionListener() {
+                   @Override
+                   public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                       FireBaseUtils.getRef().child("publico").child(key).setValue(new Usuario(apodo,email,imagen), new DatabaseReference.CompletionListener() {
+                           @Override
+                           public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+
+
+                               CrearsAlertDialog();
+                           }
+                       });
+                   }
+               });
+
                    /*db.child("id").setValue(FireBaseUtils.getUser().getUid());
 
                    db.child("datos").setValue(new Usuario(apodo,email,imagen));
@@ -228,7 +244,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
                  //  db.setValue(new Usuario(apodo,email,imagen));
 
-                   CrearsAlertDialog();
                }
                else{
                    Snackbar.make(view,ErroresAuth(task.getException()), Snackbar.LENGTH_LONG)
@@ -248,12 +263,14 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
         progressBar.setVisibility(View.VISIBLE);
 
 
+
        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
 
+                    FireBaseUtils.CrearRef();
                     CrearsAlertDialog();
 
                 }
@@ -333,7 +350,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
             }
         });
         dialogBuilder.setView(myView);
-        dialogBuilder.show();
+       dialog= dialogBuilder.show();
 
 
 
@@ -368,7 +385,13 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-
-
+        if(dialog!=null){
+            dialog.dismiss();
+            dialog=null;
+        }
+    }
 }

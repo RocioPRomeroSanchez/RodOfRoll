@@ -3,26 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <item android:id="@+id/opcionuser"
+    <item android:id="@+id/logout"
         android:title="Roll"
-        android:icon="@drawable/ajustes"
+        android:icon="@drawable/logout"
         app:showAsAction="always">
-    <menu
-        >
-        <item
-            android:id="@+id/cambiousuario"
-            android:icon="@drawable/crystal_ball"
-            android:orderInCategory="100"
-            android:title="Cambiar de Rol" />
 
-        <item
-            android:id="@+id/logout"
-            android:icon="@drawable/logout"
-            android:orderInCategory="100"
-            android:title="Log Out" />
-
-
-    </menu>
 
        </item>
 

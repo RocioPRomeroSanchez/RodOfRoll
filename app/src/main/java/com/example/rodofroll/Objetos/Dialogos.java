@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.rodofroll.MainActivity;
@@ -41,7 +43,7 @@ import static com.example.rodofroll.Objetos.MisMetodos.convertirImagenString;
 public class Dialogos {
 
 
-    public static void showDialogoRol(final Activity activity, Context context){
+  /* public static void showDialogoRol(final Activity activity, Context context){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         final View myView = inflater.inflate(R.layout.elegirolayout, null);
@@ -52,6 +54,9 @@ public class Dialogos {
         // Apply the adapter to the spinner
         spin.setAdapter(adapter);
 
+        activity.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        //.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         Button button =myView.findViewById(R.id.aceptarrolbutton);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -59,21 +64,25 @@ public class Dialogos {
             public void onClick(View v) {
                 if(spin.getSelectedItemPosition()==0){
                     activity.getIntent().putExtra("rol",0);
+
                     activity.recreate();
 
                 }
                 else{
                     activity.getIntent().putExtra("rol",1);
+
                     activity.recreate();
 
                 }
             }
         });
         dialogBuilder.setView(myView);
-        dialogBuilder.show();
-    }
 
-    public static AlertDialog.Builder showDialogoNuevoUsuario(final MainActivity activity, final Context context){
+
+        dialogBuilder.show();
+    }*/
+
+    public static void showDialogoNuevoUsuario(final MainActivity activity, final Context context){
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
@@ -126,13 +135,11 @@ public class Dialogos {
             }
         });
 
-        return dialogBuilder;
-
     }
 
-    public static int showDialogoDado(int numero, View view, int dado, int modificador, Fragment fragment) {
+    public static int showDialogoDado(int tipodado, View view, int numero, int modificador, Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        LayoutInflater inflater = fragment.getLayoutInflater();
+        LayoutInflater inflater = activity.getLayoutInflater();
 
         View v = inflater.inflate(R.layout.resultado, null);
         builder.setView(v);
@@ -148,11 +155,11 @@ public class Dialogos {
         int suma = 0;
 
 
-        for (int i = 0; i < dado; i++) {
-            int n = r.nextInt(numero) + 1;
+        for (int i = 0; i < numero; i++) {
+            int n = r.nextInt(tipodado) + 1;
             cadena+=n;
             suma += n;
-            if(i!=dado-1){
+            if(i!=numero-1){
                 cadena+=";";
             }
 
@@ -160,11 +167,11 @@ public class Dialogos {
         int res = suma+modificador;
         resultado.setText(String.valueOf(res) );
         if(modificador>=0) {
-            info.setText(dado + "d" +numero+"+"+ + modificador);
+            info.setText(numero + "d" +tipodado+"+"+ + modificador);
         }
 
         else{
-            info.setText(dado + "d" +numero+ "-"+modificador);
+            info.setText(numero + "d" +tipodado+ "-"+modificador);
         }
         tiradastextview.setText(cadena);
 
@@ -190,10 +197,54 @@ public class Dialogos {
 
                     }
                 });
-        // Create the AlertDialog object and return it
+
         builder.create().show();
 
         return false;
+
+    }
+
+    public static void showDialogoCombate(final Activity activity, Context context , Usuario master ){
+
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        final View myView = inflater.inflate(R.layout.busqcombat_layout, null);
+
+        ImageView Masterimagen = myView.findViewById(R.id.MasterimageView);
+        ImageView dadoimagen = myView.findViewById(R.id.dadoimageView);
+        TextView MasterText = myView.findViewById(R.id.MastertextView);
+        TextView InitText = myView.findViewById(R.id.IniciativatextView);
+        TextView ResultadoText = myView.findViewById(R.id.ResultadotextView);
+
+        Spinner combatespinner = myView.findViewById(R.id.CombateSpinner);
+        Spinner personajespinner = myView.findViewById(R.id.PersonajeSpinner);
+
+        Button enviar = myView.findViewById(R.id.Enviarbutton);
+        final EditText dadoeditext = myView.findViewById(R.id.Tiradaeditext);
+
+        dialogBuilder.setView(myView);
+        final AlertDialog alertDialog=  dialogBuilder.show();
+
+
+        Masterimagen.setImageBitmap(MisMetodos.convertirStringBitmap(master.foto));
+        MasterText.setText(master.getNombre());
+        InitText.setText("0");
+        ResultadoText.setText("0");
+
+        dadoimagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int num =Dialogos.showDialogoDado(20,v,1,0, activity);
+                dadoeditext.setText(String.valueOf(num));
+            }
+        });
+
+
+
+
+
+
 
     }
 

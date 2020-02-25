@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.MainActivity;
+import com.example.rodofroll.Objetos.Dialogos;
+import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -75,16 +79,7 @@ public class BuscarCombateFragment  extends Fragment {
             }
         });
 
-     /*   searchAdapter.setOnClickCortoListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int posicion=MasterrecyclerView.getChildAdapterPosition(v);
 
-               // FichaPersonajeFragment fichaPersonajeFragment= new FichaPersonajeFragment(personajes.get(posicion));
-
-            }
-        });
-*/
 
         return view;
     }
@@ -112,7 +107,7 @@ public class BuscarCombateFragment  extends Fragment {
                 int contador = 0;
 
 
-
+                final ArrayList<Usuario> usuarios= new ArrayList<>();
 
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String id = snapshot.getKey();
@@ -129,11 +124,14 @@ public class BuscarCombateFragment  extends Fragment {
                         NombreList.add(nombre);
                         EmailList.add(email);
                         FotoList.add(foto);
+
+                        usuarios.add(new Usuario(nombre,email,foto,id));
                         contador++;
                     } else if (email.toLowerCase().contains(campo.toLowerCase())) {
                         NombreList.add(nombre);
                         EmailList.add(email);
                         FotoList.add(foto);
+                        usuarios.add(new Usuario(nombre,email,foto,id));
                         contador++;
                     }
 
@@ -145,6 +143,15 @@ public class BuscarCombateFragment  extends Fragment {
 
                 }
                 searchAdapter = new BuscarAdapter(getContext(),NombreList, EmailList,FotoList);
+                searchAdapter.setOnClickCortoListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = MasterrecyclerView.getChildAdapterPosition(v);
+                        Usuario usuario  = usuarios.get(position);
+                        Dialogos.showDialogoCombate(getActivity(),getContext(),usuario);
+                    }
+                });
+
                 MasterrecyclerView.setAdapter(searchAdapter);
                 MasterrecyclerView.setHasFixedSize(true);
                 MasterrecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));

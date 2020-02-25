@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
@@ -25,8 +27,10 @@ public class FichaPersonajeFragment extends Fragment  {
     TabLayout tabs;
     Personaje p=null;
 
+
     public FichaPersonajeFragment(Personaje p) {
         this.p=p;
+
     }
 
     public FichaPersonajeFragment() {
@@ -53,8 +57,9 @@ public class FichaPersonajeFragment extends Fragment  {
         tabs.addTab(tabs.newTab().setText("Inventario").setIcon(R.drawable.chest));
 
 
+
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        final PageAdapter adapter = new PageAdapter(getActivity().getSupportFragmentManager(),tabs.getTabCount(),tabs.getTabCount());
+        final PageAdapter adapter = new PageAdapter(getFragmentManager(),tabs.getTabCount(),tabs.getTabCount());
         mviewPager.setAdapter(adapter);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
         final FloatingActionButton button = view.findViewById(R.id.caractfloatButton);
