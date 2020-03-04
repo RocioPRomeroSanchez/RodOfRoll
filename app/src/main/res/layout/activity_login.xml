@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="@string/app_name"
         android:textAllCaps="false"
@@ -29,9 +29,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
        android:layout_gravity="center"
-        android:layout_margin="30dp"
+        android:layout_margin="20dp"
         android:background="@android:color/white"
         android:padding="30dp"
+
 
 
         >
@@ -121,15 +122,27 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <LinearLayout
+
+            android:id="@+id/marcoimagen"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+
+            android:background="@color/colorAccent"
+            android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/UserimageView"
+                android:layout_margin="5dp"
+
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="center"
+                android:id="@+id/UserimageView"
                 android:layout_weight="1"
 
 
                 app:srcCompat="@drawable/mago" />
+
+        </LinearLayout>
+
 
 
 

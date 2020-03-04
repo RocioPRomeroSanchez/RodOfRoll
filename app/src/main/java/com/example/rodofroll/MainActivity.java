@@ -47,6 +47,7 @@ import com.example.rodofroll.Vistas.CombateFragment;
 import com.example.rodofroll.Vistas.DadosFragment;
 import com.example.rodofroll.Vistas.MiCuentaFragment;
 import com.example.rodofroll.Vistas.RecyclerViewFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -56,10 +57,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -100,9 +104,12 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         fragmentTransaction = fragmentManager.beginTransaction();
 
 
-        /*
-        String notifcaciones = FireBaseUtils.getUser().getUid()+"notif";
+
+
+
+      /* String notifcaciones = FireBaseUtils.getUser().getUid()+"notif";
         FirebaseMessaging.getInstance().subscribeToTopic(notifcaciones);*/
+
 
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -120,15 +127,18 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
                 toolbar.setVisibility(View.VISIBLE);
                 Intent intent = getIntent();
 
-                int i = intent.getIntExtra("rol", 0);
+            //    int i = intent.getIntExtra("rol", 0);
 
-                if ((i == 0)) {
+
+                CrearMenus(R.menu.mastermenu);
+
+               /* if ((i == 0)) {
                     CrearMenus(R.menu.mastermenu, i);
 
                 } else {
                     CrearMenus(R.menu.jugadormenu, i);
 
-                }
+                }*/
 
 
 
@@ -191,7 +201,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
     }*/
 
 
-    public void CrearMenus(int tipomenu, int defecto) {
+    public void CrearMenus(int tipomenu) {
         Toolbar toolbar = findViewById(R.id.toolbar);
 
 
@@ -201,11 +211,11 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-        Fragment fragment = new RecyclerViewFragment();
+        Fragment fragment = new MiCuentaFragment();
         RemplazarFragment(fragment, false);
 
 
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        final NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.inflateMenu(tipomenu);
 
 
@@ -220,12 +230,16 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
           imagen.setImageBitmap(MisMetodos.convertirStringBitmap(foto));
 
 
+
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
                 Fragment fragment = new Fragment();
+
+
 
                 switch (menuItem.getItemId()) {
 
@@ -240,7 +254,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
 
                     case R.id.navigation_item_moster:
-                        fragment = new RecyclerViewFragment();
+                      //  fragment = new RecyclerViewFragment();
 
                         break;
 
@@ -257,7 +271,11 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
             }
 
 
+
+
         });
+
+        navigationView.setCheckedItem(R.id.micuenta);
     }
 
     @Override
@@ -271,6 +289,8 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
                 FirebaseAuth.getInstance().signOut();
 
                 Intent intent = new Intent(this, LoginActivity.class);
+
+                FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(null);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -335,10 +355,10 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         FireBaseUtils.Borrar();
-
     }
+
+
 }
 
 

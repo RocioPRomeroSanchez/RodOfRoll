@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <item android:title="Perfil">
+    <item android:title="General">
         <menu>
         <group android:checkableBehavior="single"
             android:id="@+id/ajustes"
@@ -21,14 +20,25 @@
                 >
 
             </item>
+
+            <item
+                android:id="@+id/navigation_item_dados"
+                android:title="Dados"
+                android:icon="@drawable/dice_multiple"
+                >
+
+            </item>
         </group>
         </menu>
 
     </item>
 
 
+    <item android:title="Master">
+        <menu>
+
     <group android:checkableBehavior="single"
-        android:id="@+id/opciones"
+        android:id="@+id/master"
         >
 
         <item
@@ -39,13 +49,7 @@
             >
 
         </item>
-        <item
-            android:id="@+id/navigation_item_dados"
-            android:title="Dados"
-            android:icon="@drawable/dice_multiple"
-            >
 
-        </item>
 
         <item android:title="Crear combate"
                     android:id="@+id/navigation_item_crear_combate"
@@ -55,5 +59,38 @@
         </item>
     </group>
 
+        </menu>
+    </item>
+
+
+    <item android:title="Jugador">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/jugador"
+                >
+                <item
+                    android:id="@+id/navigation_item_personajes"
+                    android:title="Personajes"
+                    android:icon="@drawable/account_multiple"
+
+                    >
+
+                </item>
+
+
+                <item android:title="Busqueda combates"
+                    android:id="@+id/navigation_item_buscar_combate"
+                    android:icon="@drawable/busqueda"
+                    >
+                </item>
+
+
+
+
+
+            </group>
+
+        </menu>
+    </item>
 
 </menu>

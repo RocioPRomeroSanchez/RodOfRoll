@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,9 +50,14 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.Arrays;
@@ -77,6 +83,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
     FirebaseAuth auth=FirebaseAuth.getInstance();
 
     ImageView imageView;
+    LinearLayout marco;
     Dialog dialog;
 
 
@@ -91,15 +98,19 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         emailTextLayout = findViewById(R.id.emaillayout);
         apodoTextLayout = findViewById(R.id.apodolayout);
         passTextLayout = findViewById(R.id.passlayout);
         pass2TextLayout = findViewById(R.id.pass2layout);
         imageView = findViewById(R.id.UserimageView);
+        marco= findViewById(R.id.marcoimagen);
+
 
         pass2TextLayout.setVisibility(View.GONE);
         apodoTextLayout.setVisibility(View.GONE);
         imageView.setVisibility(View.GONE);
+        marco.setVisibility(View.GONE);
 
         emailEditText = findViewById(R.id.emaileditext);
         apodoEditText = findViewById(R.id.apodoeditext);
@@ -122,12 +133,14 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
         progressBar.setVisibility(View.GONE);
 
 
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MenuEmergenteImagen(imageView);
             }
         });
+
 
 
     }
@@ -144,6 +157,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                     pass2TextLayout.setVisibility(View.VISIBLE);
                     apodoTextLayout.setVisibility(View.VISIBLE);
                     imageView.setVisibility(View.VISIBLE);
+                    marco.setVisibility(View.VISIBLE);
                     pass2TextLayout.setPasswordVisibilityToggleEnabled(true);
                     b.setText(R.string.Registrarse);
                     acceso= Acceso.Registrarse;
@@ -158,6 +172,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                     pass2EditText.setError(null);
                     pass2EditText.setText(null);
                     acceso= Acceso.Login;
+                    marco.setVisibility(View.GONE);
 
                 }
                 break;
@@ -228,8 +243,23 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                            @Override
                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
 
+                               FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+                                   @Override
+                                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                               CrearsAlertDialog();
+                                           AddDevice(view);
+                                       Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+
+                                       startActivity(intent);
+
+
+                                   }
+
+                                   @Override
+                                   public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                   }
+                               });
                            }
                        });
                    }
@@ -270,8 +300,12 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
 
-                    FireBaseUtils.CrearRef();
-                    CrearsAlertDialog();
+                    AddDevice(view);
+
+                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+
+                    startActivity(intent);
+
 
                 }
                 else{
@@ -311,6 +345,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
     }
 
+
     public void CrearsAlertDialog(){
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
@@ -332,14 +367,14 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
                 if(spin.getSelectedItemPosition()==0){
                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                    intent.putExtra("rol",0);
+                 //   intent.putExtra("rol",0);
                     startActivity(intent);
 
 
                 }
                 else{
                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                    intent.putExtra("rol",1);
+                  //  intent.putExtra("rol",1);
                     startActivity(intent);
 
                 }
@@ -389,9 +424,63 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
     protected void onDestroy() {
         super.onDestroy();
 
-        if(dialog!=null){
+      /*  if(dialog!=null){
             dialog.dismiss();
             dialog=null;
         }
+*/
+
+    }
+
+
+
+
+
+    public void AddDevice(final View view) {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+
+                            return;
+
+                        }
+
+                        // Get new Instance ID token
+                        final String token = task.getResult().getToken();
+
+
+                        FireBaseUtils.CrearRef();
+                        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                               String token1 = (String) dataSnapshot.getValue();
+                                FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
+                                       //FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
+                               /* if(token1==null|| token.equals(token1)){
+
+                                    FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
+                                    CrearsAlertDialog();
+                                }
+                                else{
+                                        Snackbar.make(view,"No ha cerrado la sesion en otro dispositivo", Snackbar.LENGTH_LONG).show();
+                                }
+*/
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+
+
+                            });
+
+                    }
+                });
+
+
     }
 }

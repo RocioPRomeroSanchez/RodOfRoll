@@ -45,8 +45,8 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
 
 
         Animation anim = new ScaleAnimation(
-                1f, 1.01f, // Start and end values for the X axis scaling
-                1f,1.01f // Start and end values for the Y axis scaling
+                1f, 1.03f, // Start and end values for the X axis scaling
+                1f,1.03f // Start and end values for the Y axis scaling
         );
         anim.setFillAfter(true); // Needed to keep the result of the animation
         anim.setDuration(1500);

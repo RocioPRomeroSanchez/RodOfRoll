@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layoutatribpadre"
-    android:padding="6dp"
+    android:padding="5dp"
 
     >
 
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="fill"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:columnCount="2"
             android:rowCount="1"
 
@@ -50,7 +50,6 @@
                         android:layout_width="140dp"
                         android:layout_height="140dp"
                         android:src="@drawable/heart"
-
 
 
                         >
@@ -89,7 +88,7 @@
 
                 android:orientation="horizontal"
 
-            >
+                >
 
 
                 <FrameLayout
@@ -137,91 +136,124 @@
         <androidx.gridlayout.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             app:columnCount="3">
 
             <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_column="0"
-                app:layout_columnWeight="1"
-                android:gravity="center"
+                app:layout_columnWeight="1">
 
-                >
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/tournament"
-
-
-                    >
-
-                </ImageView>
 
                 <TextView
+                    android:id="@+id/IniciativatextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Iniciativa"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3"
+                    android:background="@color/colorPrimaryDark"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
 
 
-                    >
+                        android:text="2"
+                        android:textSize="36sp">
 
-                </TextView>
+                    </TextView>
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
             <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_column="1"
-                app:layout_columnWeight="1"
-                android:gravity="center"
-                >
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/sword_cross"
-
-
-                    >
-
-                </ImageView>
+                app:layout_columnWeight="1">
 
                 <TextView
+                    android:id="@+id/AtaqueBasetextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Ataque Base"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3"
+                    android:background="@color/colorPrimaryDark"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
 
 
-                    >
+                        android:text="2"
+                        android:textSize="36sp">
 
-                </TextView>
+                    </TextView>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
             <LinearLayout
-                app:layout_column="2"
-                app:layout_columnWeight="1"
                 android:gravity="center"
-                >
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/fast"
-
-
-                    >
-
-                </ImageView>
+                android:orientation="vertical"
+                app:layout_column="2"
+                app:layout_columnWeight="1">
 
                 <TextView
+                    android:id="@+id/VelocidadtextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Velocidad"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3"
+                    android:background="@color/colorPrimaryDark"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
 
 
-                    >
+                        android:text="2"
+                        android:textSize="36sp">
 
-                </TextView>
+                    </TextView>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -241,8 +273,9 @@
             <LinearLayout
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/lineagrid"
-                android:orientation="vertical">
+                android:background="@color/colorClaro"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -280,8 +313,9 @@
             <LinearLayout
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/lineagrid"
-                android:orientation="vertical">
+                android:background="@color/colorClaro"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -317,8 +351,9 @@
             <LinearLayout
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/lineagrid"
-                android:orientation="vertical">
+                android:background="@color/colorClaro"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -354,8 +389,9 @@
             <LinearLayout
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/lineagrid"
-                android:orientation="vertical">
+                android:background="@color/colorClaro"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -391,8 +427,10 @@
             <LinearLayout
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/lineagrid"
-                android:orientation="vertical">
+
+                android:background="@color/colorClaro"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -427,13 +465,14 @@
 
             <LinearLayout
                 android:layout_columnWeight="1"
-                android:layout_marginRight="5dp"
-                android:orientation="vertical"
 
-                >
+                android:background="@color/colorClaro"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content">
 
                     <TextView
@@ -469,22 +508,28 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:columnCount="6"
             android:rowCount="1"
 
 
             >
 
+
             <LinearLayout
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/lineagrid"
-                android:orientation="vertical">
+
+                android:background="@color/colorClaroNaranja"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -497,6 +542,7 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
                         android:src="@drawable/fuerza">
 
                     </ImageView>
@@ -513,16 +559,19 @@
 
             </LinearLayout>
 
-
             <LinearLayout
+
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/lineagrid"
-                android:orientation="vertical">
+                android:background="@color/colorClaroNaranja"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -552,14 +601,17 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_columnWeight="1"
-                android:orientation="vertical"
 
-                >
+                android:layout_columnWeight="1"
+                android:background="@color/colorClaroNaranja"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"

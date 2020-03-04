@@ -1,6 +1,7 @@
 package com.example.rodofroll.Objetos;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,6 +21,8 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
     CargandoFragment fragment;
     boolean fin = false;
     private OnTaskCompleted listener;
+    long inicio;
+
 
 
 
@@ -52,6 +55,7 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
         fragmentTransaction.replace(R.id.fragment_container,fragment);
 
         fragmentTransaction.commit();
+        inicio=System.currentTimeMillis();
 
     }
 
@@ -62,9 +66,16 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
       // FireBaseUtils.CrearRef();
 // Math.abs(( new Timestamp(System.currentTimeMillis()).getTime() - inicio.getTime())) < 1)
 
-        while (FireBaseUtils.isEstado()){
+        double tiempo;
+        do{
+             tiempo = (double) ((System.currentTimeMillis() - inicio)/1000);
 
-        };
+        }while (FireBaseUtils.isEstado()&&tiempo<20);
+
+        if(tiempo>=20){
+            Toast.makeText(fragment.getContext(),"Reinicie la aplicación",Toast.LENGTH_LONG).show();
+
+        }
 
         try {
             Thread.sleep(3000);

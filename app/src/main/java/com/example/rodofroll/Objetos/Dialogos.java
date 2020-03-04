@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.DadosFragment;
@@ -43,44 +44,6 @@ import static com.example.rodofroll.Objetos.MisMetodos.convertirImagenString;
 public class Dialogos {
 
 
-  /* public static void showDialogoRol(final Activity activity, Context context){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
-        LayoutInflater inflater = activity.getLayoutInflater();
-        final View myView = inflater.inflate(R.layout.elegirolayout, null);
-
-        final Spinner spin = myView.findViewById(R.id.elecrolnspinner);
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(context,R.array.roles, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spin.setAdapter(adapter);
-
-        activity.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        //.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-        Button button =myView.findViewById(R.id.aceptarrolbutton);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(spin.getSelectedItemPosition()==0){
-                    activity.getIntent().putExtra("rol",0);
-
-                    activity.recreate();
-
-                }
-                else{
-                    activity.getIntent().putExtra("rol",1);
-
-                    activity.recreate();
-
-                }
-            }
-        });
-        dialogBuilder.setView(myView);
-
-
-        dialogBuilder.show();
-    }*/
 
     public static void showDialogoNuevoUsuario(final MainActivity activity, final Context context){
 
@@ -204,7 +167,7 @@ public class Dialogos {
 
     }
 
-    public static void showDialogoCombate(final Activity activity, Context context , Usuario master ){
+    public static void showDialogoCombate(final Activity activity, Context context , final Usuario master ){
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
@@ -237,6 +200,14 @@ public class Dialogos {
             public void onClick(View v) {
                 int num =Dialogos.showDialogoDado(20,v,1,0, activity);
                 dadoeditext.setText(String.valueOf(num));
+            }
+        });
+
+        enviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FireBaseUtils.getRef().child("datos").child(master.key).push().setValue(1);
             }
         });
 

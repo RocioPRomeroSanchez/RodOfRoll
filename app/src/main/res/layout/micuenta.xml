@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/UserimageView"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="top|center"
@@ -44,11 +44,12 @@
 
 
             <Button
-                android:text="Modificar"
+                android:id="@+id/ModifButton"
 
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Modificar">
 
             </Button>
 
