@@ -25,6 +25,14 @@ class PageAdapter  extends FragmentStatePagerAdapter {
                 return tab2;
 
 
+            case 2:
+                Fragment tab3 = new InventarioFragment();
+                return tab3;
+
+            case 3:
+                Fragment tab4 = new CombatPersonajeFragment();
+                return  tab4;
+
             default:
                 return new AtributosFragment();
 

@@ -103,10 +103,6 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-
-
-
-
       /* String notifcaciones = FireBaseUtils.getUser().getUid()+"notif";
         FirebaseMessaging.getInstance().subscribeToTopic(notifcaciones);*/
 
@@ -175,6 +171,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
 
         if (c instanceof Personaje) {
+
 
             FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("personajes").push().setValue(c.Map());
 

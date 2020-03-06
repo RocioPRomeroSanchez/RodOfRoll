@@ -40,8 +40,6 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
         if (listener != null) {
             listener.onTaskCompleted();
 
-
-
         }
     }
 
@@ -61,8 +59,6 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-
-
       // FireBaseUtils.CrearRef();
 // Math.abs(( new Timestamp(System.currentTimeMillis()).getTime() - inicio.getTime())) < 1)
 
@@ -70,7 +66,7 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
         do{
              tiempo = (double) ((System.currentTimeMillis() - inicio)/1000);
 
-        }while (FireBaseUtils.isEstado()&&tiempo<20);
+        }while (!FireBaseUtils.isEstado()&&tiempo<20);
 
         if(tiempo>=20){
             Toast.makeText(fragment.getContext(),"Reinicie la aplicación",Toast.LENGTH_LONG).show();

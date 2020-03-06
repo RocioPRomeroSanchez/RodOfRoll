@@ -1,10 +1,12 @@
 package com.example.rodofroll.Objetos;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -20,8 +22,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -45,7 +49,7 @@ public class Dialogos {
 
 
 
-    public static void showDialogoNuevoUsuario(final MainActivity activity, final Context context){
+    public static void showDialogoNuevoCombatiente(final MainActivity activity, final Context context){
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
@@ -210,6 +214,8 @@ public class Dialogos {
                 FireBaseUtils.getRef().child("datos").child(master.key).push().setValue(1);
             }
         });
+
+
 
 
 

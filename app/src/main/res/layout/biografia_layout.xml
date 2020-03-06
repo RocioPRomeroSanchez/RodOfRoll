@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,40 +12,83 @@
 
         <ImageView
 
-            android:layout_width="100dp"
-
-
-            android:layout_height="100dp"
-            android:src="@drawable/heart"
-            >
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@drawable/heart">
 
         </ImageView>
 
         <LinearLayout
 
+            android:layout_width="match_parent"
+            android:padding="5dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_width="wrap_content">
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Nombre"
+                android:id="@+id/pass2layoutdfs"
+                app:passwordToggleTint="@color/colorAccent"
+                android:layout_weight="1"
 
-            </EditText>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                >
 
-            </EditText>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:id="@+id/pass2editdfsext"
+                    />
 
-            </EditText>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Raza"
+                android:id="@+id/pass2lasayout"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent"
+                app:errorEnabled="true"
+                android:layout_weight="1"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:id="@+id/pass2editdfext"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/clase"
+                android:id="@+id/pass2layout"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent"
+                app:errorEnabled="true"
+                android:layout_weight="1"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:id="@+id/pass2edfditext"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
 
-
     </LinearLayout>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -53,7 +97,6 @@
         >
 
     </EditText>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,5 +111,6 @@
         >
 
     </TextView>
+
 
 </LinearLayout>

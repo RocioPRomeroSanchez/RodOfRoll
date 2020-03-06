@@ -55,6 +55,7 @@ public class FichaPersonajeFragment extends Fragment  {
         tabs.addTab(tabs.newTab().setText("Atributos").setIcon(R.drawable.shield_star));
         tabs.addTab(tabs.newTab().setText("Biografia").setIcon(R.drawable.book));
         tabs.addTab(tabs.newTab().setText("Inventario").setIcon(R.drawable.chest));
+        tabs.addTab(tabs.newTab().setText("Combate").setIcon(R.drawable.sword_cross));
 
 
 

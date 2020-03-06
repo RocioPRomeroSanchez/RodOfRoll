@@ -21,14 +21,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     int cont=0;
 
 
-    @Override
-    public void onNewToken(@NonNull String s) {
+  //  @Override
+  /*  public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
 
-        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(s);
+       // FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(s);
 
     }
-
+*/
 
 
 

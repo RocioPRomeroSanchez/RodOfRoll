@@ -35,4 +35,9 @@
     <string name="abrir_galer_a">Abrir galería</string>
     <string name="borrar_foto">Borrar foto</string>
     <string name="Apodo">Apodo</string>
+    <string name="Raza">Raza</string>
+    <string name="clase">Clase</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="no_esta_en_un_combate">No esta en un combate</string>
+    <string name="cancelar">Cancelar</string>
 </resources>

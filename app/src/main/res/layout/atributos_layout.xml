@@ -46,7 +46,7 @@
                     >
 
                     <ImageView
-                        android:id="@+id/imagenanim"
+                        android:id="@+id/vidaimageview"
                         android:layout_width="140dp"
                         android:layout_height="140dp"
                         android:src="@drawable/heart"
@@ -57,7 +57,7 @@
                     </ImageView>
 
                     <TextView
-                        android:id="@+id/Editext"
+                        android:id="@+id/VidaTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -99,17 +99,17 @@
                     >
 
                     <ImageView
+                        android:id="@+id/caimageview"
                         android:layout_width="140dp"
                         android:layout_height="140dp"
-                        android:src="@drawable/shield"
 
 
-                        >
+                        android:src="@drawable/shield">
 
                     </ImageView>
 
                     <TextView
-                        android:id="@+id/Editexdt"
+                        android:id="@+id/CATextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -157,18 +157,20 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/iniciativalayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
                     android:padding="10dp">
 
                     <TextView
+                        android:id="@+id/IniciativaTextView"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@color/colorPrimary"
+
+
                         android:gravity="center"
-
-
                         android:text="2"
                         android:textSize="36sp">
 
@@ -197,18 +199,20 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/ataquebaselayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
                     android:padding="10dp">
 
                     <TextView
+                        android:id="@+id/AtaqueBaseTextView"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@color/colorPrimary"
+
+
                         android:gravity="center"
-
-
                         android:text="2"
                         android:textSize="36sp">
 
@@ -236,18 +240,20 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/velocidadlayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
                     android:padding="10dp">
 
                     <TextView
+                        android:id="@+id/VelocidadTextView"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@color/colorPrimary"
+
+
                         android:gravity="center"
-
-
                         android:text="2"
                         android:textSize="36sp">
 
@@ -270,16 +276,25 @@
 
             >
 
+
             <LinearLayout
+                android:id="@+id/fuerzalayout"
+
+                android:layout_width="wrap_content"
+                android:layout_row="0"
+                android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
                 android:background="@color/colorClaro"
+                android:gravity="center"
+                android:minWidth="20dp"
                 android:orientation="vertical"
                 android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -301,7 +316,9 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/FuerzaTextView"
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
                     android:text="Hola">
 
@@ -309,11 +326,13 @@
 
             </LinearLayout>
 
-
             <LinearLayout
+                android:id="@+id/destrezalayout"
+                android:layout_width="20dp"
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
                 android:background="@color/colorClaro"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:padding="2dp">
 
@@ -340,6 +359,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/DestrezaTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">
@@ -349,15 +369,19 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/concentracionlayout"
+                android:layout_width="20dp"
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
                 android:background="@color/colorClaro"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -378,6 +402,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/ConcentracionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">
@@ -387,15 +412,19 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/inteligencialayout"
+                android:layout_width="20dp"
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
                 android:background="@color/colorClaro"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -416,6 +445,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/InteligenciaTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">
@@ -425,16 +455,20 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sabidurialayout"
+
+                android:layout_width="20dp"
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
-
                 android:background="@color/colorClaro"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -455,6 +489,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/SabiduriaTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">
@@ -464,16 +499,20 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_columnWeight="1"
+                android:id="@+id/carismalayout"
 
+                android:layout_width="20dp"
+                android:layout_columnWeight="1"
                 android:background="@color/colorClaro"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:padding="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
 
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -494,6 +533,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/CarismaTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">
@@ -517,9 +557,10 @@
 
 
             <LinearLayout
+                android:id="@+id/fortalezalayout"
                 android:layout_columnWeight="1"
-                android:layout_marginRight="5dp"
 
+                android:layout_marginRight="5dp"
                 android:background="@color/colorClaroNaranja"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -551,6 +592,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/FortalezaTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">
@@ -561,6 +603,7 @@
 
             <LinearLayout
 
+                android:id="@+id/reflejoslayout"
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
                 android:background="@color/colorClaroNaranja"
@@ -592,6 +635,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/ReflejosTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">
@@ -602,6 +646,7 @@
 
             <LinearLayout
 
+                android:id="@+id/voluntadlayout"
                 android:layout_columnWeight="1"
                 android:background="@color/colorClaroNaranja"
                 android:gravity="center"
@@ -632,6 +677,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/VoluntadTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">

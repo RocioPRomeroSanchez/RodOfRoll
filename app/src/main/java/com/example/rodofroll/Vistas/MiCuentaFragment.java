@@ -66,9 +66,36 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case  R.id.BorrarCuentabutton:
 
+                FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
 
 
-                Function<String,Void> function = new Function<String, Void>() {
+                                FireBaseUtils.getUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                                        startActivity(intent);
+
+
+                                    }
+                                });
+
+                            }
+
+                        });
+
+
+                    }
+                });
+
+               /* Function<String,Void> function = new Function<String, Void>() {
                     @Override
                     public Void apply(String input) {
                         FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -101,7 +128,7 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
                         });
                         return null;
                     }
-                };
+                };*/
 
                // Dialogos.showEliminar("tu perfil",getActivity(), function);
 

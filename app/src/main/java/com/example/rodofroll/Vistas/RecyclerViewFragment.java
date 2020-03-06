@@ -4,22 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.MainActivity;
-import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.Dialogos;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
@@ -27,15 +22,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,8 +54,8 @@ public class RecyclerViewFragment extends Fragment {
 
                     HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
 
-                    Personaje p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"));
-                   p.setKey(snapshot.getKey());
+                    Personaje p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
+              
                     personajes.add(p);
                 }
                 adapter.notifyDataSetChanged();
@@ -97,7 +86,7 @@ public class RecyclerViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                // ((MainActivity)getActivity()).RemplazarFragment(new FichaPersonajeFragment(),true);
-                Dialogos.showDialogoNuevoUsuario((MainActivity) getActivity(),getContext());
+                Dialogos.showDialogoNuevoCombatiente((MainActivity) getActivity(),getContext());
 
             }
         });
