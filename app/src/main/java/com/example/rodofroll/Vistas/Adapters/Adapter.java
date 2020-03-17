@@ -1,9 +1,11 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll.Vistas.Adapters;
 
-import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +14,8 @@ import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 
 import java.util.List;
+
+import static com.example.rodofroll.Objetos.ConversorImagenes.convertirStringBitmap;
 
 
 public class Adapter extends RecyclerView.Adapter implements  View.OnClickListener{
@@ -64,4 +68,33 @@ public class Adapter extends RecyclerView.Adapter implements  View.OnClickListen
     {
         this.listenerimagen=listener;
     }
+
+    public class HolderCombatientes extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        TextView txtNombre;
+        ImageView imagen;
+        View.OnClickListener listener;
+
+
+
+        public HolderCombatientes(View itemView){
+            super(itemView);
+            txtNombre=itemView.findViewById(R.id.textView);
+            imagen=itemView.findViewById(R.id.CardviewimageView);
+
+        }
+
+        public void bind(Personaje p) {
+            txtNombre.setText(p.getNombre());
+            Bitmap b = convertirStringBitmap(p.getImagen());
+            imagen.setImageBitmap(b);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(listener!= null) listener.onClick(v);
+        }
+    }
+
 }

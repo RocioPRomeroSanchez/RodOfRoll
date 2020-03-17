@@ -1,4 +1,4 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll.Vistas.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;

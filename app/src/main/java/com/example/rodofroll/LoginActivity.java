@@ -1,17 +1,12 @@
 package com.example.rodofroll;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -27,16 +22,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.example.rodofroll.Firebase.FireBaseUtils;
-import com.example.rodofroll.Objetos.Dialogos;
-import com.example.rodofroll.Objetos.MisMetodos;
+import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.Objetos.Validacion;
-import com.example.rodofroll.Vistas.Actividad;
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -48,22 +38,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.storage.FirebaseStorage;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 
 
 public class LoginActivity extends Actividad implements View.OnClickListener  {
@@ -193,7 +173,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
                     if(acceso==Acceso.Registrarse){
                         try {
-                            RegistrarUser(emailEditText.getText().toString(), apodoEditText.getText().toString(),passEditText.getText().toString(),MisMetodos.convertirImagenString(((BitmapDrawable)imageView.getDrawable()).getBitmap()),v);
+                            RegistrarUser(emailEditText.getText().toString(), apodoEditText.getText().toString(),passEditText.getText().toString(), ConversorImagenes.convertirImagenString(((BitmapDrawable)imageView.getDrawable()).getBitmap()),v);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

@@ -1,4 +1,4 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll.Vistas.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,14 +9,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.onSelectedItemListener;
 import com.example.rodofroll.R;
+import com.example.rodofroll.Vistas.Adapters.PageAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 

@@ -1,8 +1,7 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll.Vistas.Fragments;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,27 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TabHost;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.arch.core.util.Function;
 import androidx.fragment.app.Fragment;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.LoginActivity;
 import com.example.rodofroll.MainActivity;
-import com.example.rodofroll.Objetos.Dialogos;
-import com.example.rodofroll.Objetos.MisMetodos;
+import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
@@ -138,7 +130,7 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
             case R.id.ModifButton:
 
                 String key = FireBaseUtils.getDatosUser().getKey();
-                Usuario usuario = new Usuario(editText.getText().toString(),FireBaseUtils.getUser().getEmail(),MisMetodos.convertirImagenString(((BitmapDrawable)userimageView.getDrawable()).getBitmap()));
+                Usuario usuario = new Usuario(editText.getText().toString(),FireBaseUtils.getUser().getEmail(), ConversorImagenes.convertirImagenString(((BitmapDrawable)userimageView.getDrawable()).getBitmap()));
 
                /* Map<String,Object> update = new HashMap<String, Object>();
                 update.put("email", usuario.getEmail());

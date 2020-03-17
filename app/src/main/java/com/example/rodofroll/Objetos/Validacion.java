@@ -2,11 +2,12 @@ package com.example.rodofroll.Objetos;
 
 import android.text.InputType;
 import android.util.Patterns;
+import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Validacion {
-     public static boolean ValidarEdit(TextInputEditText editText) {
+     public static boolean ValidarEdit(EditText editText) {
 
          String s = editText.getText().toString();
          if(s.isEmpty()){

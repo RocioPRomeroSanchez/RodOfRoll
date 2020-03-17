@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class MisMetodos {
+public class ConversorImagenes {
     static public Bitmap convertirStringBitmap(String imagen) {
         byte[] decodedString = Base64.decode(imagen, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

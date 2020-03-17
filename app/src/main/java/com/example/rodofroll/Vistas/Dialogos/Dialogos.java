@@ -1,49 +1,33 @@
-package com.example.rodofroll.Objetos;
+package com.example.rodofroll.Vistas.Dialogos;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.MainActivity;
+import com.example.rodofroll.Objetos.Personaje;
+import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
-import com.example.rodofroll.Vistas.DadosFragment;
-import com.example.rodofroll.Vistas.FichaPersonajeFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.rodofroll.Vistas.Fragments.FichaPersonajeFragment;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.example.rodofroll.Objetos.MisMetodos.convertirImagenString;
+import static com.example.rodofroll.Objetos.ConversorImagenes.convertirImagenString;
 
 public class Dialogos {
 
@@ -78,10 +62,14 @@ public class Dialogos {
                     String imagen =convertirImagenString(((BitmapDrawable)imageView.getDrawable()).getBitmap());
 
                     Personaje p = new Personaje(editText.getText().toString(),imagen);
-                        activity.AnyadirCombatiente(p);
+                    try {
+                        FireBaseUtils.AnyadirCombatiente(p);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-                    fichaPersonajeFragment= new FichaPersonajeFragment(p);
-                    activity.RemplazarFragment(fichaPersonajeFragment,true);
+                  /*  fichaPersonajeFragment= new FichaPersonajeFragment(p);
+                    activity.RemplazarFragment(fichaPersonajeFragment,true);*/
 
 
                     alertDialog.dismiss();
@@ -148,9 +136,10 @@ public class Dialogos {
 
     }
 
-    public static boolean showEliminar(String nombre, Activity activity, final String cadena, final Function function){
+    public static AlertDialog.Builder showEliminar(String nombre, Activity activity, final String cadena, final Function function){
         // Use the Builder class for convenient dialog construction
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
         builder.setMessage("De verdad deseas eliminar a "+ Html.fromHtml("<b>"+nombre+"</b>"))
                 .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -165,65 +154,52 @@ public class Dialogos {
                     }
                 });
 
-        builder.create().show();
 
-        return false;
+
+        return builder;
 
     }
 
-    public static void showDialogoCombate(final Activity activity, Context context , final Usuario master ){
+
+    public static void showDialogNuevoCombate(final MainActivity activity, final Context context) throws Exception {
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
-        final View myView = inflater.inflate(R.layout.busqcombat_layout, null);
 
-        ImageView Masterimagen = myView.findViewById(R.id.MasterimageView);
-        ImageView dadoimagen = myView.findViewById(R.id.dadoimageView);
-        TextView MasterText = myView.findViewById(R.id.MastertextView);
-        TextView InitText = myView.findViewById(R.id.IniciativatextView);
-        TextView ResultadoText = myView.findViewById(R.id.ResultadotextView);
-
-        Spinner combatespinner = myView.findViewById(R.id.CombateSpinner);
-        Spinner personajespinner = myView.findViewById(R.id.PersonajeSpinner);
-
-        Button enviar = myView.findViewById(R.id.Enviarbutton);
-        final EditText dadoeditext = myView.findViewById(R.id.Tiradaeditext);
-
+        final View myView = inflater.inflate(R.layout.anyadircombatedialog, null);
+        final TextInputEditText editText = myView.findViewById(R.id.nombrecombatedit);
+        Button aceptarbutton =myView.findViewById(R.id.aceptarbutton);
+        Button cancelarbutton = myView.findViewById(R.id.cancelbutton);
         dialogBuilder.setView(myView);
+
+
         final AlertDialog alertDialog=  dialogBuilder.show();
 
 
-        Masterimagen.setImageBitmap(MisMetodos.convertirStringBitmap(master.foto));
-        MasterText.setText(master.getNombre());
-        InitText.setText("0");
-        ResultadoText.setText("0");
-
-        dadoimagen.setOnClickListener(new View.OnClickListener() {
+        aceptarbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int num =Dialogos.showDialogoDado(20,v,1,0, activity);
-                dadoeditext.setText(String.valueOf(num));
+                try {
+                    if(Validacion.ValidarEdit(editText)){
+                        FireBaseUtils.AnyadirCombate(editText.getText().toString());
+                         alertDialog.dismiss();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        enviar.setOnClickListener(new View.OnClickListener() {
+        cancelarbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                FireBaseUtils.getRef().child("datos").child(master.key).push().setValue(1);
+                alertDialog.dismiss();
             }
         });
-
-
-
-
-
-
 
 
 
     }
-
-
 }

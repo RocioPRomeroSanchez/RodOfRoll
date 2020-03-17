@@ -1,7 +1,8 @@
-package com.example.rodofroll.Objetos;
+package com.example.rodofroll.Vistas.Dialogos;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,15 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 
-public class DialogoDatos extends DialogFragment {
+public class DialogoCambiarDatos extends DialogFragment {
 
     TextView vista;
     Personaje p;
@@ -27,15 +27,12 @@ public class DialogoDatos extends DialogFragment {
     Activity activity;
     int limite;
 
-    public static DialogoDatos newInstance(TextView view, Personaje p, String atributo,int limite, Activity activity) {
-        DialogoDatos dialogo = new DialogoDatos( view,  p,atributo,limite, activity);
-        Bundle args = new Bundle();
-
-        dialogo.setArguments(args);
+    public static DialogoCambiarDatos newInstance(TextView view, Personaje p, String atributo, int limite, Activity activity) {
+        DialogoCambiarDatos dialogo = new DialogoCambiarDatos( view,  p,atributo,limite, activity);
         return dialogo;
     }
 
-    public DialogoDatos(TextView view, Personaje p, String atributo, int limite,Activity activity){
+    public DialogoCambiarDatos(TextView view, Personaje p, String atributo, int limite, Activity activity){
         vista=view;
         this.p=p;
         this.atributo=atributo;
@@ -65,6 +62,7 @@ public class DialogoDatos extends DialogFragment {
             }
         });
         aceptarButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 String cadena = editText.getText().toString();
@@ -76,9 +74,20 @@ public class DialogoDatos extends DialogFragment {
 
                     if (numero < limite) {
                         vista.setText(String.valueOf(numero));
-                        p.ModificarAtributosPersonaje(atributo.toLowerCase(),String.valueOf(numero));
+                        try {
+                            p.ModificarAtributosPersonaje(atributo.toLowerCase(),numero,p);
 
-                       // FireBaseUtils.getRef().child("personajes")
+
+
+                        } catch (NoSuchFieldException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        // FireBaseUtils.getRef().child("personajes")
                         dismiss();
                     }
                     else{

@@ -51,7 +51,7 @@
         </item>
 
 
-        <item android:title="Crear combate"
+        <item android:title="Combates"
                     android:id="@+id/navigation_item_crear_combate"
                     android:icon="@drawable/sword_cross"
                     >

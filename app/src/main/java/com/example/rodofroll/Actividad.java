@@ -1,4 +1,4 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,11 +8,9 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.rodofroll.Objetos.MisMetodos;
-import com.example.rodofroll.R;
+import com.example.rodofroll.Objetos.ConversorImagenes;
 
 public class Actividad  extends AppCompatActivity {
     public ImageView remp;
@@ -74,7 +72,7 @@ public class Actividad  extends AppCompatActivity {
         if(requestCode==PICK_IMAGE&&resultCode==RESULT_OK){
 
             Uri selectedImage = data.getData();
-            resultado= MisMetodos.getScaledBitmap(selectedImage,this);
+            resultado= ConversorImagenes.getScaledBitmap(selectedImage,this);
             remp.setImageBitmap(resultado);
         }
 

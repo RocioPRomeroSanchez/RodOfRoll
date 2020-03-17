@@ -1,4 +1,4 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll.Vistas.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
-import com.example.rodofroll.Objetos.DialogoDatos;
+
+import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 
@@ -159,77 +160,79 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
 
     @Override
     public void onClick(View v) {
-        DialogoDatos dialogoDatos;
+        DialogoCambiarDatos dialogoDatos;
         switch (v.getId()){
             case R.id.vidaimageview:
 
-              dialogoDatos= DialogoDatos.newInstance(vidaTextView,p,"Vida",900,getActivity());
+              dialogoDatos= DialogoCambiarDatos.newInstance(vidaTextView,p,"Vida",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Vida");
 
-                break;
+               break;
+
+
             case R.id.caimageview:
 
-                dialogoDatos= DialogoDatos.newInstance(caTextView,p,"Armadura",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(caTextView,p,"Armadura",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Armadura");
 
                 break;
 
             case R.id.iniciativalayout:
-                dialogoDatos= DialogoDatos.newInstance(iniciativaTextView,p,"Iniciativa",100,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(iniciativaTextView,p,"Iniciativa",100,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Iniciativa");
 
                 break;
 
             case R.id.ataquebaselayout:
-                dialogoDatos= DialogoDatos.newInstance(ataquebaseTextView,p,"Ataque",100,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(ataquebaseTextView,p,"Ataque",100,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Ataque");
                 break;
 
             case R.id.velocidadlayout:
-                dialogoDatos= DialogoDatos.newInstance(velocidadTextView,p,"Velocidad",100,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(velocidadTextView,p,"Velocidad",100,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Velocidad");
                 break;
             case R.id.fuerzalayout:
-                dialogoDatos= DialogoDatos.newInstance(fuerzaTextView,p,"Fuerza",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(fuerzaTextView,p,"Fuerza",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Fuerza");
                 break;
             case R.id.destrezalayout:
-                dialogoDatos= DialogoDatos.newInstance(destrezaTextView,p,"Destreza",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(destrezaTextView,p,"Destreza",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Destreza");
                 break;
 
             case R.id.concentracionlayout:
-                dialogoDatos= DialogoDatos.newInstance(concentracionTextView,p,"Concentracion",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(concentracionTextView,p,"Concentracion",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Concentracion");
                 break;
 
             case R.id.inteligencialayout:
-                dialogoDatos= DialogoDatos.newInstance(inteligenciaTextView,p,"Inteligencia",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(inteligenciaTextView,p,"Inteligencia",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Inteligencia");
                 break;
 
             case R.id.sabidurialayout:
-                dialogoDatos= DialogoDatos.newInstance(sabiduriaTextView,p,"Sabiduria",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(sabiduriaTextView,p,"Sabiduria",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Sabiduria");
                 break;
 
             case R.id.carismalayout:
-                dialogoDatos= DialogoDatos.newInstance(carismaTextView,p,"Carisma",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(carismaTextView,p,"Carisma",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Carisma");
                 break;
 
             case R.id.fortalezalayout:
-                dialogoDatos= DialogoDatos.newInstance(fortalezaTextView,p,"Fortaleza",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(fortalezaTextView,p,"Fortaleza",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Fortaleza");
                 break;
 
             case R.id.reflejoslayout:
-                dialogoDatos= DialogoDatos.newInstance(reflejosTextView,p,"Reflejos",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(reflejosTextView,p,"Reflejos",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Reflejos");
                 break;
 
             case  R.id.voluntadlayout:
-                dialogoDatos= DialogoDatos.newInstance(voluntadTextView,p,"Voluntad",900,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(voluntadTextView,p,"Voluntad",900,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Voluntad");
                 break;
         }

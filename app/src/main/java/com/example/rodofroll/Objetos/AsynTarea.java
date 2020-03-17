@@ -3,17 +3,12 @@ package com.example.rodofroll.Objetos;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.R;
-import com.example.rodofroll.Vistas.CargandoFragment;
-import com.google.android.gms.tasks.Task;
-
-import java.sql.Time;
-import java.sql.Timestamp;
+import com.example.rodofroll.Vistas.Fragments.CargandoFragment;
 
 public class AsynTarea extends AsyncTask<Void,Void,Void> {
 

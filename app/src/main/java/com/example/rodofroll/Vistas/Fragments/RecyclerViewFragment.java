@@ -1,4 +1,4 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll.Vistas.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.MainActivity;
-import com.example.rodofroll.Objetos.Dialogos;
+import com.example.rodofroll.Vistas.Adapters.Adapter;
+import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,7 +36,7 @@ public class RecyclerViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recyclerpersonajes, container, false);
+        View view = inflater.inflate(R.layout.recycler, container, false);
         final RecyclerView recyclerView = view.findViewById(R.id.recycler);
         FloatingActionButton floatingActionButton = view.findViewById(R.id.recyclerFloatingButton);
 
@@ -43,7 +44,7 @@ public class RecyclerViewFragment extends Fragment {
         adapter = new Adapter(personajes);
 
 
-        final DatabaseReference personajesdb =   FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("personajes");
+        final DatabaseReference personajesdb =FireBaseUtils.GetPersonajesRef();
 
 
         personajesdb.addValueEventListener(new ValueEventListener() {
@@ -116,7 +117,7 @@ public class RecyclerViewFragment extends Fragment {
                 };
 
 
-                Dialogos.showEliminar(p.getNombre(), getActivity(),p.getKey(),function);
+                Dialogos.showEliminar(p.getNombre(), getActivity(),p.getKey(),function).show();
                 adapter.notifyDataSetChanged();
 
             }

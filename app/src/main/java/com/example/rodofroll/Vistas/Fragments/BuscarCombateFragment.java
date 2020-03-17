@@ -1,4 +1,4 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll.Vistas.Fragments;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
-import com.example.rodofroll.MainActivity;
-import com.example.rodofroll.Objetos.Dialogos;
+import com.example.rodofroll.Vistas.Adapters.BuscarAdapter;
+import com.example.rodofroll.Vistas.Dialogos.DialogoBuscarCombate;
 import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.R;
 import com.google.firebase.database.DataSnapshot;
@@ -142,19 +141,24 @@ public class BuscarCombateFragment  extends Fragment {
                         break;
 
                 }
-                searchAdapter = new BuscarAdapter(getContext(),NombreList, EmailList,FotoList);
+                searchAdapter = new BuscarAdapter(NombreList, EmailList,FotoList);
                 searchAdapter.setOnClickCortoListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = MasterrecyclerView.getChildAdapterPosition(v);
                         Usuario usuario  = usuarios.get(position);
-                        Dialogos.showDialogoCombate(getActivity(),getContext(),usuario);
+
+                      //  FireBaseUtils.getRef().child("asfd").
+                        DialogoBuscarCombate.newInstance(getActivity(),usuario).show(getFragmentManager(),"BuscarCombate");
                     }
                 });
 
                 MasterrecyclerView.setAdapter(searchAdapter);
                 MasterrecyclerView.setHasFixedSize(true);
                 MasterrecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+
+
+
 
             }
 

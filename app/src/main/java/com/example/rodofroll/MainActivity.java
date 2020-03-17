@@ -1,70 +1,38 @@
 package com.example.rodofroll;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.Objetos.AsynTarea;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
-import com.example.rodofroll.Objetos.Dialogos;
-import com.example.rodofroll.Objetos.MisMetodos;
+import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.OnTaskCompleted;
-import com.example.rodofroll.Objetos.Personaje;
-import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.Objetos.onSelectedItemListener;
-import com.example.rodofroll.Vistas.Actividad;
-import com.example.rodofroll.Vistas.AnimacionFragment;
-import com.example.rodofroll.Vistas.BuscarCombateFragment;
-import com.example.rodofroll.Vistas.CombateFragment;
-import com.example.rodofroll.Vistas.DadosFragment;
-import com.example.rodofroll.Vistas.MiCuentaFragment;
-import com.example.rodofroll.Vistas.RecyclerViewFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.rodofroll.Vistas.Fragments.BuscarCombateFragment;
+import com.example.rodofroll.Vistas.Fragments.CombateRecyclerFragment;
+import com.example.rodofroll.Vistas.Fragments.DadosFragment;
+import com.example.rodofroll.Vistas.Fragments.MiCuentaFragment;
+import com.example.rodofroll.Vistas.Fragments.NotificacionesFragment;
+import com.example.rodofroll.Vistas.Fragments.RecyclerViewFragment;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 
@@ -167,7 +135,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
 
 
-    public void AnyadirCombatiente(Personaje c) {
+   /* public void AnyadirCombatiente(Personaje c) {
 
 
         if (c instanceof Personaje) {
@@ -186,7 +154,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         else if(c instanceof Monstruo){
         }
         */
-    }
+    /*}*/
 /*
     public void LeerFichero(File file){
 
@@ -224,7 +192,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         String apodo = FireBaseUtils.getDatosUser().getNombre();
          String foto= FireBaseUtils.getDatosUser().getFoto();
          correo.setText(apodo);
-          imagen.setImageBitmap(MisMetodos.convertirStringBitmap(foto));
+          imagen.setImageBitmap(ConversorImagenes.convertirStringBitmap(foto));
 
 
 
@@ -262,6 +230,13 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
                     case R.id.micuenta:
                         fragment= new MiCuentaFragment();
                         break;
+
+                    case R.id.navigation_item_crear_combate:
+                        fragment= new CombateRecyclerFragment();
+                        break;
+                    case R.id.navigation_item_notifications:
+                        fragment = new NotificacionesFragment();
+                        break;
                 }
                 RemplazarFragment(fragment, false);
                 return true;
@@ -287,7 +262,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
                 Intent intent = new Intent(this, LoginActivity.class);
 
-                FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(null);
+                FireBaseUtils.Borrar();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

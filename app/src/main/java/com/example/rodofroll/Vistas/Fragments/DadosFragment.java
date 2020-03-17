@@ -1,4 +1,4 @@
-package com.example.rodofroll.Vistas;
+package com.example.rodofroll.Vistas.Fragments;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -16,18 +16,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.rodofroll.Objetos.Dialogos;
+import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.example.rodofroll.R;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class DadosFragment extends Fragment implements View.OnClickListener {
 

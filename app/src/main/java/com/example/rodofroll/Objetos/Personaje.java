@@ -2,8 +2,15 @@
 package com.example.rodofroll.Objetos;
 
 
+import android.os.Build;
+import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+
 import com.example.rodofroll.Firebase.FireBaseUtils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,20 +26,15 @@ public class Personaje extends Combatiente {
     String descripcion;
     Long level;
     Long exp;
+    List<String> combateid;
+
 
 
     Dinero dinero;
     List<Cosa> cosas;
 
-    public String getCombateid() {
-        return combateid;
-    }
 
-    public void setCombateid(String combateid) {
-        this.combateid = combateid;
-    }
 
-    String combateid;
 
     public String getMasterid() {
         return masterid;
@@ -174,6 +176,12 @@ public class Personaje extends Combatiente {
         iniciativa= Integer.parseInt((String) this.atributos.get("iniciativa"));
         ataque=  Integer.parseInt((String) this.atributos.get("ataque"));
         velocidad=  Integer.parseInt((String) this.atributos.get("velocidad"));*/
+
+       //Atributos
+        vida = Integer.parseInt(this.atributos.get("vida").toString());
+        modiniciativa = Integer.parseInt(this.atributos.get("iniciativa").toString());
+
+
 
        //Biografia
         nombre= (String) this.biografia.get("nombre");
@@ -319,20 +327,67 @@ public class Personaje extends Combatiente {
 
     }
 
-    public HashMap<String, HashMap<String, Object>> Map(){
+    public HashMap<String,Object> Map(){
 
         HashMap<String, HashMap<String, Object>> principal = new HashMap<>();
         principal.put("atributos",atributos);
         principal.put("inventario",inventario);
         principal.put("biografia",biografia);
 
-        return principal;
+        HashMap<String, Object> objetPrincipal = new HashMap<String, Object>(principal);
+        objetPrincipal.put("iniciativa",iniciativa);
+
+
+        return objetPrincipal;
     }
 
-    public void ModificarAtributosPersonaje(String atributo, String nuevovalor){
+
+    public void ModificarAtributosPersonaje(String atributo, Object nuevovalor, Personaje personaje) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
         if(key!=null&!key.isEmpty()){
 
-            FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("personajes").child(key).child("atributos").child(atributo).setValue(nuevovalor);
+
+            FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).child("personajes").child(key).child("atributos").child(atributo).setValue(nuevovalor);
+
+
+        /*    try {
+                Field f = Personaje.class.getDeclaredField(atributo);
+
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }*/
+        }
+
+        //
+
+/*
+        personaje.getClass().getField(atributo).set(personaje,nuevovalor);
+        String s ="hola";*/
+    }
+
+   public class CombatesAsociados{
+       String masterkey;
+       String combatekey;
+       public String getMasterkey() {
+           return masterkey;
+       }
+
+       public void setMasterkey(String masterkey) {
+           this.masterkey = masterkey;
+       }
+
+       public String getCombatekey() {
+           return combatekey;
+       }
+
+       public void setCombatekey(String combatekey) {
+           this.combatekey = combatekey;
+       }
+
+
+
+        public CombatesAsociados(String masterkey, String combatekey) {
+            this.masterkey = masterkey;
+            this.combatekey = combatekey;
         }
     }
 

@@ -1,12 +1,14 @@
 package com.example.rodofroll.Firebase;
 
 import android.media.MediaPlayer;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.solver.widgets.Snapshot;
 
 import com.example.rodofroll.Objetos.Combate;
+import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
+import java.util.List;
 
 public  class FireBaseUtils {
 
@@ -31,6 +34,7 @@ public  class FireBaseUtils {
    private static FireBaseUtils soyunico;
    private static FirebaseUser user;
    static String key=null;
+
 
 
     static private boolean estado;
@@ -64,8 +68,6 @@ public  class FireBaseUtils {
     public static FirebaseUser getUser() {
         return user;
     }
-
-
 
 
 
@@ -105,8 +107,6 @@ public  class FireBaseUtils {
                         //   HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
 
                         datosUser = new Usuario((String)dataSnapshot.child("nombre").getValue(),(String) dataSnapshot.child("email").getValue(), (String) dataSnapshot.child("foto").getValue());
-
-
                         setEstado(true);
                     }
 
@@ -129,19 +129,52 @@ public  class FireBaseUtils {
 
 
 
-    static  public void anyadircombate() throws Exception {
+
+
+    static public DatabaseReference GetPersonajesRef(){
+       return    FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).child("personajes");
+    }
+
+       static public void AnyadirCombatiente(Personaje c) throws Exception {
+           if(soyunico!=null) {
+
+               if (c instanceof Personaje) {
+
+
+                   FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).child("personajes").push().setValue(c.Map());
+
+               }
+           }
+           else{
+               throw new Exception("Excemfasdf");
+           }
+
+       }
+
+    static  public void AnyadirCombate(String nombre) throws Exception {
 
         if(soyunico!=null) {
             ref = FirebaseDatabase.getInstance().getReference();
 
 
-            Combate combate = new Combate("Hola",true);
-            ref.child(user.getUid()).child("combates").push().setValue(combate);
+            Combate combate = new Combate(nombre);
+            FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).push().setValue(combate);
 
         }
         else{
             throw new Exception("Excemfasdf");
         }
+    }
+
+    public static void AnyadirRefPersonaje(String master,String combate,String usuario, Personaje p){
+
+        HashMap<String,Object> objeto = new HashMap<>();
+        objeto.put("usuariokey",usuario);
+        objeto.put("personajekey",p.getKey());
+
+        FireBaseUtils.getRef().child("combates").child(master).child(combate).child("ordenturno").push().setValue(objeto);
+        FireBaseUtils.getRef().child("publico").child(p.getKey()).child("combates").child("masterid").setValue(master);
+
     }
 
     public static String  getKey() {
@@ -152,11 +185,15 @@ public  class FireBaseUtils {
     public static void Borrar(){
         soyunico=null;
         datosUser=null;
+        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(null);
         key=null;
        setEstado(false);
 
     }
 
 
+    public static DatabaseReference GetCombates(String key){
+        return    FireBaseUtils.getRef().child("combates").child(key);
+    }
 
 }
