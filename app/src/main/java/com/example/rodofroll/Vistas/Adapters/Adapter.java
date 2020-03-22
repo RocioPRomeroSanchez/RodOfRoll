@@ -1,5 +1,6 @@
 package com.example.rodofroll.Vistas.Adapters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,12 +33,12 @@ public class Adapter extends RecyclerView.Adapter implements  View.OnClickListen
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,parent,false);
-       holder = new HolderCombatientes(v);
-       v.setOnClickListener(this);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,parent,false);
+        holder = new HolderCombatientes(v);
+        v.setOnClickListener(this);
 
 
-       return  holder;
+        return  holder;
     }
 
     @Override
@@ -68,13 +69,12 @@ public class Adapter extends RecyclerView.Adapter implements  View.OnClickListen
     {
         this.listenerimagen=listener;
     }
-
     public class HolderCombatientes extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView txtNombre;
         ImageView imagen;
         View.OnClickListener listener;
-
+        // MiInterfaz listenerinterfaz;;
 
 
         public HolderCombatientes(View itemView){
@@ -96,5 +96,4 @@ public class Adapter extends RecyclerView.Adapter implements  View.OnClickListen
             if(listener!= null) listener.onClick(v);
         }
     }
-
 }

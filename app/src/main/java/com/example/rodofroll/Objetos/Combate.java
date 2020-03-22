@@ -11,6 +11,11 @@ public class Combate {
     String key;
     List<PersonEnCombate> ordenTurno;
 
+    public Combate(String key, String nombre) {
+        this.nombre=nombre;
+        this.key=key;
+    }
+
     public String getKey() {
         return key;
     }
@@ -31,7 +36,7 @@ public class Combate {
     public Combate(String nombre) {
 
         this.nombre=nombre;
-        this.ordenTurno=ordenTurno;
+
 
     }
 
@@ -46,6 +51,13 @@ public class Combate {
 
         String personajekey;
         String usuariokey;
+        Long iniciativa;
+
+        public PersonEnCombate(String personajekey, String usuariokey,Long iniciativa) {
+            this.personajekey=personajekey;
+            this.usuariokey=usuariokey;
+            this.iniciativa=iniciativa;
+        }
 
 
         public String getPersonajekey() {
@@ -64,9 +76,13 @@ public class Combate {
             this.usuariokey = usuariokey;
         }
 
-        public PersonEnCombate(String key, String personajekey, String usuariokey) {
-            this.personajekey = personajekey;
-            this.usuariokey = usuariokey;
+
+        public Long getIniciativa() {
+            return iniciativa;
+        }
+
+        public void setIniciativa(Long iniciativa) {
+            this.iniciativa = iniciativa;
         }
 
 

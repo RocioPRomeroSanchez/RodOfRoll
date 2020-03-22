@@ -27,7 +27,6 @@ import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DialogoBuscarCombate extends DialogFragment {
 
@@ -94,6 +94,20 @@ public class DialogoBuscarCombate extends DialogFragment {
                     HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
 
                     Personaje p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
+
+                    HashMap<String,Object> combates = (HashMap<String, Object>)principal.get("combates");
+                    List<Personaje.CombatesAsociados> combatesAsociados= new ArrayList<>();
+                    if(combates!=null){
+                        for (Map.Entry<String,Object> s :combates.entrySet()) {
+                            String combateid = (String) ((HashMap<String,Object>)s.getValue()).get("combateid");
+                            String masterid = (String) ((HashMap<String,Object>)s.getValue()).get("masterid");
+                            combatesAsociados.add(new Personaje.CombatesAsociados(masterid,combateid));
+                        }
+                        p.setCombates(combatesAsociados);
+                    }
+
+
+
 
                     personajes.add(p);
                     nombres.add(p.getNombre());
@@ -229,8 +243,7 @@ public class DialogoBuscarCombate extends DialogFragment {
 
 
                         if(Validacion.ValidarEdit(TiradEditText)){
-                            FireBaseUtils.AnyadirRefPersonaje(master.getKey(),keycombat,FireBaseUtils.getKey(),personajes.get(personajespinner.getSelectedItemPosition()));
-                            Toast.makeText(getContext(),"Exito",Toast.LENGTH_LONG).show();
+                            FireBaseUtils.PersonajeIncluirCombate(getContext(),master.getKey(),keycombat,FireBaseUtils.getKey(),Integer.parseInt(ResultadoText.getText().toString()),personajes.get(personajespinner.getSelectedItemPosition()));
 
                         }
 

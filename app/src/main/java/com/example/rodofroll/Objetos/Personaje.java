@@ -11,11 +11,13 @@ import com.example.rodofroll.Firebase.FireBaseUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 public class Personaje extends Combatiente {
+
 
 
     String imagen;
@@ -26,31 +28,25 @@ public class Personaje extends Combatiente {
     String descripcion;
     Long level;
     Long exp;
-    List<String> combateid;
 
 
-
+    List<CombatesAsociados> combates= new ArrayList<>();
+    HashMap<String, Object> atributos;
+    HashMap<String, Object> biografia;
+    HashMap<String, Object> inventario;
     Dinero dinero;
     List<Cosa> cosas;
 
 
 
 
-    public String getMasterid() {
-        return masterid;
+    public List<CombatesAsociados> getCombates() {
+        return combates;
     }
 
-    public void setMasterid(String masterid) {
-        this.masterid = masterid;
+    public void setCombates(List<CombatesAsociados> combates) {
+        this.combates = combates;
     }
-
-    String masterid;
-
-
-
-    HashMap<String, Object> atributos;
-    HashMap<String, Object> biografia;
-    HashMap<String, Object> inventario;
 
     public String getKey() {
         return key;
@@ -364,9 +360,11 @@ public class Personaje extends Combatiente {
         String s ="hola";*/
     }
 
-   public class CombatesAsociados{
+   public static class CombatesAsociados{
        String masterkey;
        String combatekey;
+       Combate.PersonEnCombate personEnCombate;
+
        public String getMasterkey() {
            return masterkey;
        }
@@ -388,6 +386,7 @@ public class Personaje extends Combatiente {
         public CombatesAsociados(String masterkey, String combatekey) {
             this.masterkey = masterkey;
             this.combatekey = combatekey;
+
         }
     }
 

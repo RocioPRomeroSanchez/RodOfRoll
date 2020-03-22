@@ -1,10 +1,12 @@
 package com.example.rodofroll.Firebase;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.widget.Adapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.solver.widgets.Snapshot;
 
 import com.example.rodofroll.Objetos.Combate;
@@ -166,14 +168,34 @@ public  class FireBaseUtils {
         }
     }
 
-    public static void AnyadirRefPersonaje(String master,String combate,String usuario, Personaje p){
+    public static void PersonajeIncluirCombate(Context context, String master, String combate, String usuario,int iniciativa, Personaje p){
 
         HashMap<String,Object> objeto = new HashMap<>();
         objeto.put("usuariokey",usuario);
         objeto.put("personajekey",p.getKey());
+        objeto.put("iniciativa",iniciativa);
 
-        FireBaseUtils.getRef().child("combates").child(master).child(combate).child("ordenturno").push().setValue(objeto);
-        FireBaseUtils.getRef().child("publico").child(p.getKey()).child("combates").child("masterid").setValue(master);
+
+        boolean existe = false;
+        for(Personaje.CombatesAsociados combatesAsociados: p.getCombates()){
+            if(combatesAsociados.getCombatekey().equals(combate)& combatesAsociados.getMasterkey().equals(master)){
+                existe = true;
+                break;
+            }
+        }
+
+        if(!existe){
+            FireBaseUtils.getRef().child("combates").child(master).child(combate).child("ordenturno").push().setValue(objeto);
+            String id =  FireBaseUtils.getRef().child("key").push().getKey();
+            FireBaseUtils.getRef().child("publico").child(usuario).child("personajes").child(p.getKey()).child("combates").child(id).child("masterid").setValue(master);
+            FireBaseUtils.getRef().child("publico").child(usuario).child("personajes").child(p.getKey()).child("combates").child(id).child("combateid").setValue(combate);
+            Toast.makeText(context,"Exito",Toast.LENGTH_LONG).show();
+
+        }
+        else {
+            Toast.makeText(context,"Este personaje ya esta incluido en este combate", Toast.LENGTH_LONG).show();
+        }
+
 
     }
 

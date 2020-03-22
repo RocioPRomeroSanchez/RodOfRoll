@@ -54,17 +54,17 @@ public class CombateRecyclerFragment extends Fragment {
                 combateList.removeAll(combateList);
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     HashMap<String,Object> hashMap= (HashMap<String, Object>) snapshot.getValue();
-                    HashMap<String,Object> ordenTurnohas = (HashMap<String, Object>) hashMap.get("ordenturno");
-                    List<Combate.PersonEnCombate> personEnCombates=new ArrayList<>();
+                   // HashMap<String,Object> ordenTurnohas = (HashMap<String, Object>) hashMap.get("ordenturno");
+                //    List<Combate.PersonEnCombate> personEnCombates=new ArrayList<>();
 
-                    if(ordenTurnohas!=null) {
+                  /*  if(ordenTurnohas!=null) {
                         for (Map.Entry<String, Object> valor : ordenTurnohas.entrySet()) {
                             HashMap<String, Object> dic = (HashMap<String, Object>) valor.getValue();
                             Combate.PersonEnCombate persona = new Combate.PersonEnCombate(valor.getKey(),(String) dic.get("personajekey"), (String) dic.get("usuariokey"));
                             personEnCombates.add(persona);
                         }
-                    }
-                    Combate combate = new Combate(snapshot.getKey(),(String) hashMap.get("nombre"),personEnCombates);
+                    }*/
+                    Combate combate = new Combate(snapshot.getKey(),(String) hashMap.get("nombre"));
                     combateList.add(combate);
 
                 }
@@ -83,7 +83,10 @@ public class CombateRecyclerFragment extends Fragment {
             public void onClick(View v) {
                 int posicion=recyclerView.getChildAdapterPosition(v);
 
-                Toast.makeText(getContext(),"Hola"+posicion,Toast.LENGTH_LONG).show();
+
+                ((MainActivity)getActivity()).RemplazarFragment(new TurnoFragment(combateList.get(posicion)),true);
+
+
                /* FichaPersonajeFragment fichaPersonajeFragment= new FichaPersonajeFragment(personajes.get(posicion));
                 ((MainActivity)getActivity()).RemplazarFragment(fichaPersonajeFragment,true);*/
             }
