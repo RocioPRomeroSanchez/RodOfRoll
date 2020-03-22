@@ -48,8 +48,6 @@ public class TurnoFragment extends Fragment {
                 personajeEnCombateoList.removeAll(personajeEnCombateoList);
 
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-
-
                         HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
 
                         Combate.PersonEnCombate persona = new Combate.PersonEnCombate((String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"));
