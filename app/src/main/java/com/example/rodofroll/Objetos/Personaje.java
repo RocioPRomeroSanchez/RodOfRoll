@@ -37,7 +37,10 @@ public class Personaje extends Combatiente {
     Dinero dinero;
     List<Cosa> cosas;
 
+    public Personaje() {
 
+        nombre="";
+    }
 
 
     public List<CombatesAsociados> getCombates() {
@@ -291,7 +294,7 @@ public class Personaje extends Combatiente {
         atributos.put("velocidad", velocidad);
         atributos.put("fuerza",fuerza);
         atributos.put("destreza",destreza);
-        atributos.put("concentracion",concentracion);
+        atributos.put("carisma",carisma);
         atributos.put("inteligencia",inteligencia);
         atributos.put("sabiduria",sabiduria);
         atributos.put("concentracion",concentracion);

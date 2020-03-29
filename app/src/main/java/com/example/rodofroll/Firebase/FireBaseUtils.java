@@ -137,6 +137,10 @@ public  class FireBaseUtils {
        return    FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).child("personajes");
     }
 
+    static public DatabaseReference GetPersonajeRef(String usuariokey,String personajekey){
+        return    FireBaseUtils.getRef().child("publico").child(usuariokey).child("personajes").child(personajekey);
+    }
+
        static public void AnyadirCombatiente(Personaje c) throws Exception {
            if(soyunico!=null) {
 
@@ -174,6 +178,8 @@ public  class FireBaseUtils {
         objeto.put("usuariokey",usuario);
         objeto.put("personajekey",p.getKey());
         objeto.put("iniciativa",iniciativa);
+        objeto.put("turno",false);
+        objeto.put("avisar",false);
 
 
         boolean existe = false;

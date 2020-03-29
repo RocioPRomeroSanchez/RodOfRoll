@@ -44,8 +44,6 @@ public class Adapter extends RecyclerView.Adapter implements  View.OnClickListen
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Personaje p=personajes.get(position);
-
-
         ((HolderCombatientes)holder).bind(p);
     }
 

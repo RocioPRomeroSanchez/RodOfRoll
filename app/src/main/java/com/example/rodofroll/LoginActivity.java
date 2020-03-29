@@ -63,7 +63,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
     FirebaseAuth auth=FirebaseAuth.getInstance();
 
     ImageView imageView;
-    LinearLayout marco;
+
     Dialog dialog;
 
 
@@ -84,13 +84,13 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
         passTextLayout = findViewById(R.id.passlayout);
         pass2TextLayout = findViewById(R.id.pass2layout);
         imageView = findViewById(R.id.UserimageView);
-        marco= findViewById(R.id.marcoimagen);
+
 
 
         pass2TextLayout.setVisibility(View.GONE);
         apodoTextLayout.setVisibility(View.GONE);
         imageView.setVisibility(View.GONE);
-        marco.setVisibility(View.GONE);
+
 
         emailEditText = findViewById(R.id.emaileditext);
         apodoEditText = findViewById(R.id.apodoeditext);
@@ -137,7 +137,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                     pass2TextLayout.setVisibility(View.VISIBLE);
                     apodoTextLayout.setVisibility(View.VISIBLE);
                     imageView.setVisibility(View.VISIBLE);
-                    marco.setVisibility(View.VISIBLE);
+
                     pass2TextLayout.setPasswordVisibilityToggleEnabled(true);
                     b.setText(R.string.Registrarse);
                     acceso= Acceso.Registrarse;
@@ -152,7 +152,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                     pass2EditText.setError(null);
                     pass2EditText.setText(null);
                     acceso= Acceso.Login;
-                    marco.setVisibility(View.GONE);
+
 
                 }
                 break;
@@ -161,15 +161,14 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
                 closeTecladoMovil();
                 boolean boolpass =true;
-               passTextLayout.setPasswordVisibilityToggleEnabled(false);
-               pass2TextLayout.setPasswordVisibilityToggleEnabled(false);
+
 
                 if (acceso==Acceso.Registrarse) {
 
-                   boolpass= Validacion.ValidarDosEdit(pass2EditText,passEditText)&Validacion.ValidarEdit(apodoEditText);
+                   boolpass= Validacion.ValidarDosEdit(pass2EditText, pass2TextLayout,passEditText,passTextLayout)&Validacion.ValidarEdit(apodoEditText,apodoTextLayout);
 
                 }
-                if(Validacion.ValidarEdit(emailEditText)&Validacion.ValidarEdit(passEditText)&&boolpass){
+                if(Validacion.ValidarEdit(emailEditText,emailTextLayout)&Validacion.ValidarEdit(passEditText,passTextLayout)&&boolpass){
 
                     if(acceso==Acceso.Registrarse){
                         try {
@@ -292,7 +291,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
                    Snackbar.make(view,ErroresAuth(task.getException()), Snackbar.LENGTH_LONG)
                             .show();
-                    emailTextLayout.setPasswordVisibilityToggleEnabled(true);
                     passTextLayout.setPasswordVisibilityToggleEnabled(true);
 
                 }
@@ -325,51 +323,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
     }
 
-
-    public void CrearsAlertDialog(){
-
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-        LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
-        final View myView = inflater.inflate(R.layout.elegirolayout, null);
-
-        final Spinner spin = myView.findViewById(R.id.elecrolnspinner);
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.roles, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spin.setAdapter(adapter);
-
-        Button button =myView.findViewById(R.id.aceptarrolbutton);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if(spin.getSelectedItemPosition()==0){
-                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                 //   intent.putExtra("rol",0);
-                    startActivity(intent);
-
-
-                }
-                else{
-                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                  //  intent.putExtra("rol",1);
-                    startActivity(intent);
-
-                }
-
-
-
-
-            }
-        });
-        dialogBuilder.setView(myView);
-       dialog= dialogBuilder.show();
-
-
-
-    }
 
     public String ErroresAuth(Exception f){
 
@@ -404,11 +357,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
     protected void onDestroy() {
         super.onDestroy();
 
-      /*  if(dialog!=null){
-            dialog.dismiss();
-            dialog=null;
-        }
-*/
 
     }
 
@@ -426,8 +374,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                             return;
 
                         }
-
-                        // Get new Instance ID token
                         final String token = task.getResult().getToken();
 
 
@@ -438,16 +384,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                String token1 = (String) dataSnapshot.getValue();
                                 FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
-                                       //FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
-                               /* if(token1==null|| token.equals(token1)){
-
-                                    FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
-                                    CrearsAlertDialog();
-                                }
-                                else{
-                                        Snackbar.make(view,"No ha cerrado la sesion en otro dispositivo", Snackbar.LENGTH_LONG).show();
-                                }
-*/
                             }
 
                             @Override
