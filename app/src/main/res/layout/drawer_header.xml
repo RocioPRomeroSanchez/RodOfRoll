@@ -3,37 +3,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@android:color/black"
     android:layout_height="match_parent"
     android:id="@+id/background">
 
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="274dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/imgfondo"
-            android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:src="@drawable/rolfondo" />
+            android:layout_width="256dp"
+            android:layout_height="261dp"
+            android:layout_gravity="center|top"
+            android:src="@drawable/ic_caduceo" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="100dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+
+            >
+
             <ImageView
                 android:id="@+id/usuarioimagen"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/basura" />
+                android:layout_height="50dp" />
 
             <TextView
                 android:id="@+id/identiftextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+
 
                 android:text="jasdf"
                 android:textColor="@color/colorAccent"
@@ -41,8 +45,6 @@
 
 
         </LinearLayout>
-
-
 
 
     </FrameLayout>

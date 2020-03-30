@@ -35,7 +35,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener {
 
     Combate combate;
     ImageButton turnobutton;
-    List<Combate.PersonEnCombate> personajeEnCombateoList;
+    List<Combate.PersonEnCombate> personajeEnCombateoList=new ArrayList<Combate.PersonEnCombate>();
     TextView ronda;
 
     DatabaseReference refronda;
@@ -157,7 +157,10 @@ public class TurnoFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.turnobutton:
-                PasarTurno(personajeEnCombateoList,combate);
+                if(personajeEnCombateoList.size()!=0){
+                    PasarTurno(personajeEnCombateoList,combate);
+                }
+
                 break;
 
             case R.id.rondatextView:

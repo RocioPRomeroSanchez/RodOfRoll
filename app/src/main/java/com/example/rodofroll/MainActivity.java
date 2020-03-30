@@ -116,7 +116,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         };
 
 
-        AsynTarea tarea = null;
+        tarea = null;
         try {
             tarea = new AsynTarea(listener, fragmentManager);
         } catch (InterruptedException e) {
@@ -330,7 +330,11 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         FireBaseUtils.Borrar();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        tarea.cancel(true);
+    }
 }
 
 

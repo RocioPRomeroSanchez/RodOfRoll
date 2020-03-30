@@ -73,11 +73,15 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
     }
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        setTheme(R.style.AppTheme);
 
         emailTextLayout = findViewById(R.id.emaillayout);
         apodoTextLayout = findViewById(R.id.apodolayout);

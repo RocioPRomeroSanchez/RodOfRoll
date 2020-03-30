@@ -39,7 +39,7 @@ public  class FireBaseUtils {
 
 
 
-    static private boolean estado;
+    static private boolean estado=false;
 
 
     public synchronized static void setEstado(boolean estado) {

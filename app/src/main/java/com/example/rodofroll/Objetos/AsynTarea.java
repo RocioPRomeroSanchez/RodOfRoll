@@ -61,6 +61,7 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
         do{
              tiempo = (double) ((System.currentTimeMillis() - inicio)/1000);
 
+
         }while (!FireBaseUtils.isEstado()&&tiempo<20);
 
         if(tiempo>=20){
@@ -68,6 +69,7 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
 
         }
 
+        //Espera 3 segundos a que cargue la app
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
