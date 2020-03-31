@@ -73,14 +73,14 @@ public class Combate {
         String usuariokey;
         Long iniciativa;
         Boolean turno;
-        String key="";
+        String keyprincipal;
 
         public Boolean getTurno() {
             return turno;
         }
 
         public void setTurno(final Boolean turno1,Combate combate) {
-           final Query q = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("personajekey").equalTo(this.personajekey);
+           /*final Query q = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("personajekey").equalTo(this.personajekey);
 
 
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -98,13 +98,12 @@ public class Combate {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            });
+            });*/
 
-
-
-
-
+           FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(keyprincipal).child("turno").setValue(turno1);
+           turno=turno1;
         }
+
 
         public Boolean getAvisar() {
             return avisar;
@@ -116,12 +115,13 @@ public class Combate {
 
         Boolean avisar;
 
-        public PersonEnCombate(String personajekey, String usuariokey,Long iniciativa, Boolean turno, Boolean avisar) {
+        public PersonEnCombate(String key, String personajekey, String usuariokey, Long iniciativa, Boolean turno, Boolean avisar) {
             this.personajekey=personajekey;
             this.usuariokey=usuariokey;
             this.iniciativa=iniciativa;
             this.turno=turno;
             this.avisar=avisar;
+            this.keyprincipal=key;
         }
 
 
@@ -151,5 +151,8 @@ public class Combate {
         }
 
 
+        public void Avisar(Combate combate) {
+            FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(this.keyprincipal).child("avisar").setValue(true);
+        }
     }
 }

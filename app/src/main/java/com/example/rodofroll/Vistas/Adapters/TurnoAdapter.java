@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.Objetos.Combate;
+import com.example.rodofroll.Objetos.ImagenAdapterClick;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +38,7 @@ public class TurnoAdapter extends RecyclerView.Adapter {
     HolderPersonajesCombate holder;
     Combate combate;
     Context context;
+    ImagenAdapterClick listenerimagen;
 
     public TurnoAdapter(Context context,List<Combate.PersonEnCombate> personajeEnCombateoList,Combate combate) {
 
@@ -52,7 +54,15 @@ public class TurnoAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardviewturno,parent,false);
         holder = new TurnoAdapter.HolderPersonajesCombate(v);
+        holder.setClickBtnImagen(new ImagenAdapterClick() {
+            @Override
+            public void onImagenClick(Combate.PersonEnCombate personEnCombate) {
+                listenerimagen.onImagenClick(personEnCombate);
+            }
+        });
 
+
+     
         return  holder;
     }
 
@@ -63,8 +73,6 @@ public class TurnoAdapter extends RecyclerView.Adapter {
         int numero = Math.abs(position-(personajeEnCombateoList.size()-1));
 
        Combate.PersonEnCombate p=personajeEnCombateoList.get(numero);
-
-
         ((HolderPersonajesCombate)holder).bind(p,context);
     }
 
@@ -75,11 +83,20 @@ public class TurnoAdapter extends RecyclerView.Adapter {
         return personajeEnCombateoList.size();
     }
 
-    class HolderPersonajesCombate extends RecyclerView.ViewHolder{
+    public void setClickBtnImagen(ImagenAdapterClick listener) {
+        if(listener!=null){
+            listenerimagen=listener;
+        }
+    }
+
+    class HolderPersonajesCombate extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView txtNombre;
         ImageView imagenavisar;
         LinearLayout linearLayout;
+        ImagenAdapterClick imagenAdapterClick;
         Personaje per=new Personaje();
+        Combate.PersonEnCombate personEnCombate;
+
 
 
         public HolderPersonajesCombate(@NonNull View itemView) {
@@ -87,6 +104,7 @@ public class TurnoAdapter extends RecyclerView.Adapter {
             txtNombre=itemView.findViewById(R.id.textView);
             linearLayout=itemView.findViewById(R.id.linearlayout);
             imagenavisar=itemView.findViewById(R.id.AvisarImagen);
+            imagenavisar.setOnClickListener(this);
 
 
         }
@@ -100,6 +118,7 @@ public class TurnoAdapter extends RecyclerView.Adapter {
                 linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
                 imagenavisar.setVisibility(View.INVISIBLE);
             }
+            personEnCombate=p;
             FireBaseUtils.GetPersonajeRef(p.getUsuariokey(),p.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,10 +133,19 @@ public class TurnoAdapter extends RecyclerView.Adapter {
 
                 }
             });
+        }
 
 
+        @Override
+        public void onClick(View v) {
+            if(imagenAdapterClick!=null) imagenAdapterClick.onImagenClick(personEnCombate);
 
+        }
 
+        public void setClickBtnImagen(ImagenAdapterClick listener) {
+            if(listener!=null){
+                this.imagenAdapterClick=listener;
+            }
         }
     }
 

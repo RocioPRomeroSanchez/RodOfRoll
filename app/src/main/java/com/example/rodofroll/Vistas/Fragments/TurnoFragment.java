@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.Objetos.Combate;
+import com.example.rodofroll.Objetos.ImagenAdapterClick;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Adapters.TurnoAdapter;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
@@ -86,7 +88,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                         HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
 
-                        Combate.PersonEnCombate persona = new Combate.PersonEnCombate((String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"));
+                        Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"));
                         personajeEnCombateoList.add(persona);
 
                     }
@@ -101,6 +103,13 @@ public class TurnoFragment extends Fragment implements View.OnClickListener {
 
             }
 
+        });
+
+        adapter.setClickBtnImagen(new ImagenAdapterClick() {
+            @Override
+            public void onImagenClick(Combate.PersonEnCombate personEnCombate) {
+                personEnCombate.Avisar(combate);
+            }
         });
 
         recyclerView.setAdapter(adapter);
