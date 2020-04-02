@@ -1,6 +1,7 @@
 package com.example.rodofroll;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Objetos.AppKilledService;
 import com.example.rodofroll.Objetos.AsynTarea;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.ConversorImagenes;
@@ -166,7 +169,9 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
     }*/
 
 
+
     public void CrearMenus(int tipomenu) {
+        startService(new Intent(getApplicationContext(), AppKilledService.class));
         Toolbar toolbar = findViewById(R.id.toolbar);
 
 
@@ -259,6 +264,8 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
                 break;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
+
+                FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(null);
 
                 Intent intent = new Intent(this, LoginActivity.class);
 

@@ -28,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:text="Aragorn"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
                 android:textStyle="bold">
@@ -51,7 +50,7 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/PersonajeimageView"
 
                         android:layout_width="100dp"
                         android:layout_height="80dp"
@@ -88,13 +87,12 @@
                         </ImageView>
 
                         <TextView
-                            android:id="@+id/VidaTexddtVsiew"
+                            android:id="@+id/VidaTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
                             android:layout_gravity="center"
                             android:fontFamily="cursive"
-                            android:text="120/12300"
                             android:textAlignment="center"
 
 
@@ -125,13 +123,12 @@
                         </ImageView>
 
                         <TextView
-                            android:id="@+id/VidaTexddsstVsiew"
+                            android:id="@+id/CATextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
                             android:layout_gravity="center"
                             android:fontFamily="cursive"
-                            android:text="120/12300"
                             android:textAlignment="center"
 
 
@@ -181,7 +178,7 @@
 
 
                             android:gravity="center"
-                            android:text="2"
+                            android:text="0"
                             android:textSize="15sp">
 
                         </TextView>
@@ -208,14 +205,14 @@
                         android:padding="7dp">
 
                         <TextView
-                            android:id="@+id/IniciativafTextView"
+                            android:id="@+id/AtaqueBaseTextView"
                             android:layout_width="20sp"
                             android:layout_height="20sp"
                             android:background="@color/colorPrimary"
 
 
                             android:gravity="center"
-                            android:text="2"
+                            android:text="0"
                             android:textSize="15sp">
 
                         </TextView>
@@ -241,14 +238,14 @@
                         android:padding="7dp">
 
                         <TextView
-                            android:id="@+id/IniciastivaTextView"
+                            android:id="@+id/VelocidadTextView"
                             android:layout_width="20sp"
                             android:layout_height="20sp"
                             android:background="@color/colorPrimary"
 
 
                             android:gravity="center"
-                            android:text="2"
+                            android:text="0"
                             android:textSize="15sp">
 
                         </TextView>

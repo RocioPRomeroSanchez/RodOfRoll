@@ -366,7 +366,7 @@ public class Personaje extends Combatiente {
    public static class CombatesAsociados{
        String masterkey;
        String combatekey;
-       Combate.PersonEnCombate personEnCombate;
+       int vida;
 
        public String getMasterkey() {
            return masterkey;

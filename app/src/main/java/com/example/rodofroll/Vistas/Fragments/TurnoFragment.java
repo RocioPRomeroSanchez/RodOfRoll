@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.Objetos.Combate;
+import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.ImagenAdapterClick;
+import com.example.rodofroll.Objetos.InicializarVistas;
+import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Adapters.TurnoAdapter;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
@@ -33,14 +37,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
-public class TurnoFragment extends Fragment implements View.OnClickListener {
+public class TurnoFragment extends Fragment implements View.OnClickListener , InicializarVistas {
 
     Combate combate;
     ImageButton turnobutton;
     List<Combate.PersonEnCombate> personajeEnCombateoList=new ArrayList<Combate.PersonEnCombate>();
     TextView ronda;
-
+    RecyclerView recyclerView;
     DatabaseReference refronda;
+    ImageView personajeImageView;
+    TextView nombreTextView;
+    TextView vidaTextView;
+    TextView caTextView;
+    TextView iniciativaTextView;
+    TextView ataqueBaseTextView;
+    TextView velociadTextView;
+
+
 
 
     public TurnoFragment(Combate combate){
@@ -52,13 +65,10 @@ public class TurnoFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.combatturnos, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        ronda  = view.findViewById(R.id.rondatextView);
-        ronda.setOnClickListener(this);
 
+        InicializarComponentes(view);
         Query ref = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("iniciativa");
         refronda = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda");
-
         refronda.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -72,49 +82,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        turnobutton=view.findViewById(R.id.turnobutton);
-       turnobutton.setOnClickListener(this);
-
-
-
-        personajeEnCombateoList=new ArrayList<>();
-        final TurnoAdapter adapter = new TurnoAdapter(getContext(),personajeEnCombateoList,combate);
-
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                personajeEnCombateoList.removeAll(personajeEnCombateoList);
-
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                        HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
-
-                        Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"));
-                        personajeEnCombateoList.add(persona);
-
-                    }
-
-                adapter.notifyDataSetChanged();
-
-
-                }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        });
-
-        adapter.setClickBtnImagen(new ImagenAdapterClick() {
-            @Override
-            public void onImagenClick(Combate.PersonEnCombate personEnCombate) {
-                personEnCombate.Avisar(combate);
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        ComportamientoRecycler();
 
         return view;
 
@@ -173,8 +141,6 @@ public class TurnoFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.rondatextView:
-                //TextView view,int limite,Object object,Function function, Activity activity
-
 
                 DialogoCambiarDatos.newInstance((TextView) v,100,null,  FuncionRonda(),getActivity()).show(getFragmentManager(),"Ronda");
                 break;
@@ -199,5 +165,101 @@ public class TurnoFragment extends Fragment implements View.OnClickListener {
         };
         return f;
 
+    }
+
+    @Override
+    public void InicializarComponentes(View view) {
+        recyclerView = view.findViewById(R.id.recyclerView);
+        ronda  = view.findViewById(R.id.rondatextView);
+
+        personajeImageView = view.findViewById(R.id.PersonajeimageView);
+        nombreTextView = view.findViewById(R.id.NombreText);
+        vidaTextView = view.findViewById(R.id.VidaTextView);
+        caTextView = view.findViewById(R.id.CATextView);
+        iniciativaTextView = view.findViewById(R.id.IniciativaTextView);
+        ataqueBaseTextView = view.findViewById(R.id.AtaqueBaseTextView);
+        velociadTextView = view.findViewById(R.id.VelocidadTextView);
+
+        ronda.setOnClickListener(this);
+        turnobutton=view.findViewById(R.id.turnobutton);
+        turnobutton.setOnClickListener(this);
+
+        personajeEnCombateoList= new ArrayList<>();
+
+    }
+
+    public void SeleccionPersonaje(Combate.PersonEnCombate personEnCombate){
+        FireBaseUtils.getRef().child("publico").child(personEnCombate.getUsuariokey()).child("personajes").child(personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap principal = (HashMap) dataSnapshot.getValue();
+                Personaje p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), dataSnapshot.getKey());
+                nombreTextView.setText(p.getNombre());
+                personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
+                vidaTextView.setText(String.valueOf(p.getVida()));
+                caTextView.setText(String.valueOf(p.getArmadura()));
+                iniciativaTextView.setText(String.valueOf(p.getIniciativa()));
+                ataqueBaseTextView.setText(String.valueOf((p.getAtaque())));
+                velociadTextView.setText(String.valueOf(p.getVelocidad()));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public void ComportamientoRecycler(){
+        Query ref = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("iniciativa");
+        personajeEnCombateoList=new ArrayList<>();
+        final TurnoAdapter adapter = new TurnoAdapter(getContext(),personajeEnCombateoList,combate);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                personajeEnCombateoList.removeAll(personajeEnCombateoList);
+
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
+                    Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"));
+                    personajeEnCombateoList.add(persona);
+
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+        adapter.setClickBtnImagen(new ImagenAdapterClick() {
+            @Override
+            public void onImagenClick(Combate.PersonEnCombate personEnCombate) {
+                Toast.makeText(getContext(),"Avisando..."+personEnCombate.getIniciativa(), Toast.LENGTH_SHORT).show();
+                personEnCombate.Avisar(combate);
+            }
+        });
+        adapter.setOnClickCortoListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int posicion=recyclerView.getChildAdapterPosition(v);
+                Combate.PersonEnCombate p = personajeEnCombateoList.get(personajeEnCombateoList.size()-1-posicion);
+
+
+                //Metodo que coloque las cosas en su sitio
+
+                SeleccionPersonaje(p);
+
+                Toast.makeText(getContext(),"Seleccionando..."+p.getIniciativa(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
     }
 }

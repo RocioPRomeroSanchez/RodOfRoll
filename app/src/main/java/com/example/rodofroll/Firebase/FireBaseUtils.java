@@ -35,7 +35,17 @@ public  class FireBaseUtils {
    static DatabaseReference ref;
    private static FireBaseUtils soyunico;
    private static FirebaseUser user;
-   static String key=null;
+   private static String key=null;
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        FireBaseUtils.token = token;
+    }
+
+    private static String token=null;
 
 
 
@@ -96,11 +106,12 @@ public  class FireBaseUtils {
 
     public static void  GetDatosUsuario(){
 
-         FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("id").addListenerForSingleValueEvent(new ValueEventListener()
+         FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                key = ( dataSnapshot.getValue(String.class));
+                key =  (String)dataSnapshot.child("id").getValue();
+                token =(String)dataSnapshot.child("token").getValue();
 
                 FireBaseUtils.getRef().child("publico").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -211,11 +222,16 @@ public  class FireBaseUtils {
 
 
     public static void Borrar(){
-        soyunico=null;
-        datosUser=null;
-        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(null);
-        key=null;
-       setEstado(false);
+
+        if(FireBaseUtils.getUser()!=null){
+            soyunico = null;
+            datosUser = null;
+            key = null;
+            setEstado(false);
+
+        }
+
+
 
     }
 

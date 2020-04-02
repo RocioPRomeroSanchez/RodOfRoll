@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Objetos.AppKilledService;
 import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.Objetos.Validacion;
@@ -82,6 +83,8 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setTheme(R.style.AppTheme);
+
+
 
         emailTextLayout = findViewById(R.id.emaillayout);
         apodoTextLayout = findViewById(R.id.apodolayout);
@@ -226,7 +229,10 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                            @Override
                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
 
-                               FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+
+                               AddDevice(view);
+
+                            /*   FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
                                    @Override
                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -242,7 +248,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                    }
-                               });
+                               });*/
                            }
                        });
                    }
@@ -285,9 +291,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
                     AddDevice(view);
 
-                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
 
-                    startActivity(intent);
 
 
                 }
@@ -382,7 +386,12 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
 
                         FireBaseUtils.CrearRef();
-                        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+                        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
+                        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+
+                        startActivity(intent);
+
+                      /*  FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
 
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -396,7 +405,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                             }
 
 
-                            });
+                            });*/
 
                     }
                 });

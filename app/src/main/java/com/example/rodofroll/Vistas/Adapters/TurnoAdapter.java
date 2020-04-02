@@ -32,13 +32,14 @@ import java.util.Stack;
 
 import static com.example.rodofroll.Objetos.ConversorImagenes.convertirStringBitmap;
 
-public class TurnoAdapter extends RecyclerView.Adapter {
+public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickListener {
 
     List<Combate.PersonEnCombate> personajeEnCombateoList=new ArrayList<>();
     HolderPersonajesCombate holder;
     Combate combate;
     Context context;
     ImagenAdapterClick listenerimagen;
+    View.OnClickListener listenercorto;
 
     public TurnoAdapter(Context context,List<Combate.PersonEnCombate> personajeEnCombateoList,Combate combate) {
 
@@ -61,6 +62,8 @@ public class TurnoAdapter extends RecyclerView.Adapter {
             }
         });
 
+       v.setOnClickListener(this);
+
 
      
         return  holder;
@@ -68,8 +71,6 @@ public class TurnoAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-
         int numero = Math.abs(position-(personajeEnCombateoList.size()-1));
 
        Combate.PersonEnCombate p=personajeEnCombateoList.get(numero);
@@ -88,9 +89,19 @@ public class TurnoAdapter extends RecyclerView.Adapter {
             listenerimagen=listener;
         }
     }
+    @Override
+    public void onClick(View v) {
+        if(listenercorto!=null)listenercorto.onClick(v);
+    }
+
+    public void setOnClickCortoListener(View.OnClickListener listener)
+    {
+        this.listenercorto=listener;
+    }
 
     class HolderPersonajesCombate extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView txtNombre;
+        TextView txtIniciativa;
         ImageView imagenavisar;
         LinearLayout linearLayout;
         ImagenAdapterClick imagenAdapterClick;
@@ -105,6 +116,7 @@ public class TurnoAdapter extends RecyclerView.Adapter {
             linearLayout=itemView.findViewById(R.id.linearlayout);
             imagenavisar=itemView.findViewById(R.id.AvisarImagen);
             imagenavisar.setOnClickListener(this);
+            txtIniciativa=itemView.findViewById(R.id.IniciativatextView);
 
 
         }
@@ -125,7 +137,9 @@ public class TurnoAdapter extends RecyclerView.Adapter {
                     HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
 
                   per= new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
-                    txtNombre.setText(per.getNombre()+" "+p.getIniciativa());
+                  txtNombre.setText(per.getNombre());
+                  txtIniciativa.setText(p.getIniciativa().toString());
+
                 }
 
                 @Override
