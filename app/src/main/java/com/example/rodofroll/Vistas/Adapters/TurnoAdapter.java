@@ -75,9 +75,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
        Combate.PersonEnCombate p=personajeEnCombateoList.get(numero);
         ((HolderPersonajesCombate)holder).bind(p,context);
     }
-
-
-
+    
     @Override
     public int getItemCount() {
         return personajeEnCombateoList.size();
