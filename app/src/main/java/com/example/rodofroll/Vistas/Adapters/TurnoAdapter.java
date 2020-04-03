@@ -1,9 +1,6 @@
 package com.example.rodofroll.Vistas.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +8,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.Objetos.Combate;
-import com.example.rodofroll.Objetos.ImagenAdapterClick;
+import com.example.rodofroll.Objetos.ElementoAdapterClick;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.google.firebase.database.DataSnapshot;
@@ -28,9 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
-
-import static com.example.rodofroll.Objetos.ConversorImagenes.convertirStringBitmap;
 
 public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickListener {
 
@@ -38,8 +30,9 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
     HolderPersonajesCombate holder;
     Combate combate;
     Context context;
-    ImagenAdapterClick listenerimagen;
+    ElementoAdapterClick listenerimagen;
     View.OnClickListener listenercorto;
+    ElementoAdapterClick listeneriniciativa;
 
     public TurnoAdapter(Context context,List<Combate.PersonEnCombate> personajeEnCombateoList,Combate combate) {
 
@@ -55,10 +48,16 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardviewturno,parent,false);
         holder = new TurnoAdapter.HolderPersonajesCombate(v);
-        holder.setClickBtnImagen(new ImagenAdapterClick() {
+        holder.setClickBtnImagen(new ElementoAdapterClick() {
             @Override
-            public void onImagenClick(Combate.PersonEnCombate personEnCombate) {
-                listenerimagen.onImagenClick(personEnCombate);
+            public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
+                listenerimagen.onElementoClick(personEnCombate);
+            }
+        });
+        holder.setClickBtnIniciativa(new ElementoAdapterClick() {
+            @Override
+            public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
+                listeneriniciativa.onElementoClick(personEnCombate);
             }
         });
 
@@ -84,9 +83,15 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
         return personajeEnCombateoList.size();
     }
 
-    public void setClickBtnImagen(ImagenAdapterClick listener) {
+    public void setClickBtnImagen(ElementoAdapterClick listener) {
         if(listener!=null){
             listenerimagen=listener;
+        }
+    }
+
+    public void setClicBtnIniciativa(ElementoAdapterClick listener){
+        if(listener!=null){
+            listeneriniciativa=listener;
         }
     }
     @Override
@@ -103,8 +108,11 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
         TextView txtNombre;
         TextView txtIniciativa;
         ImageView imagenavisar;
-        LinearLayout linearLayout;
-        ImagenAdapterClick imagenAdapterClick;
+        LinearLayout bordelayout;
+        LinearLayout iniciativalayout;
+        ElementoAdapterClick imagenAdapterClick;
+        ElementoAdapterClick iniciativaAdapterClick;
+
         Personaje per=new Personaje();
         Combate.PersonEnCombate personEnCombate;
 
@@ -113,9 +121,12 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
         public HolderPersonajesCombate(@NonNull View itemView) {
             super(itemView);
             txtNombre=itemView.findViewById(R.id.textView);
-            linearLayout=itemView.findViewById(R.id.linearlayout);
+            bordelayout =itemView.findViewById(R.id.bordelayout);
             imagenavisar=itemView.findViewById(R.id.AvisarImagen);
+            iniciativalayout = itemView.findViewById(R.id.IniciativaLayout);
             imagenavisar.setOnClickListener(this);
+            iniciativalayout.setOnClickListener(this);
+
             txtIniciativa=itemView.findViewById(R.id.IniciativatextView);
 
 
@@ -123,11 +134,11 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
         public void bind(final Combate.PersonEnCombate p, Context context) {
 
             if(p.getTurno()){
-                linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+                bordelayout.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
                 imagenavisar.setVisibility(View.VISIBLE);
             }
             else{
-                linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
+                bordelayout.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
                 imagenavisar.setVisibility(View.INVISIBLE);
             }
             personEnCombate=p;
@@ -152,13 +163,29 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
 
         @Override
         public void onClick(View v) {
-            if(imagenAdapterClick!=null) imagenAdapterClick.onImagenClick(personEnCombate);
+            switch (v.getId()){
+                case R.id.AvisarImagen:
+                    if(imagenAdapterClick !=null) imagenAdapterClick.onElementoClick(personEnCombate);
+                    break;
+
+                case R.id.IniciativaLayout:
+                    if(iniciativaAdapterClick!=null)  iniciativaAdapterClick.onElementoClick(personEnCombate);
+                    break;
+
+            }
+
 
         }
 
-        public void setClickBtnImagen(ImagenAdapterClick listener) {
+        public void setClickBtnImagen(ElementoAdapterClick listener) {
             if(listener!=null){
-                this.imagenAdapterClick=listener;
+                this.imagenAdapterClick =listener;
+            }
+        }
+
+        public void setClickBtnIniciativa(ElementoAdapterClick listener){
+            if(listener!=null){
+                this.iniciativaAdapterClick=listener;
             }
         }
     }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rodofroll.Firebase.FireBaseUtils;
 import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.ConversorImagenes;
-import com.example.rodofroll.Objetos.ImagenAdapterClick;
+import com.example.rodofroll.Objetos.ElementoAdapterClick;
 import com.example.rodofroll.Objetos.InicializarVistas;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
@@ -35,8 +34,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
 
+
+//Es una clase Fragment que esta vinculada al funcionamiento del layout correspondeinte a los turnos de un combate
 public class TurnoFragment extends Fragment implements View.OnClickListener , InicializarVistas {
 
     Combate combate;
@@ -52,26 +52,33 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
     TextView iniciativaTextView;
     TextView ataqueBaseTextView;
     TextView velociadTextView;
+    Query ref;
+    ValueEventListener listenerrecycler;
 
 
 
 
+    //Constructor del Fragment requiere de un objeto Combate
     public TurnoFragment(Combate combate){
         this.combate=combate;
 
     }
     @Nullable
     @Override
+    //Método que ocurre al crear la vista
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.combatturnos, container, false);
 
+        //Llamamos al metodo que inicializa los elementos de la vista
         InicializarComponentes(view);
-        Query ref = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("iniciativa");
+
+         //Creamos un escuchador que escucha una vez y obtiente el numero de rondas que tiene ese combate
         refronda = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda");
-        refronda.addValueEventListener(new ValueEventListener() {
+        refronda.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //al cambiar cambiaremos el valor del textView de la ronda
                 combate.setRonda((int)(long)dataSnapshot.getValue());
                 ronda.setText(String.valueOf(combate.getRonda()));
             }
@@ -82,6 +89,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
             }
         });
 
+        //Llamamos al metodo que define el comportamiento de nuestro recycler
         ComportamientoRecycler();
 
         return view;
@@ -89,84 +97,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
 
 
     }
-
-    public void PasarTurno(List<Combate.PersonEnCombate> personajeEnCombateoList,Combate combate){
-
-            boolean todosfalso= true;
-            Combate.PersonEnCombate pos=null;
-            int posi=0;
-            for(int i =0;i<personajeEnCombateoList.size();i++){
-                if(personajeEnCombateoList.get(i).getTurno()){
-                    todosfalso=false;
-                    pos=personajeEnCombateoList.get(i);
-                    posi = i;
-                }
-            }
-            if(todosfalso){
-                personajeEnCombateoList.get(personajeEnCombateoList.size()-1).setTurno(true, combate);
-                FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(1);
-
-
-            }
-            else{
-
-                personajeEnCombateoList.get(posi).setTurno(false, combate);
-                if(posi==0){
-                    personajeEnCombateoList.get(personajeEnCombateoList.size()-1).setTurno(true, combate);
-                    int ronda = combate.getRonda();
-                    ronda++;
-                    FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(ronda);
-
-                   // ronda++;
-                }
-                else{
-
-                    personajeEnCombateoList.get(posi-1 ).setTurno(true, combate);
-                }
-
-               // pos.get(0).setTurno(true,combate);
-
-            }
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.turnobutton:
-                if(personajeEnCombateoList.size()!=0){
-                    PasarTurno(personajeEnCombateoList,combate);
-                }
-
-                break;
-
-            case R.id.rondatextView:
-
-                DialogoCambiarDatos.newInstance((TextView) v,100,null,  FuncionRonda(),getActivity()).show(getFragmentManager(),"Ronda");
-                break;
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        //Eliminar Escuchadores
-    }
-
-    public Function FuncionRonda(){
-
-        Function f = new Function() {
-            @Override
-            public Object apply(Object input) {
-                FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(input);
-                return null;
-            }
-        };
-        return f;
-
-    }
-
+    //Metodo heredado de la interfaz InicializarVistas
     @Override
     public void InicializarComponentes(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -187,8 +118,174 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
         personajeEnCombateoList= new ArrayList<>();
 
     }
+    //Metodo que define el comportamiento de nuestro recycler
+    public void ComportamientoRecycler(){
+
+        //Hacemos una consulta a firebase preguntando por los combatientes que hay en el combate pasado por argumento ordenados por su iniciativa de forma ascendente,
+        //(Firebase no da opcion ha hacerlo de forma descendete)
+         ref = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("iniciativa");
+        //Inicializacion de la lista de personajes en el combate
+        personajeEnCombateoList=new ArrayList<>();
+        //Inicializacion del adapeter
+        final TurnoAdapter adapter = new TurnoAdapter(getContext(),personajeEnCombateoList,combate);
+       listenerrecycler= ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Al efectuar un cambio en la referencia vaciamos la lista de personajes en el combate
+                personajeEnCombateoList.removeAll(personajeEnCombateoList);
+
+                //Recogemos todos los datos y lo anyadimos a la lista
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
+                    Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"));
+                    personajeEnCombateoList.add(persona);
+
+                }
+                //Notifamos al adaptador de los cambios
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+        //Evento que ocurre al clickear en la imagen del cardview con forma de campana crea un toast para informar al usuario que se avisara
+        //al jugador del personaje que es su turno por medio del metodo avisar
+        adapter.setClickBtnImagen(new ElementoAdapterClick() {
+            @Override
+            public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
+                Toast.makeText(getContext(),"Avisando..."+personEnCombate.getIniciativa(), Toast.LENGTH_SHORT).show();
+                personEnCombate.Avisar(combate);
+            }
+        });
+        //Evento que ocurre al clickear el elemento correspondiente a la iniciativa de personaje del cardview , se creara un dialogo al que se le pasara
+        //un objeto Function que realizara la accion de cambiar la iniciativa del personaje, esto provocara que el recyclerview de este fragment al estar
+        //vinculado con el escuchador que recibe cambios al cambiar algo de los personajes en combate (usuariokey,personajekey,iniciativa)
+        //en este caso la iniciativa provocara que el recycler reordene los personajes
+        adapter.setClicBtnIniciativa(new ElementoAdapterClick() {
+
+            @Override
+            public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
+                Toast.makeText(getContext(),"Elemnto", Toast.LENGTH_SHORT).show();
+                Function f = FuncionIniciativa(personEnCombate.getKeyprincipal());
+
+                DialogoCambiarDatos.newInstance(null,100,null,f,getActivity()).show(getFragmentManager(),"Iniciativa");
+
+            }
+        });
+        //Evento que ocurre al clickear el cardview de manera corta de los personajes,
+        //Provocara un cambio en la parte de arriba de nuestro fragment donde se muestran las carecteristicas principales del personaje seleccionado
+        adapter.setOnClickCortoListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Se recoge la posicion del elemento seleccionado
+                int posicion=recyclerView.getChildAdapterPosition(v);
+                //Al estar reordenado por nuestro codigo tenemos que realizar la operacion de restar la posicion al numero de personajes en la lista para obtener el personaje
+                //verdaderamente seleccionado
+                Combate.PersonEnCombate p = personajeEnCombateoList.get(personajeEnCombateoList.size()-1-posicion);
+                //Metodo que coloca los datos del personaje en la parte informativa del fragmet
+                SeleccionPersonaje(p);
+
+
+            }
+        });
+
+        //Se definen los aspectos de recycler vinculando el adapter a el
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+    }
+
+    //Metodo que ocurre al pulsar el boton de pasar turno
+    public void PasarTurno(List<Combate.PersonEnCombate> personajeEnCombateoList,Combate combate){
+
+            boolean todosfalso= true;
+            Combate.PersonEnCombate pos=null;
+            int posi=0;
+
+            //Se busca saber si alguno de los personajes en el combate tiene el campo turno a verdadero
+            //Si es asi se guarda ese personaje y su posicion
+            for(int i =0;i<personajeEnCombateoList.size();i++){
+                if(personajeEnCombateoList.get(i).getTurno()){
+                    todosfalso=false;
+                    pos=personajeEnCombateoList.get(i);
+                    posi = i;
+                }
+            }
+            //Si ninguno tiene el campo a true es decir si todos son falsos se asigna el turno al combatiente con la mayor inciativa el cual
+            //en nuestra lista seria el último (recordemos que la lista esta ordenada ascendetemente de mes a mas)
+            //También seteamos el valor de la ronda del combate y la inicializamos a 1
+            if(todosfalso){
+                personajeEnCombateoList.get(personajeEnCombateoList.size()-1).setTurno(true, combate);
+                FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(1);
+
+
+            }
+            //Si alguno es verdadero como lo que queremos es pasar el turno lo inicializamos al false
+            else{
+
+                personajeEnCombateoList.get(posi).setTurno(false, combate);
+                //Como los turnos funcionan como un circulo al pasar el turno desde el ultimo se lo tendriamos que pasar al primero
+                //Pero en este caso el primero de la lista es el último asi que lo tenemos que hacer al revés
+                //La cuestion es que al siguiente le ponemos el valor de turno a true
+                if(posi==0){
+                    personajeEnCombateoList.get(personajeEnCombateoList.size()-1).setTurno(true, combate);
+                    //Aque estamos recuperando el valor de la ronda y al pasar del ultimo al primero tenemos que aumentarlo en uno
+                    int rondaint = combate.getRonda();
+                    rondaint++;
+                    FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(rondaint);
+                    combate.setRonda(rondaint);
+                    ronda.setText(String.valueOf(combate.getRonda()));
+
+                }
+                else{
+
+                    personajeEnCombateoList.get(posi-1 ).setTurno(true, combate);
+                }
+
+
+
+            }
+
+    }
+
+    //Gestiona los Eventos OnClick del fragment
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.turnobutton:
+                if(personajeEnCombateoList.size()!=0){
+                    PasarTurno(personajeEnCombateoList,combate);
+                }
+
+                break;
+
+            case R.id.rondatextView:
+                DialogoCambiarDatos.newInstance((TextView) v,100,null,  FuncionRonda(),getActivity()).show(getFragmentManager(),"Ronda");
+                break;
+        }
+    }
+
+    //Eliminar Escuchadores
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        ref.removeEventListener(listenerrecycler);
+
+    }
+
+
+
+
+    //Recoloca la informacion del personaje seleccionado en la parte informativa de nuestro layout
 
     public void SeleccionPersonaje(Combate.PersonEnCombate personEnCombate){
+        //Pregunta a la base de datos por el personaje seleccionado y saca sus datos
         FireBaseUtils.getRef().child("publico").child(personEnCombate.getUsuariokey()).child("personajes").child(personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -210,56 +307,29 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
             }
         });
     }
-    public void ComportamientoRecycler(){
-        Query ref = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("iniciativa");
-        personajeEnCombateoList=new ArrayList<>();
-        final TurnoAdapter adapter = new TurnoAdapter(getContext(),personajeEnCombateoList,combate);
-        ref.addValueEventListener(new ValueEventListener() {
+
+    //Cambia el valor de la iniciativa
+    public Function FuncionIniciativa(final String key){
+        Function f = new Function() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                personajeEnCombateoList.removeAll(personajeEnCombateoList);
-
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
-                    Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"));
-                    personajeEnCombateoList.add(persona);
-
-                }
-                adapter.notifyDataSetChanged();
+            public Object apply(Object input) {
+                FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(key).child("iniciativa").setValue(input);
+                return null;
             }
+        };
+        return f;
+    }
+    //Cambia el valor de la ronda
+    public Function FuncionRonda(){
 
+        Function f = new Function() {
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public Object apply(Object input) {
+                FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(input);
+                return null;
             }
+        };
+        return f;
 
-        });
-
-        adapter.setClickBtnImagen(new ImagenAdapterClick() {
-            @Override
-            public void onImagenClick(Combate.PersonEnCombate personEnCombate) {
-                Toast.makeText(getContext(),"Avisando..."+personEnCombate.getIniciativa(), Toast.LENGTH_SHORT).show();
-                personEnCombate.Avisar(combate);
-            }
-        });
-        adapter.setOnClickCortoListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                int posicion=recyclerView.getChildAdapterPosition(v);
-                Combate.PersonEnCombate p = personajeEnCombateoList.get(personajeEnCombateoList.size()-1-posicion);
-
-
-                //Metodo que coloque las cosas en su sitio
-
-                SeleccionPersonaje(p);
-
-                Toast.makeText(getContext(),"Seleccionando..."+p.getIniciativa(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
     }
 }

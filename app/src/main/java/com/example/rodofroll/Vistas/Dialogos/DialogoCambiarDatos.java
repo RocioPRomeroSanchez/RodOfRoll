@@ -59,6 +59,7 @@ public class DialogoCambiarDatos extends DialogFragment {
         Button cancelarButon = myView.findViewById(R.id.CancelarButon);
         Button aceptarButton = myView.findViewById(R.id.AceptarButton);
 
+        if(vista!=null)
         editText.setText(vista.getText());
 
 
@@ -78,7 +79,9 @@ public class DialogoCambiarDatos extends DialogFragment {
                    int numero = Integer.valueOf(cadena);
 
                     if (numero < limite) {
-                        vista.setText(String.valueOf(numero));
+                        if(vista!=null){
+                            vista.setText(String.valueOf(numero));
+                        }
 
                             function.apply(numero);
 

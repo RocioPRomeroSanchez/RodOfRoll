@@ -115,6 +115,14 @@ public class Combate {
 
         Boolean avisar;
 
+        public String getKeyprincipal() {
+            return keyprincipal;
+        }
+
+        public void setKeyprincipal(String keyprincipal) {
+            this.keyprincipal = keyprincipal;
+        }
+
         public PersonEnCombate(String key, String personajekey, String usuariokey, Long iniciativa, Boolean turno, Boolean avisar) {
             this.personajekey=personajekey;
             this.usuariokey=usuariokey;
