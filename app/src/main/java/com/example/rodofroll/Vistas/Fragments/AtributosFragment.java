@@ -1,5 +1,6 @@
 package com.example.rodofroll.Vistas.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -59,14 +60,18 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
     LinearLayout reflejosLayout;
     LinearLayout voluntadLayout;
 
+    public AtributosFragment(Personaje p){
+        this.p=p;
+    }
+
     @Override
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container, final Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.atributos_layout, container, false);
 
-       FichaPersonajeFragment f = (FichaPersonajeFragment) ((MainActivity) getActivity()).CurrentFragment();
-       p= f.getPersonaje();
+    //   FichaPersonajeFragment f = (FichaPersonajeFragment) ((MainActivity) getActivity()).CurrentFragment();
+   //    p= f.getPersonaje();
 
 
 
@@ -122,6 +127,7 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
         vidaTextView.setOnClickListener(this);
 
 
+
       /*  Animation anim = new ScaleAnimation(
                 1f, 1.03f, // Start and end values for the X axis scaling
                 1f,1.03f // Start and end values for the Y axis scaling
@@ -136,23 +142,24 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
         return v;
     }
 
+    @SuppressLint("DefaultLocale")
     public void InicializarDatos(Personaje p){
-        vidaTextView.setText(String.valueOf(p.getVida()));
-        caTextView.setText(String.valueOf(p.getArmadura()));
-        iniciativaTextView.setText(String.valueOf(p.getModiniciativa()));
-        ataquebaseTextView.setText(String.valueOf(p.getAtaque()));
-        velocidadTextView.setText(String.valueOf(p.getVelocidad()));
+        vidaTextView.setText(String.format("%.0f",p.getVida()));
+        caTextView.setText(String.format("%.0f",p.getArmadura()));
+        iniciativaTextView.setText(String.format("%.0f",p.getModiniciativa()));
+        ataquebaseTextView.setText(String.format("%.0f",p.getAtaque()));
+        velocidadTextView.setText(String.format("%.0f",p.getVelocidad()));
 
-        fuerzaTextView.setText(String.valueOf(p.getFuerza()));
-        destrezaTextView.setText(String.valueOf(p.getDestreza()));
-        concentracionTextView.setText(String.valueOf(p.getConcentracion()));
-        inteligenciaTextView.setText(String.valueOf(p.getInteligencia()));
-        sabiduriaTextView.setText(String.valueOf(p.getSabiduria()));
-        carismaTextView.setText(String.valueOf(p.getCarisma()));
+        fuerzaTextView.setText(String.format("%.0f",p.getFuerza()));
+        destrezaTextView.setText(String.format("%.0f",p.getDestreza()));
+        concentracionTextView.setText(String.format("%.0f",p.getConcentracion()));
+        inteligenciaTextView.setText(String.format("%.0f",p.getInteligencia()));
+        sabiduriaTextView.setText(String.format("%.0f",p.getSabiduria()));
+        carismaTextView.setText(String.format("%.0f",p.getCarisma()));
 
-        fortalezaTextView.setText(String.valueOf(p.getFortaleza()));
-        reflejosTextView.setText(String.valueOf(p.getReflejos()));
-        voluntadTextView.setText(String.valueOf(p.getVoluntad()));
+        fortalezaTextView.setText(String.format("%.0f",p.getFortaleza()));
+        reflejosTextView.setText(String.format("%.0f",p.getReflejos()));
+        voluntadTextView.setText(String.format("%.0f",p.getVoluntad()));
     }
 
 
@@ -245,7 +252,7 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
 
             case R.id.carismalayout:
                 f=CrearFuncion("Carisma",p);
-                dialogoDatos= DialogoCambiarDatos.newInstance(caTextView,900,p,f,getActivity());
+                dialogoDatos= DialogoCambiarDatos.newInstance(carismaTextView,900,p,f,getActivity());
                 dialogoDatos.show(getFragmentManager(),"Carisma");
                 break;
 
@@ -284,8 +291,7 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
             public Object apply(Object input) {
 
                 try {
-
-                    p.ModificarAtributosPersonaje(atributo.toLowerCase(),(int)input,p);
+                    p.ModificarAtributosPersonaje(atributo.toLowerCase(),(double)input,p);
                 } catch (NoSuchFieldException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {

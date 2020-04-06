@@ -1,5 +1,6 @@
 package com.example.rodofroll.Vistas.Dialogos;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -159,16 +160,17 @@ public class DialogoBuscarCombate extends DialogFragment {
 
             }
 
+            @SuppressLint("DefaultLocale")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int num;
+                double num;
                 if(TiradEditText.getText().toString().isEmpty()){
-                    num= Integer.parseInt(0+ InitText.getText().toString());
+                    num= Double.parseDouble(InitText.getText().toString());
                 }
                 else {
-                    num = Integer.parseInt(TiradEditText.getText().toString())+ Integer.parseInt(InitText.getText().toString()) ;
+                    num = Double.parseDouble(TiradEditText.getText().toString())+ Double.parseDouble(InitText.getText().toString()) ;
                 }
-                ResultadoText.setText(String.valueOf(num));
+                ResultadoText.setText(String.format("%.0f",num));
             }
 
             @Override
@@ -179,20 +181,21 @@ public class DialogoBuscarCombate extends DialogFragment {
 
 
         personajespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 Personajeimagen.setImageBitmap(ConversorImagenes.convertirStringBitmap(personajes.get(position).getImagen()));
-                InitText.setText(String.valueOf(personajes.get(position).getModiniciativa()));
-                int num =0;
+                InitText.setText(String.format("%.0f",personajes.get(position).getModiniciativa()));
+                double num =0;
                 if(TiradEditText.getText().toString().isEmpty()){
-                    num= Integer.parseInt(0+ InitText.getText().toString());
+                    num= Integer.parseInt(InitText.getText().toString());
 
                 }
                 else {
-                    num = Integer.parseInt(TiradEditText.getText().toString())+ Integer.parseInt(InitText.getText().toString()) ;
+                    num = Double.parseDouble(TiradEditText.getText().toString())+ Double.parseDouble(InitText.getText().toString()) ;
                 }
-                ResultadoText.setText(String.valueOf(num));
+                ResultadoText.setText(String.format("%.0f",num));
             }
 
             @Override

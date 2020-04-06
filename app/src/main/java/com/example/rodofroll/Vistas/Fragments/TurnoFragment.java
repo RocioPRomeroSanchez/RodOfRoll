@@ -1,5 +1,6 @@
 package com.example.rodofroll.Vistas.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -287,17 +288,18 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
     public void SeleccionPersonaje(Combate.PersonEnCombate personEnCombate){
         //Pregunta a la base de datos por el personaje seleccionado y saca sus datos
         FireBaseUtils.getRef().child("publico").child(personEnCombate.getUsuariokey()).child("personajes").child(personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HashMap principal = (HashMap) dataSnapshot.getValue();
                 Personaje p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), dataSnapshot.getKey());
                 nombreTextView.setText(p.getNombre());
                 personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
-                vidaTextView.setText(String.valueOf(p.getVida()));
-                caTextView.setText(String.valueOf(p.getArmadura()));
-                iniciativaTextView.setText(String.valueOf(p.getIniciativa()));
-                ataqueBaseTextView.setText(String.valueOf((p.getAtaque())));
-                velociadTextView.setText(String.valueOf(p.getVelocidad()));
+                vidaTextView.setText(String.format("%.0f",p.getVida()));
+                caTextView.setText(String.format("%.0f",p.getArmadura()));
+                iniciativaTextView.setText(String.format("%.0f",p.getIniciativa()));
+                ataqueBaseTextView.setText(String.format("%.0f",p.getAtaque()));
+                velociadTextView.setText(String.format("%.0f",p.getVelocidad()));
 
             }
 

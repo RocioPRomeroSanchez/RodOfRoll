@@ -309,7 +309,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
     public void RemplazarFragment(Fragment fragment, boolean apilar) {
 
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+       // fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         if (apilar) fragmentTransaction.addToBackStack(null);

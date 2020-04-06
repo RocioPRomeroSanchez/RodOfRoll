@@ -1,5 +1,6 @@
 package com.example.rodofroll.Vistas.Dialogos;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Build;
@@ -70,17 +71,18 @@ public class DialogoCambiarDatos extends DialogFragment {
             }
         });
         aceptarButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
             public void onClick(View v) {
                 String cadena = editText.getText().toString();
                 if(cadena.isEmpty()){
                     editText.setError("No puede ser nulo");
                 }
-               else if(TextUtils.isDigitsOnly(cadena)) {
-                   int numero = Integer.valueOf(cadena);
+               else if(EsUnNuemroReal(cadena)) {
+                   Double numero = Double.valueOf(cadena);
 
-                    if (numero < limite) {
+                    if (Math.abs(numero) < limite) {
                         if(vista!=null){
-                            vista.setText(String.valueOf(numero));
+                            vista.setText(String.format("%.0f",numero));
                         }
 
                             function.apply(numero);
@@ -91,6 +93,10 @@ public class DialogoCambiarDatos extends DialogFragment {
                         editText.setError("Tiene que ser menor de "+ limite);
                     }
                 }
+               else {
+                    editText.setError("No se interpreta como un numero real");
+                }
+
 
             }
         });
@@ -98,4 +104,11 @@ public class DialogoCambiarDatos extends DialogFragment {
 
         return builder.create();
     }
+
+    public boolean EsUnNuemroReal(String cadena){
+       return cadena.matches("^(-)?\\d*");
+
+    }
+
+
 }

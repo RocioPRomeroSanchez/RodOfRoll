@@ -25,7 +25,11 @@ public class InventarioFragment extends Fragment  {
     View v;
     RecyclerView recyclerView;
     AdapterInventario adapter;
+    Personaje p;
 
+    public InventarioFragment(Personaje p) {
+        this.p=p;
+    }
 
 
     @Override

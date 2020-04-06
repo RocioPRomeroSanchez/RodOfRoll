@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class BuscarAdapter extends RecyclerView.Adapter<BuscarAdapter.BuscarHolder> implements View.OnClickListener {
 
     ArrayList<String> NombreList;
-    ArrayList<String> EmailList;
     ArrayList<String> FotoList;
     View.OnClickListener listener;
 
@@ -39,7 +38,6 @@ public class BuscarAdapter extends RecyclerView.Adapter<BuscarAdapter.BuscarHold
     public BuscarAdapter(ArrayList<String> nombreList, ArrayList<String> emailList, ArrayList<String> fotoList) {
 
         this.NombreList= nombreList;
-        this.EmailList=emailList;
         this.FotoList=fotoList;
 
     }
@@ -57,7 +55,6 @@ public class BuscarAdapter extends RecyclerView.Adapter<BuscarAdapter.BuscarHold
     public void onBindViewHolder(@NonNull BuscarHolder holder, int position) {
 
        holder.nombre.setText(NombreList.get(position));
-       holder.email.setText(EmailList.get(position));
        holder.imagen.setImageBitmap(ConversorImagenes.convertirStringBitmap(FotoList.get(position)));
 
 
@@ -78,7 +75,6 @@ public class BuscarAdapter extends RecyclerView.Adapter<BuscarAdapter.BuscarHold
 
             imagen = itemView.findViewById(R.id.FotoimageView);
             nombre = itemView.findViewById(R.id.ApodotextView);
-            email = itemView.findViewById(R.id.EmailtextView);
 
         }
     }

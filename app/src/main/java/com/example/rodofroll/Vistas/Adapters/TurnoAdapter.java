@@ -75,7 +75,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
        Combate.PersonEnCombate p=personajeEnCombateoList.get(numero);
         ((HolderPersonajesCombate)holder).bind(p,context);
     }
-    
+
     @Override
     public int getItemCount() {
         return personajeEnCombateoList.size();
@@ -145,9 +145,12 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
 
-                  per= new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
-                  txtNombre.setText(per.getNombre());
-                  txtIniciativa.setText(p.getIniciativa().toString());
+                    if(snapshot.getValue()!=null){
+                        per= new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
+                        txtNombre.setText(per.getNombre());
+                        txtIniciativa.setText(p.getIniciativa().toString());
+                    }
+
 
                 }
 

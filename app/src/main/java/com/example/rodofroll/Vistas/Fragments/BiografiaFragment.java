@@ -10,12 +10,19 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
+import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class BiografiaFragment extends Fragment implements ComunicateToTabsListener {
 
     View v;
+    Personaje p;
+
+
+    public BiografiaFragment(Personaje p){
+        this.p=p;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater,

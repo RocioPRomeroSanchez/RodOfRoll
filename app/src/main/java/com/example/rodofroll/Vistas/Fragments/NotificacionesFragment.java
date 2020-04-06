@@ -33,7 +33,6 @@ public class NotificacionesFragment extends Fragment {
         View view = inflater.inflate(R.layout.notificacioneslayout,container,false);
         final ListView lista = view.findViewById(R.id.notiflista);
         DatabaseReference ref = FireBaseUtils.getRef().child("notificaciones").child(FireBaseUtils.getKey());
-        FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).child("personajes");
       /*  ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

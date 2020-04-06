@@ -6,11 +6,24 @@ import java.util.List;
 public abstract class Combatiente implements Serializable {
 
 
-    int vida;
-    int armadura;
-    int modiniciativa;
+    double vida;
+    double armadura;
+    double modiniciativa;
+    double ataque;
+    double velocidad;
+    double fuerza;
+    double destreza;
+    double concentracion;
+    double inteligencia;
+    double sabiduria;
+    double carisma;
+    double fortaleza;
+    double reflejos;
+    double voluntad;
+    double iniciativa;
 
-    public int getVida() {
+
+    public double getVida() {
         return vida;
     }
 
@@ -18,7 +31,7 @@ public abstract class Combatiente implements Serializable {
         this.vida = vida;
     }
 
-    public int getArmadura() {
+    public double getArmadura() {
         return armadura;
     }
 
@@ -26,7 +39,7 @@ public abstract class Combatiente implements Serializable {
         this.armadura = armadura;
     }
 
-    public int getModiniciativa() {
+    public double getModiniciativa() {
         return modiniciativa;
     }
 
@@ -34,7 +47,7 @@ public abstract class Combatiente implements Serializable {
         this.modiniciativa = modiniciativa;
     }
 
-    public int getAtaque() {
+    public double getAtaque() {
         return ataque;
     }
 
@@ -42,7 +55,7 @@ public abstract class Combatiente implements Serializable {
         this.ataque = ataque;
     }
 
-    public int getVelocidad() {
+    public double getVelocidad() {
         return velocidad;
     }
 
@@ -50,9 +63,9 @@ public abstract class Combatiente implements Serializable {
         this.velocidad = velocidad;
     }
 
-    int iniciativa;
 
-    public int getIniciativa() {
+
+    public double getIniciativa() {
         return iniciativa;
     }
 
@@ -60,7 +73,7 @@ public abstract class Combatiente implements Serializable {
         this.iniciativa = iniciativa;
     }
 
-    public int getFuerza() {
+    public double getFuerza() {
         return fuerza;
     }
 
@@ -68,7 +81,7 @@ public abstract class Combatiente implements Serializable {
         this.fuerza = fuerza;
     }
 
-    public int getDestreza() {
+    public double getDestreza() {
         return destreza;
     }
 
@@ -76,7 +89,7 @@ public abstract class Combatiente implements Serializable {
         this.destreza = destreza;
     }
 
-    public int getConcentracion() {
+    public double getConcentracion() {
         return concentracion;
     }
 
@@ -84,7 +97,7 @@ public abstract class Combatiente implements Serializable {
         this.concentracion = concentracion;
     }
 
-    public int getInteligencia() {
+    public double getInteligencia() {
         return inteligencia;
     }
 
@@ -92,7 +105,7 @@ public abstract class Combatiente implements Serializable {
         this.inteligencia = inteligencia;
     }
 
-    public int getSabiduria() {
+    public double getSabiduria() {
         return sabiduria;
     }
 
@@ -100,7 +113,7 @@ public abstract class Combatiente implements Serializable {
         this.sabiduria = sabiduria;
     }
 
-    public int getCarisma() {
+    public double getCarisma() {
         return carisma;
     }
 
@@ -108,7 +121,7 @@ public abstract class Combatiente implements Serializable {
         this.carisma = carisma;
     }
 
-    public int getFortaleza() {
+    public double getFortaleza() {
         return fortaleza;
     }
 
@@ -116,7 +129,7 @@ public abstract class Combatiente implements Serializable {
         this.fortaleza = fortaleza;
     }
 
-    public int getReflejos() {
+    public double getReflejos() {
         return reflejos;
     }
 
@@ -124,7 +137,7 @@ public abstract class Combatiente implements Serializable {
         this.reflejos = reflejos;
     }
 
-    public int getVoluntad() {
+    public double getVoluntad() {
         return voluntad;
     }
 
@@ -140,19 +153,6 @@ public abstract class Combatiente implements Serializable {
         this.turno = turno;
     }
 
-    int ataque;
-    int velocidad;
-
-    int fuerza;
-    int destreza;
-    int concentracion;
-    int inteligencia;
-    int sabiduria;
-    int carisma;
-
-    int fortaleza;
-    int reflejos;
-    int voluntad;
 
     boolean turno;
 

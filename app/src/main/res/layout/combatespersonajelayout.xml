@@ -2,11 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/NoCombatestextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No esta en ningún combate"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/recycler"
         android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
+
 
 </LinearLayout>

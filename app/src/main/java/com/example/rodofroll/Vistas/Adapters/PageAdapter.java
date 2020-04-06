@@ -10,43 +10,33 @@ import com.example.rodofroll.Vistas.Fragments.BiografiaFragment;
 import com.example.rodofroll.Vistas.Fragments.CombatPersonajeFragment;
 import com.example.rodofroll.Vistas.Fragments.InventarioFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PageAdapter  extends FragmentStatePagerAdapter {
 
-    int numtabs;
+ //   int numtabs;
+    private List<Fragment> fragmentList = new ArrayList<>();
 
-    public PageAdapter(@NonNull FragmentManager fm, int behavior, int numtabs) {
+    public PageAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
-        this.numtabs = numtabs;
     }
 
-    public Fragment getItem(int i) {
-        switch (i) {
-            case 0:
-                Fragment tab1 = new AtributosFragment();
-                return tab1;
+    public void addFragment(Fragment fragment) {
+        fragmentList.add(fragment);
+    }
 
-            case 1:
-                Fragment tab2 = new BiografiaFragment();
-                return tab2;
-
-
-            case 2:
-                Fragment tab3 = new InventarioFragment();
-                return tab3;
-
-            case 3:
-                Fragment tab4 = new CombatPersonajeFragment();
-                return  tab4;
-
-            default:
-                return new AtributosFragment();
-
-
-        }
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        return fragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return numtabs;
+        return fragmentList.size();
     }
+
+
+
 }

@@ -1,10 +1,8 @@
 package com.example.rodofroll.Vistas.Adapters;
 
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,10 +12,7 @@ import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.rodofroll.Objetos.ConversorImagenes.convertirStringBitmap;
 
 public class CombatesAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     List<Combate> combateList;

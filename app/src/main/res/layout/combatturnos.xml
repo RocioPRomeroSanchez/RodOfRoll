@@ -158,7 +158,9 @@
                         android:layout_gravity="center"
                         android:text="Iniciativa"
                         android:textAlignment="center"
-                        android:textSize="9sp">
+                        android:textColor="@color/colorAccent"
+                        android:textSize="12sp"
+                        android:textStyle="bold">
 
                     </TextView>
 
@@ -172,14 +174,13 @@
 
                         <TextView
                             android:id="@+id/IniciativaTextView"
-                            android:layout_width="20sp"
-                            android:layout_height="20sp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:background="@color/colorPrimary"
 
 
                             android:gravity="center"
-                            android:text="0"
-                            android:textSize="15sp">
+                            android:textSize="14sp">
 
                         </TextView>
 
@@ -192,7 +193,9 @@
                         android:layout_gravity="center"
                         android:text="Ataque Base"
                         android:textAlignment="center"
-                        android:textSize="9sp">
+                        android:textColor="@color/colorAccent"
+                        android:textSize="12sp"
+                        android:textStyle="bold">
 
                     </TextView>
 
@@ -206,14 +209,13 @@
 
                         <TextView
                             android:id="@+id/AtaqueBaseTextView"
-                            android:layout_width="20sp"
-                            android:layout_height="20sp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:background="@color/colorPrimary"
 
 
                             android:gravity="center"
-                            android:text="0"
-                            android:textSize="15sp">
+                            android:textSize="14sp">
 
                         </TextView>
 
@@ -225,7 +227,9 @@
                         android:layout_gravity="center"
                         android:text="Velocidad"
                         android:textAlignment="center"
-                        android:textSize="9sp">
+                        android:textColor="@color/colorAccent"
+                        android:textSize="12sp"
+                        android:textStyle="bold">
 
                     </TextView>
 
@@ -239,14 +243,13 @@
 
                         <TextView
                             android:id="@+id/VelocidadTextView"
-                            android:layout_width="20sp"
-                            android:layout_height="20sp"
+                            android:layout_width="30sp"
+                            android:layout_height="30sp"
                             android:background="@color/colorPrimary"
 
 
                             android:gravity="center"
-                            android:text="0"
-                            android:textSize="15sp">
+                            android:textSize="14sp">
 
                         </TextView>
 
@@ -302,22 +305,32 @@
                 android:backgroundTint="@color/colorAccent"
                 android:src="@drawable/ic_turno" />
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ronda"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/rondatextView"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAlignment="center"
-                android:textSize="36sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/colorAccent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ronda"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/rondatextView"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="36sp" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
