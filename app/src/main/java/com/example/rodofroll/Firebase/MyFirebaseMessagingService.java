@@ -24,11 +24,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     int cont=0;
 
 
+    //Es un metodo que se activa cuando llega un mensaje remoto
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         String notificationTitle = null, notificationBody = null;
 
+        //miramos que el mensaje no llegue vacio y creamos dos varibles que corresponderan con el titulo de la notificacion y el cuerpo
         if(remoteMessage.getData().size()>0){
 
             notificationTitle = remoteMessage.getData().get("title");

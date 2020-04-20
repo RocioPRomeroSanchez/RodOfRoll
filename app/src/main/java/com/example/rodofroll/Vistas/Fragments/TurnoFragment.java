@@ -299,9 +299,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
                 personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
                 vidaTextView.setText(String.format("%.0f",p.getVida()));
                 caTextView.setText(String.format("%.0f",p.getArmadura()));
-                iniciativaTextView.setText(String.format("%.0f",p.getIniciativa()));
-                ataqueBaseTextView.setText(String.format("%.0f",p.getAtaque()));
-                velociadTextView.setText(String.format("%.0f",p.getVelocidad()));
+
 
             }
 
