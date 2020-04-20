@@ -1,13 +1,18 @@
 package com.example.rodofroll;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.AttributeSet;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rodofroll.Objetos.ConversorImagenes;
@@ -16,6 +21,7 @@ public class Actividad  extends AppCompatActivity {
     public ImageView remp;
 
     private static int PHOTO_RESULT=0,PICK_IMAGE=1 ;
+
 
 
     public void MenuEmergenteImagen(final ImageView view){

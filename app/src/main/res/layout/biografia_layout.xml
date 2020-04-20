@@ -9,79 +9,91 @@
         android:layout_height="wrap_content"
 
         >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
 
-        <ImageView
+            <ImageView
 
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:src="@drawable/heart">
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:src="@drawable/heart">
 
-        </ImageView>
+            </ImageView>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
 
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:padding="5dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp">
+
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Nombre"
                 android:id="@+id/pass2layoutdfs"
-                app:passwordToggleTint="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/Nombre"
+                app:passwordToggleTint="@color/colorAccent"
 
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
                     android:id="@+id/pass2editdfsext"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Raza"
                 android:id="@+id/pass2lasayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/Raza"
+                app:errorEnabled="true"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/colorAccent"
-                app:errorEnabled="true"
-                android:layout_weight="1"
 
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pass2editdfext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:id="@+id/pass2editdfext"
-                    />
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/pass2layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:hint="@string/clase"
-                android:id="@+id/pass2layout"
+                app:errorEnabled="true"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/colorAccent"
-                app:errorEnabled="true"
-                android:layout_weight="1"
 
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pass2edfditext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:id="@+id/pass2edfditext"
-                    />
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

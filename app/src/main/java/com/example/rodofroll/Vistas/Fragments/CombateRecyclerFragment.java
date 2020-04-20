@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +13,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.Combate;
-import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Vistas.Adapters.CombatesAdapter;
+import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
 import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.example.rodofroll.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,7 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CombateRecyclerFragment extends Fragment {
 
@@ -46,7 +43,7 @@ public class CombateRecyclerFragment extends Fragment {
         final CombatesAdapter adapter;
         final List<Combate> combateList=new ArrayList<>();
         adapter = new CombatesAdapter(combateList);
-        final DatabaseReference db = FireBaseUtils.GetCombates(FireBaseUtils.getKey());
+        final DatabaseReference db = FirebaseUtilsV1.GET_RefCombates(FirebaseUtilsV1.getKey());
 
         db.addValueEventListener(new ValueEventListener() {
             @Override
@@ -54,16 +51,6 @@ public class CombateRecyclerFragment extends Fragment {
                 combateList.removeAll(combateList);
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     HashMap<String,Object> hashMap= (HashMap<String, Object>) snapshot.getValue();
-                   // HashMap<String,Object> ordenTurnohas = (HashMap<String, Object>) hashMap.get("ordenturno");
-                //    List<Combate.PersonEnCombate> personEnCombates=new ArrayList<>();
-
-                  /*  if(ordenTurnohas!=null) {
-                        for (Map.Entry<String, Object> valor : ordenTurnohas.entrySet()) {
-                            HashMap<String, Object> dic = (HashMap<String, Object>) valor.getValue();
-                            Combate.PersonEnCombate persona = new Combate.PersonEnCombate(valor.getKey(),(String) dic.get("personajekey"), (String) dic.get("usuariokey"));
-                            personEnCombates.add(persona);
-                        }
-                    }*/
                     Combate combate = new Combate(snapshot.getKey(),(String) hashMap.get("nombre"));
                     combateList.add(combate);
 
@@ -83,12 +70,7 @@ public class CombateRecyclerFragment extends Fragment {
             public void onClick(View v) {
                 int posicion=recyclerView.getChildAdapterPosition(v);
 
-
                 ((MainActivity)getActivity()).RemplazarFragment(new TurnoFragment(combateList.get(posicion)),true);
-
-
-               /* FichaPersonajeFragment fichaPersonajeFragment= new FichaPersonajeFragment(personajes.get(posicion));
-                ((MainActivity)getActivity()).RemplazarFragment(fichaPersonajeFragment,true);*/
             }
         });
 
@@ -101,7 +83,7 @@ public class CombateRecyclerFragment extends Fragment {
             public void onClick(View v) {
                 try {
 
-                    Dialogos.showDialogNuevoCombate((MainActivity) getActivity(),getContext());
+                    Dialogos.showDialogNuevoCombate((MainActivity) getActivity());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -144,4 +126,25 @@ public class CombateRecyclerFragment extends Fragment {
 
         return view;
     }
+
+
+   /* public Function CrearFuncion(){
+
+        Function function = new Function() {
+
+            @Override
+            public Object apply(Object input) {
+
+                try {
+                    FirebaseUtilsV1.AddCombate((String) input);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                return null;
+            }
+        };
+        return function;
+    }*/
 }

@@ -6,9 +6,10 @@ import android.widget.Toast;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Fragments.CargandoFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 public class AsynTarea extends AsyncTask<Void,Void,Void> {
 
@@ -17,8 +18,6 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
     boolean fin = false;
     private OnTaskCompleted listener;
     long inicio;
-
-
 
 
     public AsynTarea(OnTaskCompleted listener,FragmentManager fm) throws InterruptedException {
@@ -58,16 +57,19 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
 // Math.abs(( new Timestamp(System.currentTimeMillis()).getTime() - inicio.getTime())) < 1)
 
         double tiempo;
+        int contador_info=0;
         do{
              tiempo = (double) ((System.currentTimeMillis() - inicio)/1000);
 
+            if(tiempo>=20&&contador_info==0){
+                Snackbar.make(fragment.getView(),"Pruebe a reiniciar la aplicación",Snackbar.LENGTH_LONG).show();
+                contador_info++;
 
-        }while (!FireBaseUtils.isEstado()&&tiempo<20);
+            }
 
-        if(tiempo>=20){
-            Toast.makeText(fragment.getContext(),"Reinicie la aplicación",Toast.LENGTH_LONG).show();
+        }while (!FirebaseUtilsV1.isEstado());
 
-        }
+
 
         //Espera 3 segundos a que cargue la app
         try {

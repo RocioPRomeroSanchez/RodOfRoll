@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.LoginActivity;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.ConversorImagenes;
@@ -58,7 +58,8 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case  R.id.BorrarCuentabutton:
 
-                FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                FirebaseUtilsV1.BorrarCuenta(getActivity());
+               /* FirebaseUtilsV1.getRef().child("publico").child(FireBaseUtils.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
@@ -85,7 +86,7 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
 
                     }
-                });
+                });*/
 
                /* Function<String,Void> function = new Function<String, Void>() {
                     @Override
@@ -129,10 +130,10 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
             case R.id.ModifButton:
 
-                String key = FireBaseUtils.getDatosUser().getKey();
+             /*   String key = FireBaseUtils.getDatosUser().getKey();
                 Usuario usuario = new Usuario(editText.getText().toString(),FireBaseUtils.getUser().getEmail(), ConversorImagenes.convertirImagenString(((BitmapDrawable)userimageView.getDrawable()).getBitmap()));
 
-               /* Map<String,Object> update = new HashMap<String, Object>();
+               /** Map<String,Object> update = new HashMap<String, Object>();
                 update.put("email", usuario.getEmail());
                 update.put("foto",usuario.getFoto());
                 update.put("nombre",usuario.getNombre());

@@ -42,8 +42,8 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="120dp"
+                    android:layout_width="70dp"
+                    android:layout_height="113dp"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
                     android:background="@drawable/borde"
@@ -139,121 +139,6 @@
                         </TextView>
 
                     </FrameLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_weight="1"
-
-
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Iniciativa"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
-                        android:textStyle="bold">
-
-                    </TextView>
-
-                    <LinearLayout
-                        android:id="@+id/iniciativalayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@color/colorPrimaryDark"
-                        android:padding="7dp">
-
-                        <TextView
-                            android:id="@+id/IniciativaTextView"
-                            android:layout_width="30sp"
-                            android:layout_height="30sp"
-                            android:background="@color/colorPrimary"
-
-
-                            android:gravity="center"
-                            android:textSize="14sp">
-
-                        </TextView>
-
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Ataque Base"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
-                        android:textStyle="bold">
-
-                    </TextView>
-
-                    <LinearLayout
-                        android:id="@+id/iniciatiavalayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@color/colorPrimaryDark"
-                        android:padding="7dp">
-
-                        <TextView
-                            android:id="@+id/AtaqueBaseTextView"
-                            android:layout_width="30sp"
-                            android:layout_height="30sp"
-                            android:background="@color/colorPrimary"
-
-
-                            android:gravity="center"
-                            android:textSize="14sp">
-
-                        </TextView>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Velocidad"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
-                        android:textStyle="bold">
-
-                    </TextView>
-
-                    <LinearLayout
-                        android:id="@+id/iniciativdalayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@color/colorPrimaryDark"
-                        android:padding="7dp">
-
-                        <TextView
-                            android:id="@+id/VelocidadTextView"
-                            android:layout_width="30sp"
-                            android:layout_height="30sp"
-                            android:background="@color/colorPrimary"
-
-
-                            android:gravity="center"
-                            android:textSize="14sp">
-
-                        </TextView>
-
-                    </LinearLayout>
 
 
                 </LinearLayout>

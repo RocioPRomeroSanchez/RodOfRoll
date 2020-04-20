@@ -36,12 +36,7 @@ public class Usuario implements Serializable {
         nombre = nombre;
     }
 
-    public Usuario(String nombre, String email,String foto) {
-        this.nombre = nombre;
-        this.foto=foto;
-    }
-
-    public Usuario(String nombre, String email,String foto, String key) {
+    public Usuario(String nombre,String foto, String key) {
         this.nombre = nombre;
         this.foto=foto;
         this.key=key;

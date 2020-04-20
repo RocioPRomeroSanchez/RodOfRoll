@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Vistas.Adapters.Adapter;
 import com.example.rodofroll.Vistas.Dialogos.Dialogos;
@@ -45,7 +45,7 @@ public class RecyclerViewFragment extends Fragment {
         adapter = new Adapter(personajes);
 
 
-        final DatabaseReference personajesdb =FireBaseUtils.GetPersonajesRef();
+        final DatabaseReference personajesdb = FirebaseUtilsV1.GET_RefPersonajes();
 
 
         personajesdb.addValueEventListener(new ValueEventListener() {

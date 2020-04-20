@@ -4,33 +4,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
-import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
-import com.example.rodofroll.Vistas.Adapters.Adapter;
-import com.example.rodofroll.Vistas.Adapters.CombatesAdapter;
 import com.example.rodofroll.Vistas.Adapters.CombatesAsociadosAdaper;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CombatPersonajeFragment extends Fragment {
 
@@ -49,8 +40,7 @@ public class CombatPersonajeFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container, final Bundle savedInstanceState) {
         View v;
-       // FichaPersonajeFragment f = (FichaPersonajeFragment) ((MainActivity) getActivity()).CurrentFragment();
-     //   p= f.getPersonaje();
+
         v= inflater.inflate(R.layout.combatespersonajelayout, container, false);
         nomcombattextview=v.findViewById(R.id.NoCombatestextView);
         recyclerView = v.findViewById(R.id.recycler);
@@ -76,11 +66,10 @@ public class CombatPersonajeFragment extends Fragment {
     }
     public void EscuchadorDelLosCombates(){
 
-        reference=FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).child("personajes").child(p.getKey()).child("combates");
+        reference = FirebaseUtilsV1.GET_RefCombatesPersonaje(p.getKey());
        listener= reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                p.getCombates().removeAll(p.getCombates());
                 Personaje.CombatesAsociados combateasociado=null;
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
@@ -89,7 +78,6 @@ public class CombatPersonajeFragment extends Fragment {
                     p.getCombates().add(combateasociado);
                 }
 
-
                 if(p.getCombates().size()==0){
                     nomcombattextview.setVisibility(View.VISIBLE);
                 }
@@ -97,8 +85,6 @@ public class CombatPersonajeFragment extends Fragment {
                     nomcombattextview.setVisibility(View.GONE);
                 }
                 adapter.notifyDataSetChanged();
-
-
             }
 
             @Override

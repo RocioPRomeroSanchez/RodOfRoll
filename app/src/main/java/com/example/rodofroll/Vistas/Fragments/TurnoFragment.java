@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.ElementoAdapterClick;
@@ -75,7 +75,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
         InicializarComponentes(view);
 
          //Creamos un escuchador que escucha una vez y obtiente el numero de rondas que tiene ese combate
-        refronda = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda");
+        refronda = FirebaseUtilsV1.GET_RefRonda(combate);
         refronda.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -124,7 +124,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
 
         //Hacemos una consulta a firebase preguntando por los combatientes que hay en el combate pasado por argumento ordenados por su iniciativa de forma ascendente,
         //(Firebase no da opcion ha hacerlo de forma descendete)
-         ref = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("iniciativa");
+         ref = FirebaseUtilsV1.OrdenarCombatePorIniciativa(combate);
         //Inicializacion de la lista de personajes en el combate
         personajeEnCombateoList=new ArrayList<>();
         //Inicializacion del adapeter
@@ -173,7 +173,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
                 Toast.makeText(getContext(),"Elemnto", Toast.LENGTH_SHORT).show();
                 Function f = FuncionIniciativa(personEnCombate.getKeyprincipal());
 
-                DialogoCambiarDatos.newInstance(null,100,null,f,getActivity()).show(getFragmentManager(),"Iniciativa");
+                DialogoCambiarDatos.newInstance(null,100,f,getActivity(),true).show(getFragmentManager(),"Iniciativa");
 
             }
         });
@@ -222,7 +222,8 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
             //También seteamos el valor de la ronda del combate y la inicializamos a 1
             if(todosfalso){
                 personajeEnCombateoList.get(personajeEnCombateoList.size()-1).setTurno(true, combate);
-                FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(1);
+
+                FirebaseUtilsV1.SET_Ronda(1,combate);
 
 
             }
@@ -238,7 +239,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
                     //Aque estamos recuperando el valor de la ronda y al pasar del ultimo al primero tenemos que aumentarlo en uno
                     int rondaint = combate.getRonda();
                     rondaint++;
-                    FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(rondaint);
+
                     combate.setRonda(rondaint);
                     ronda.setText(String.valueOf(combate.getRonda()));
 
@@ -266,7 +267,7 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
                 break;
 
             case R.id.rondatextView:
-                DialogoCambiarDatos.newInstance((TextView) v,100,null,  FuncionRonda(),getActivity()).show(getFragmentManager(),"Ronda");
+                DialogoCambiarDatos.newInstance((TextView) v,100,  FuncionRonda(),getActivity(),true).show(getFragmentManager(),"Ronda");
                 break;
         }
     }
@@ -287,7 +288,8 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
 
     public void SeleccionPersonaje(Combate.PersonEnCombate personEnCombate){
         //Pregunta a la base de datos por el personaje seleccionado y saca sus datos
-        FireBaseUtils.getRef().child("publico").child(personEnCombate.getUsuariokey()).child("personajes").child(personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        FirebaseUtilsV1.GET_RefPersonaje(personEnCombate.getUsuariokey(),personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("DefaultLocale")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -315,7 +317,9 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
         Function f = new Function() {
             @Override
             public Object apply(Object input) {
-                FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(key).child("iniciativa").setValue(input);
+
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey());
+               // FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(key).child("iniciativa").setValue(input);
                 return null;
             }
         };
@@ -327,7 +331,8 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
         Function f = new Function() {
             @Override
             public Object apply(Object input) {
-                FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ronda").setValue(input);
+                FirebaseUtilsV1.SET_Ronda(input,combate);
+
                 return null;
             }
         };

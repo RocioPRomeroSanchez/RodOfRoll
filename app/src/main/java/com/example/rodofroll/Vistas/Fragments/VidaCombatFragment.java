@@ -41,7 +41,7 @@ public class VidaCombatFragment extends Fragment  {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogoCambiarDatos.newInstance(textView,0,null,null,getActivity()).show(getFragmentManager(),"Vida");
+                DialogoCambiarDatos.newInstance(textView,0,null,getActivity(),true).show(getFragmentManager(),"Vida");
             }
         });
 

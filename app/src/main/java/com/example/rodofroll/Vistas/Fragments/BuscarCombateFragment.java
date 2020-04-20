@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Vistas.Adapters.BuscarAdapter;
 import com.example.rodofroll.Vistas.Dialogos.DialogoBuscarCombate;
 import com.example.rodofroll.Objetos.Usuario;
@@ -85,14 +85,11 @@ public class BuscarCombateFragment  extends Fragment {
     private void setAdapter(final String campo){
 
 
-       // DatabaseReference db  = FirebaseDatabase.getInstance().getReference();
 
-        //No funciona porque patata
         DatabaseReference db =FirebaseDatabase.getInstance().getReference().child("publico");
 
-
-
         Query query = db;
+
 
 
         db.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -111,26 +108,17 @@ public class BuscarCombateFragment  extends Fragment {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String id = snapshot.getKey();
                     String nombre = snapshot.child("nombre").getValue(String.class);
-                    String email = snapshot.child("email").getValue(String.class);
                     String foto = snapshot.child("foto").getValue(String.class);
 
-                    if(email.equals(FireBaseUtils.getUser().getEmail())){
+
+                    if(id.equals(FirebaseUtilsV1.getKey())){
 
                     }
-
-
                     else if (nombre.toLowerCase().contains(campo.toLowerCase())) {
                         NombreList.add(nombre);
-                        EmailList.add(email);
                         FotoList.add(foto);
 
-                        usuarios.add(new Usuario(nombre,email,foto,id));
-                        contador++;
-                    } else if (email.toLowerCase().contains(campo.toLowerCase())) {
-                        NombreList.add(nombre);
-                        EmailList.add(email);
-                        FotoList.add(foto);
-                        usuarios.add(new Usuario(nombre,email,foto,id));
+                        usuarios.add(new Usuario(nombre,foto,id));
                         contador++;
                     }
 
@@ -141,14 +129,13 @@ public class BuscarCombateFragment  extends Fragment {
                         break;
 
                 }
-                searchAdapter = new BuscarAdapter(NombreList, EmailList,FotoList);
+                searchAdapter = new BuscarAdapter(NombreList,FotoList);
                 searchAdapter.setOnClickCortoListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = MasterrecyclerView.getChildAdapterPosition(v);
                         Usuario usuario  = usuarios.get(position);
 
-                      //  FireBaseUtils.getRef().child("asfd").
                         DialogoBuscarCombate.newInstance(getActivity(),usuario).show(getFragmentManager(),"BuscarCombate");
                     }
                 });

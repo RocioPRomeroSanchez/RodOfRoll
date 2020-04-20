@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.onSelectedItemListener;
 import com.example.rodofroll.R;
@@ -22,7 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
-public class FichaPersonajeFragment extends Fragment  {
+public class FichaPersonajeFragment extends Fragment {
 
 
     onSelectedItemListener milistener;
@@ -62,15 +63,8 @@ public class FichaPersonajeFragment extends Fragment  {
         tabs.addTab(tabs.newTab().setText("Inventario").setIcon(R.drawable.chest));
         tabs.addTab(tabs.newTab().setText("Combate").setIcon(R.drawable.sword_cross));
 
-      /*  fragments.add(new AtributosFragment(p));
-        fragments.add(new BiografiaFragment(p));
-        fragments.add(new InventarioFragment(p));
-        fragments.add(new CombatPersonajeFragment(p));
-*/
-
 
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewPager);
-       // final PageAdapter adapter = new PageAdapter(getFragmentManager(),tabs.getTabCount(),tabs.getTabCount());
         final PageAdapter adapter = new PageAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
 

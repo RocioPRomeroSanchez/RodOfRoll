@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.ElementoAdapterClick;
 import com.example.rodofroll.Objetos.Personaje;
@@ -140,7 +140,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
                 imagenavisar.setVisibility(View.INVISIBLE);
             }
             personEnCombate=p;
-            FireBaseUtils.GetPersonajeRef(p.getUsuariokey(),p.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseUtilsV1.GET_RefPersonaje(p.getUsuariokey(),p.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();

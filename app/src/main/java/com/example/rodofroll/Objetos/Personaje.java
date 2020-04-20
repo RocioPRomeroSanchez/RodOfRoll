@@ -2,15 +2,8 @@
 package com.example.rodofroll.Objetos;
 
 
-import android.os.Build;
-import android.widget.Toast;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 
-import androidx.annotation.RequiresApi;
-
-import com.example.rodofroll.Firebase.FireBaseUtils;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,21 +19,33 @@ public class Personaje extends Combatiente {
     String clase;
     String alineamiento;
     String descripcion;
-    Long level;
-    Long exp;
-
-
+    double level;
+    double exp;
     List<CombatesAsociados> combates= new ArrayList<>();
     HashMap<String, Object> atributos;
     HashMap<String, Object> biografia;
     HashMap<String, Object> inventario;
-    Dinero dinero;
+    Dinero dinero=new Dinero();
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public double getPesolimit() {
+        return pesolimit;
+    }
+
+    double peso;
+    double pesolimit;
+
+    String key;
     List<Cosa> cosas;
 
     public Personaje() {
 
         nombre="";
     }
+
 
 
     public List<CombatesAsociados> getCombates() {
@@ -59,7 +64,6 @@ public class Personaje extends Combatiente {
         this.key = key;
     }
 
-    String key;
 
 
     public String getImagen() {
@@ -110,23 +114,6 @@ public class Personaje extends Combatiente {
         this.descripcion = descripcion;
     }
 
-    public long getLevel() {
-        return level;
-    }
-
-    public void setLevel(Long level) {
-        this.level = level;
-    }
-
-    public long getExp() {
-        return exp;
-    }
-
-    public void setExp(Long exp) {
-        this.exp = exp;
-    }
-
-
     public Dinero getDinero() {
         return dinero;
     }
@@ -170,11 +157,7 @@ public class Personaje extends Combatiente {
         this.biografia = (HashMap<String, Object>)biografia;
         this.inventario = (HashMap<String, Object>)inventario;
 
-       /* vida= Integer.parseInt((String) this.atributos.get("vida"));
-        armadura =  Integer.parseInt((String) this.atributos.get("armadura"));
-        iniciativa= Integer.parseInt((String) this.atributos.get("iniciativa"));
-        ataque=  Integer.parseInt((String) this.atributos.get("ataque"));
-        velocidad=  Integer.parseInt((String) this.atributos.get("velocidad"));*/
+        this.key=key;
 
        //Atributos
         vida = Double.parseDouble(this.atributos.get("vida").toString());
@@ -201,45 +184,15 @@ public class Personaje extends Combatiente {
         clase=(String)this.biografia.get("clase");
         alineamiento=(String)this.biografia.get("alineamiento");
         descripcion=(String)this.biografia.get("descripcion");
-        try {
-            level = (long) this.biografia.get("level");
-        }catch (NullPointerException ex){
 
-            level=0L;
-        }
-        try {
-            exp = (long) this.biografia.get("exp");
-        }catch (NullPointerException ex){
-
-            exp=0L;
-        }
 
         //Inventario
-        dinero= new Dinero();
-        try{
-            dinero.oro = (long)((HashMap<String,Object>)(this.inventario.get("dinero"))).get("oro");
-        }
-        catch (NullPointerException ex){
-            exp=0L;
-        }
-        try{
-            dinero.plata = (long)((HashMap<String,Object>)(this.inventario.get("dinero"))).get("plata");
-        }
-        catch (NullPointerException ex){
-            exp=0L;
-        }
-        try{
-            dinero.cobre = (long)((HashMap<String,Object>)(this.inventario.get("dinero"))).get("cobre");
-        }
-        catch (NullPointerException ex){
-            exp=0L;
-        }
-        cosas= (List<Cosa>) this.inventario.get("cosas");
-
-        this.key= key;
-
-
-
+        pesolimit = Double.parseDouble(this.inventario.get("pesolimit").toString());
+        peso = Double.parseDouble(this.inventario.get("peso").toString());
+        HashMap dinero = (HashMap) this.inventario.get("dinero");
+        this.dinero.oro = Double.parseDouble(dinero.get("oro").toString());
+        this.dinero.plata = Double.parseDouble(dinero.get("plata").toString());
+        this.dinero.cobre = Double.parseDouble(dinero.get("cobre").toString());
 
     }
 
@@ -251,50 +204,55 @@ public class Personaje extends Combatiente {
         this.clase = "";
         this.alineamiento = "";
         this.descripcion = "";
-        this.level = 0L;
-        this.exp = 0L;
+        this.level = 0D;
+        this.exp = 0D;
        this.dinero = new Dinero();
+       this.peso=0d;
+       this.pesolimit=0d;
 
 
        ReorganizarPersonaje();
 
     }
-    /*
 
-    public Personaje(String imagen, String nombre, String raza, String clase, String alineamiento, String descripcion, long level, long exp, Dinero dinero, List<Cosa> cosas) {
-        this.imagen = imagen;
-        this.nombre = nombre;
-        this.raza = raza;
-        this.clase = clase;
-        this.alineamiento = alineamiento;
-        this.descripcion = descripcion;
-        this.level = level;
-        this.exp = exp;
-        this.dinero = dinero;
-        this.cosas = cosas;
+   public static class Cosa {
+       public String getNombre() {
+           return nombre;
+       }
 
-        ReorganizarPersonaje();
-    }*/
+       public void setNombre(String nombre) {
+           this.nombre = nombre;
+       }
 
-    class Cosa {
-        String nombre;
+       public double getPeso() {
+           return peso;
+       }
+
+       public void setPeso(double peso) {
+           this.peso = peso;
+       }
+
+       String nombre;
         double peso;
 
         public Cosa(String nombre, double peso) {
             this.nombre = nombre;
             this.peso = peso;
         }
-    }
 
-    class Dinero {
-        long oro;
-        long plata;
-        long cobre;
+       public Cosa() {
+       }
+   }
+
+   public static class Dinero {
+       public double oro;
+       public double plata;
+       public double cobre;
 
         public Dinero() {
-            this.oro = 0L;
-            this.plata = 0L;
-            this.cobre = 0L;
+            this.oro = 0;
+            this.plata = 0;
+            this.cobre = 0;
         }
     }
     private void ReorganizarPersonaje(){
@@ -315,7 +273,6 @@ public class Personaje extends Combatiente {
         atributos.put("voluntad",voluntad);
 
 
-
         biografia = new HashMap<>();
         biografia.put("imagen", imagen);
         biografia.put("nombre", nombre);
@@ -333,8 +290,8 @@ public class Personaje extends Combatiente {
         dinero.put("cobre", this.dinero.cobre);
         inventario.put("dinero", dinero);
         inventario.put("cosas",cosas);
-
-
+        inventario.put("peso",peso);
+        inventario.put("pesolimit",pesolimit);
 
 
     }
@@ -346,35 +303,12 @@ public class Personaje extends Combatiente {
         principal.put("inventario",inventario);
         principal.put("biografia",biografia);
 
+
         HashMap<String, Object> objetPrincipal = new HashMap<String, Object>(principal);
-        objetPrincipal.put("iniciativa",iniciativa);
-
-
         return objetPrincipal;
     }
 
 
-    public void ModificarAtributosPersonaje(String atributo, Object nuevovalor, Personaje personaje) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
-        if(key!=null&!key.isEmpty()){
-
-
-            FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).child("personajes").child(key).child("atributos").child(atributo).setValue(nuevovalor);
-
-
-        /*    try {
-                Field f = Personaje.class.getDeclaredField(atributo);
-
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }*/
-        }
-
-        //
-
-/*
-        personaje.getClass().getField(atributo).set(personaje,nuevovalor);
-        String s ="hola";*/
-    }
 
    public static class CombatesAsociados{
        String masterkey;

@@ -23,30 +23,26 @@ import androidx.arch.core.util.Function;
 
 public class DialogoCambiarDatos extends DialogFragment {
 
-    /*TextView vista;
-    String atributo;
-    Activity activity;
-    Function function;
-    Object object;
-    int limite;*/
-
     TextView vista;
-    Object object;
     Function function;
     Activity activity;
-    int limite;
+    double limite;
+    boolean isnumber;
 
-    public static DialogoCambiarDatos newInstance(TextView view,int limite,Object object,Function function, Activity activity) {
-        DialogoCambiarDatos dialogo = new DialogoCambiarDatos(view,limite,object,function,activity);
+    public static DialogoCambiarDatos newInstance(TextView view,double limite,Function function, Activity activity,boolean isnumber){
+        DialogoCambiarDatos dialogo = new DialogoCambiarDatos(view,limite,function,activity,isnumber);
+        if(function==null){
+          return null;
+        }
         return dialogo;
     }
 
-    public DialogoCambiarDatos(TextView view,int limite,Object object, Function function,Activity activity){
+    public DialogoCambiarDatos(TextView view,double limite, Function function,Activity activity,boolean isnumber){
         this.vista=view;
         this.limite=limite;
         this.activity=activity;
-        this.object= object;
         this.function=function;
+        this.isnumber=isnumber;
     }
 
     @Override
@@ -74,10 +70,45 @@ public class DialogoCambiarDatos extends DialogFragment {
             @SuppressLint("DefaultLocale")
             public void onClick(View v) {
                 String cadena = editText.getText().toString();
-                if(cadena.isEmpty()){
+
+                if(!cadena.isEmpty()){
+                    if(EsUnNuemroReal(cadena)&&isnumber){
+                        Double numero = Double.valueOf(cadena);
+
+                        if (Math.abs(numero) < limite) {
+                            if(vista!=null){
+
+                                vista.setText(String.format("%.0f",numero));
+                                function.apply(numero);
+
+                                dismiss();
+                            }
+                        }
+                        else{
+                            editText.setError("Tiene que ser menor de "+ limite);
+                        }
+                    }
+                    else if(!isnumber){
+                        if(vista!=null){
+                            vista.setText(cadena);
+                            function.apply(cadena);
+
+                            dismiss();
+                        }
+
+                    }
+                    else {
+                        editText.setError("No se interpretar como un numero ");
+                    }
+
+                }
+                else{
                     editText.setError("No puede ser nulo");
                 }
-               else if(EsUnNuemroReal(cadena)) {
+            /*    if(cadena.isEmpty()){
+                    editText.setError("No puede ser nulo");
+                }
+               else if(EsUnNuemroReal(cadena)&&isnumber) {
                    Double numero = Double.valueOf(cadena);
 
                     if (Math.abs(numero) < limite) {
@@ -93,9 +124,11 @@ public class DialogoCambiarDatos extends DialogFragment {
                         editText.setError("Tiene que ser menor de "+ limite);
                     }
                 }
+
+               else if()
                else {
-                    editText.setError("No se interpreta como un numero real");
-                }
+                    editText.setError("No se interpretar ");
+                }*/
 
 
             }

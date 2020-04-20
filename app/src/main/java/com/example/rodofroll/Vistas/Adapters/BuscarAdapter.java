@@ -35,7 +35,7 @@ public class BuscarAdapter extends RecyclerView.Adapter<BuscarAdapter.BuscarHold
     }
 
 
-    public BuscarAdapter(ArrayList<String> nombreList, ArrayList<String> emailList, ArrayList<String> fotoList) {
+    public BuscarAdapter(ArrayList<String> nombreList, ArrayList<String> fotoList) {
 
         this.NombreList= nombreList;
         this.FotoList=fotoList;

@@ -6,6 +6,7 @@
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
 
     android:orientation="vertical"
     app:cardCornerRadius="5dp">
@@ -19,8 +20,9 @@
 
         <ImageView
             android:id="@+id/CardviewimageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp">
+            android:layout_margin="10dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp">
 
         </ImageView>
 
@@ -34,16 +36,6 @@
             android:textColor="@android:color/white"
 
             />
-
-        <ImageView
-            android:id="@+id/Cardview2imageView"
-            android:layout_width="74dp"
-            android:layout_height="48dp"
-
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/sword_cross"
-            tools:ignore="VectorDrawableCompat" />
 
 
     </LinearLayout>

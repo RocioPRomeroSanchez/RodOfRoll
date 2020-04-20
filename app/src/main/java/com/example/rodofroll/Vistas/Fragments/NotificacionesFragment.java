@@ -4,24 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.R;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
 
 public class NotificacionesFragment extends Fragment {
 
@@ -32,7 +25,9 @@ public class NotificacionesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.notificacioneslayout,container,false);
         final ListView lista = view.findViewById(R.id.notiflista);
-        DatabaseReference ref = FireBaseUtils.getRef().child("notificaciones").child(FireBaseUtils.getKey());
+     //   DatabaseReference ref = FireBaseUtils.getRef().child("notificaciones").child(FireBaseUtils.getKey());
+
+        DatabaseReference ref = FirebaseUtilsV1.GET_RefNotificaiones();
       /*  ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

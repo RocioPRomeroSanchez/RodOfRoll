@@ -22,8 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.ConversorImagenes;
+import com.example.rodofroll.Objetos.InicializarVistas;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.Objetos.Validacion;
@@ -38,10 +39,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DialogoBuscarCombate extends DialogFragment {
+public class DialogoBuscarCombate extends DialogFragment implements InicializarVistas {
 
     Activity activity;
     Usuario master;
+    ImageView Masterimagen;
+    ImageView dadoimagen;
+    ImageView Personajeimagen;
+    TextView MasterText;
+    TextView InitText;
+    TextView ResultadoText;
+    EditText TiradEditText;
+    Button enviar;
+    EditText dadoeditext;
+
+    Spinner combatespinner;
+    Spinner personajespinner;
+
+    final List<String> nombres= new ArrayList<>();
+    final List<Personaje> personajes= new ArrayList<>();
+    final List<String> combates = new ArrayList<>();
+    final List<String> keycombates=new ArrayList<>();
+
+    DatabaseReference personajesdb;
+    DatabaseReference combatesdb;
+
     public static DialogoBuscarCombate newInstance( Activity activity,Usuario usuario) {
         DialogoBuscarCombate dialogo = new DialogoBuscarCombate(activity,usuario);
         return dialogo;
@@ -52,38 +74,29 @@ public class DialogoBuscarCombate extends DialogFragment {
         this.master=usuario;
 
     }
-
-    public AlertDialog DialogNoTieneCombates(){
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
-        dialogBuilder.setMessage("No tiene combates creados");
-        return dialogBuilder.create();
-    }
-
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         final View myView = inflater.inflate(R.layout.busqcombat_layout, null);
 
-        ImageView Masterimagen = myView.findViewById(R.id.MasterimageView);
-        ImageView dadoimagen = myView.findViewById(R.id.dadoimageView);
-        final ImageView Personajeimagen = myView.findViewById(R.id.PersonajeimageView);
-        TextView MasterText = myView.findViewById(R.id.MastertextView);
-        final TextView InitText = myView.findViewById(R.id.IniciativatextView);
-        final TextView ResultadoText = myView.findViewById(R.id.ResultadotextView);
-        final EditText TiradEditText = myView.findViewById(R.id.Tiradaeditext);
+        InicializarComponentes(myView);
+        personajesdb = FirebaseUtilsV1.GET_RefPersonajes();
+        combatesdb = FirebaseUtilsV1.GET_RefCombates(master.getKey());
 
-        final Spinner combatespinner = myView.findViewById(R.id.CombateSpinner);
-        final Spinner personajespinner = myView.findViewById(R.id.PersonajeSpinner);
+        PersonajesPropios();
+        CombatesUsuario();
+
+        dialogBuilder.setView(myView);
+        final AlertDialog alertDialog=  dialogBuilder.create();
 
 
-        final DatabaseReference personajesdb = FireBaseUtils.GetPersonajesRef();
-        final DatabaseReference combatesdb = FireBaseUtils.GetCombates(master.getKey());
-        final List<String> nombres= new ArrayList<>();
-        final List<Personaje> personajes= new ArrayList<>();
-        final List<String> combates = new ArrayList<>();
-        final List<String> keycombates=new ArrayList<>();
 
+        return alertDialog;
+
+    }
+
+    public void PersonajesPropios(){
         personajesdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -108,8 +121,6 @@ public class DialogoBuscarCombate extends DialogFragment {
                     }
 
 
-
-
                     personajes.add(p);
                     nombres.add(p.getNombre());
 
@@ -130,30 +141,9 @@ public class DialogoBuscarCombate extends DialogFragment {
             }
         });
 
+    }
 
-
-        combatesdb.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                combates.removeAll(combates);
-                keycombates.removeAll(keycombates);
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    HashMap<String,String> combate=(HashMap<String,String>)snapshot.getValue();
-                    combates.add(combate.get("nombre"));
-                    keycombates.add(snapshot.getKey());
-                }
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(activity,android.R.layout.simple_spinner_item, combates);
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                combatespinner.setAdapter(arrayAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
+    public void TiradorEditText(){
         TiradEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -178,8 +168,32 @@ public class DialogoBuscarCombate extends DialogFragment {
 
             }
         });
+    }
 
+    public void CombatesUsuario(){
+        combatesdb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                combates.removeAll(combates);
+                keycombates.removeAll(keycombates);
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    HashMap<String,String> combate=(HashMap<String,String>)snapshot.getValue();
+                    combates.add(combate.get("nombre"));
+                    keycombates.add(snapshot.getKey());
+                }
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(activity,android.R.layout.simple_spinner_item, combates);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                combatespinner.setAdapter(arrayAdapter);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+    public void InicializarSpinner(){
         personajespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @SuppressLint("DefaultLocale")
             @Override
@@ -203,12 +217,22 @@ public class DialogoBuscarCombate extends DialogFragment {
 
             }
         });
-        Button enviar = myView.findViewById(R.id.Enviarbutton);
-        final EditText dadoeditext = myView.findViewById(R.id.Tiradaeditext);
+    }
 
-        dialogBuilder.setView(myView);
-        final AlertDialog alertDialog=  dialogBuilder.create();
 
+    @Override
+    public void InicializarComponentes(View myView) {
+        Masterimagen = myView.findViewById(R.id.MasterimageView);
+        dadoimagen = myView.findViewById(R.id.dadoimageView);
+        Personajeimagen = myView.findViewById(R.id.PersonajeimageView);
+        MasterText = myView.findViewById(R.id.MastertextView);
+        InitText = myView.findViewById(R.id.IniciativatextView);
+        ResultadoText = myView.findViewById(R.id.ResultadotextView);
+        TiradEditText = myView.findViewById(R.id.Tiradaeditext);
+        combatespinner = myView.findViewById(R.id.CombateSpinner);
+        personajespinner = myView.findViewById(R.id.PersonajeSpinner);
+        enviar = myView.findViewById(R.id.Enviarbutton);
+        dadoeditext = myView.findViewById(R.id.Tiradaeditext);
 
         Masterimagen.setImageBitmap(ConversorImagenes.convertirStringBitmap(master.getFoto()));
         MasterText.setText(master.getNombre());
@@ -218,56 +242,38 @@ public class DialogoBuscarCombate extends DialogFragment {
         dadoimagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int num = Dialogos.showDialogoDado(20,v,1,0, activity);
+                int num = Dialogos.showDialogoDado(20, v, 1, 0, activity);
                 dadoeditext.setText(String.valueOf(num));
                 dadoeditext.setError(null);
             }
         });
 
-
-
-
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //  FireBaseUtils.getRef().child("datos").child(master.key).push().setValue(1);
-
-                if(combates.size()==0){
-                    Toast.makeText(getContext(),"Este usuario no tiene combates asociados",Toast.LENGTH_LONG).show();
-                }
-                else{
+                if (combates.size() == 0) {
+                    Toast.makeText(getContext(), "Este usuario no tiene combates asociados", Toast.LENGTH_LONG).show();
+                } else {
                     String keycombat = (String) keycombates.get(combatespinner.getSelectedItemPosition());
 
-                    if(personajes.size()==0){
-                        Toast.makeText(getContext(),"No tienes personajes para enviar",Toast.LENGTH_LONG).show();
-                    }
-                    else{
+                    if (personajes.size() == 0) {
+                        Toast.makeText(getContext(), "No tienes personajes para enviar", Toast.LENGTH_LONG).show();
+                    } else {
 
 
-                        if(Validacion.ValidarEdit(TiradEditText)){
-                            FireBaseUtils.PersonajeIncluirCombate(getContext(),master.getKey(),keycombat,FireBaseUtils.getKey(),Integer.parseInt(ResultadoText.getText().toString()),personajes.get(personajespinner.getSelectedItemPosition()));
-
+                        if (Validacion.ValidarEdit(TiradEditText)) {
+                            FirebaseUtilsV1.SET_PersonjeINTOCombat(getContext(), master.getKey(), keycombat, Integer.parseInt(ResultadoText.getText().toString()), personajes.get(personajespinner.getSelectedItemPosition()));
                         }
 
                     }
 
                 }
 
-
-
-
-
-                /*p.iniciativa=6;*/
-
-                // FireBaseUtils.getRef().child("combates").child(master.key).push().child("OrdenTurno").child(p.key).setValue(p.Map());
             }
         });
 
-
-
-            return alertDialog;
-
-
+        TiradorEditText();
+        InicializarSpinner();
     }
 }

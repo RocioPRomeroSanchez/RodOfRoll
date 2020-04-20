@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Validacion;
@@ -63,7 +63,7 @@ public class Dialogos {
 
                     Personaje p = new Personaje(editText.getText().toString(),imagen);
                     try {
-                        FireBaseUtils.AnyadirCombatiente(p);
+                        FirebaseUtilsV1.AnyadirCombatiente(p);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -161,7 +161,8 @@ public class Dialogos {
     }
 
 
-    public static void showDialogNuevoCombate(final MainActivity activity, final Context context) throws Exception {
+
+    public static void showDialogNuevoCombate(final MainActivity activity) throws Exception {
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
@@ -182,7 +183,8 @@ public class Dialogos {
             public void onClick(View v) {
                 try {
                     if(Validacion.ValidarEdit(editText)){
-                        FireBaseUtils.AnyadirCombate(editText.getText().toString());
+                        FirebaseUtilsV1.AddCombate(editText.getText().toString());
+
                          alertDialog.dismiss();
                     }
 

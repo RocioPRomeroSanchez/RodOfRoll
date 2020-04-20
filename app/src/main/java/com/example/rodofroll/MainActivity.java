@@ -1,7 +1,6 @@
 package com.example.rodofroll;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -11,7 +10,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.AppKilledService;
 import com.example.rodofroll.Objetos.AsynTarea;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
@@ -29,6 +27,7 @@ import com.example.rodofroll.Objetos.onSelectedItemListener;
 import com.example.rodofroll.Vistas.Fragments.BuscarCombateFragment;
 import com.example.rodofroll.Vistas.Fragments.CombateRecyclerFragment;
 import com.example.rodofroll.Vistas.Fragments.DadosFragment;
+import com.example.rodofroll.Vistas.Fragments.FichaPersonajeFragment;
 import com.example.rodofroll.Vistas.Fragments.MiCuentaFragment;
 import com.example.rodofroll.Vistas.Fragments.NotificacionesFragment;
 import com.example.rodofroll.Vistas.Fragments.RecyclerViewFragment;
@@ -128,47 +127,11 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
         tarea.execute();
 
-        FireBaseUtils.GetDatosUsuario();
+        FirebaseUtilsV1.GetDatosUsuario();
 
 
 
     }
-
-
-
-
-
-   /* public void AnyadirCombatiente(Personaje c) {
-
-
-        if (c instanceof Personaje) {
-
-
-            FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("personajes").push().setValue(c.Map());
-
-        }
-
-
-     /*   if(c instanceof Personaje){
-            boolean b = personajes.exists();
-            //EscribirFichero(personajes,((Personaje) c).ToJson());
-
-        }
-        else if(c instanceof Monstruo){
-        }
-        */
-    /*}*/
-/*
-    public void LeerFichero(File file){
-
-    }
-    public void EscribirFichero(File file, JSONObject jsonObject) throws IOException {
-        FileWriter fileWriter = new FileWriter(personajes);
-        fileWriter.write(jsonObject.toString());
-        fileWriter.close();
-    }*/
-
-
 
     public void CrearMenus(int tipomenu) {
         startService(new Intent(getApplicationContext(), AppKilledService.class));
@@ -194,8 +157,8 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         ImageView imagen = hView.findViewById(R.id.usuarioimagen);
 
 
-        String apodo = FireBaseUtils.getDatosUser().getNombre();
-         String foto= FireBaseUtils.getDatosUser().getFoto();
+        String apodo = FirebaseUtilsV1.getDatosUser().getNombre();
+         String foto= FirebaseUtilsV1.getDatosUser().getFoto();
          correo.setText(apodo);
           imagen.setImageBitmap(ConversorImagenes.convertirStringBitmap(foto));
 
@@ -265,11 +228,13 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
 
-                FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(null);
+               // FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(null);
+                FirebaseUtilsV1.SET_TOKEN(null);
+
 
                 Intent intent = new Intent(this, LoginActivity.class);
 
-                FireBaseUtils.Borrar();
+                FirebaseUtilsV1.Borrar();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -294,9 +259,9 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         if (f instanceof ComunicateToTabsListener) {
 
             for (Fragment f1 : fragmentManager.getFragments()) {
-                if (f1.getClass() == f.getClass()) {
+                if (f1.getClass() == FichaPersonajeFragment.class) {
 
-                    ComunicateToTabsListener inter = (ComunicateToTabsListener) f1;
+                    ComunicateToTabsListener inter = (ComunicateToTabsListener) f;
                     inter.onClickParentTab();
                     break;
                 }
@@ -334,7 +299,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FireBaseUtils.Borrar();
+        FirebaseUtilsV1.Borrar();
     }
 
     @Override
@@ -342,6 +307,8 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         super.onBackPressed();
         tarea.cancel(true);
     }
+
+
 }
 
 

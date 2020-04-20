@@ -1,17 +1,7 @@
 package com.example.rodofroll.Objetos;
 
-import android.annotation.SuppressLint;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 
-import androidx.annotation.NonNull;
-
-import com.example.rodofroll.Firebase.FireBaseUtils;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -100,7 +90,8 @@ public class Combate {
                 }
             });*/
 
-           FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(keyprincipal).child("turno").setValue(turno1);
+            FirebaseUtilsV1.SET_Turno(combate.getKey(),keyprincipal,turno1);
+          // FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(keyprincipal).child("turno").setValue(turno1);
            turno=turno1;
         }
 
@@ -160,7 +151,7 @@ public class Combate {
 
 
         public void Avisar(Combate combate) {
-            FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(this.keyprincipal).child("avisar").setValue(true);
+            FirebaseUtilsV1.SET_Turno(combate.getKey(),this.keyprincipal,true);
         }
     }
 }

@@ -6,26 +6,29 @@
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
-        android:layout_weight="1"
-
+        android:id="@+id/NombreCardView"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
 
-        >
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+
+        android:layout_weight="1">
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/shape_round"
-            android:backgroundTint="@color/colorPrimaryDark"
 
+            android:backgroundTint="@color/colorPrimary"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/NombreTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hola">
+                android:text="Hola"
+                android:textColor="@android:color/black">
 
             </TextView>
 
@@ -34,10 +37,10 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_weight="2"
-        android:layout_height="40dp"
+        android:id="@+id/PesoCardView"
         android:layout_width="match_parent"
-       >
+        android:layout_height="40dp"
+        android:layout_weight="2">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,13 +48,15 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="2"
             android:background="@drawable/shape_round"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/colorAccent"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/PesoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hola">
+                android:inputType="numberDecimal"
+                android:textColor="@android:color/black">
 
             </TextView>
 

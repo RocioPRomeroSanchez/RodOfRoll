@@ -7,24 +7,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 
-import com.example.rodofroll.Firebase.FireBaseUtils;
-import com.example.rodofroll.Objetos.AppKilledService;
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.Objetos.Validacion;
@@ -39,15 +33,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 
-public class LoginActivity extends Actividad implements View.OnClickListener  {
+public class LoginActivity extends Actividad implements View.OnClickListener {
 
     TextInputLayout emailTextLayout;
     TextInputLayout apodoTextLayout;
@@ -61,20 +53,17 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
     ProgressBar progressBar;
     Button b;
     Acceso acceso;
-    FirebaseAuth auth=FirebaseAuth.getInstance();
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     ImageView imageView;
 
     Dialog dialog;
 
 
-
-    enum Acceso{
+    enum Acceso {
         Registrarse, Login
 
     }
-
-
 
 
     @Override
@@ -85,13 +74,11 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
         setTheme(R.style.AppTheme);
 
 
-
         emailTextLayout = findViewById(R.id.emaillayout);
         apodoTextLayout = findViewById(R.id.apodolayout);
         passTextLayout = findViewById(R.id.passlayout);
         pass2TextLayout = findViewById(R.id.pass2layout);
         imageView = findViewById(R.id.UserimageView);
-
 
 
         pass2TextLayout.setVisibility(View.GONE);
@@ -120,7 +107,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
         progressBar.setVisibility(View.GONE);
 
 
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,8 +115,8 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
         });
 
 
-
     }
+
     @Override
     public void onClick(View v) {
 
@@ -147,7 +133,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
                     pass2TextLayout.setPasswordVisibilityToggleEnabled(true);
                     b.setText(R.string.Registrarse);
-                    acceso= Acceso.Registrarse;
+                    acceso = Acceso.Registrarse;
 
 
                 } else {
@@ -158,7 +144,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                     b.setText(R.string.Login);
                     pass2EditText.setError(null);
                     pass2EditText.setText(null);
-                    acceso= Acceso.Login;
+                    acceso = Acceso.Login;
 
 
                 }
@@ -167,32 +153,31 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
             case R.id.button:
 
                 closeTecladoMovil();
-                boolean boolpass =true;
+                boolean boolpass = true;
 
 
-                if (acceso==Acceso.Registrarse) {
+                if (acceso == Acceso.Registrarse) {
 
-                   boolpass= Validacion.ValidarDosEdit(pass2EditText, pass2TextLayout,passEditText,passTextLayout)&Validacion.ValidarEdit(apodoEditText,apodoTextLayout);
+                    boolpass = Validacion.ValidarDosEdit(pass2EditText, pass2TextLayout, passEditText, passTextLayout) & Validacion.ValidarEdit(apodoEditText, apodoTextLayout);
 
                 }
-                if(Validacion.ValidarEdit(emailEditText,emailTextLayout)&Validacion.ValidarEdit(passEditText,passTextLayout)&&boolpass){
+                if (Validacion.ValidarEdit(emailEditText, emailTextLayout) & Validacion.ValidarEdit(passEditText, passTextLayout) && boolpass) {
 
-                    if(acceso==Acceso.Registrarse){
+                    if (acceso == Acceso.Registrarse) {
                         try {
-                            RegistrarUser(emailEditText.getText().toString(), apodoEditText.getText().toString(),passEditText.getText().toString(), ConversorImagenes.convertirImagenString(((BitmapDrawable)imageView.getDrawable()).getBitmap()),v);
+                            RegistrarUser(emailEditText.getText().toString(), apodoEditText.getText().toString(), passEditText.getText().toString(), ConversorImagenes.convertirImagenString(((BitmapDrawable) imageView.getDrawable()).getBitmap()), v);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    }else{
+                    } else {
                         try {
-                           LoginUser(emailEditText.getText().toString(),passEditText.getText().toString(),v);
+                            LoginUser(emailEditText.getText().toString(), passEditText.getText().toString(), v);
 
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    }
-
+                }
 
 
                 break;
@@ -201,103 +186,59 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
 
     }
+
     public void RegistrarUser(final String email, final String apodo, final String password, final String imagen, final View view) throws InterruptedException {
-       view.setEnabled(false);
-        progressBar.setVisibility(View.VISIBLE);
-
-
-       auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-           @Override
-           public void onComplete(@NonNull Task<AuthResult> task) {
-               progressBar.setVisibility(View.GONE);
-               if(task.isSuccessful()){
-
-                   // Sign in is successful
-                   //firebaseStorage=FirebaseStorage.g
-
-
-
-                   FireBaseUtils.CrearRef();
-
-               final String key = FireBaseUtils.getRef().child("key").push().getKey();
-
-
-               FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("id").setValue(key , new DatabaseReference.CompletionListener() {
-                   @Override
-                   public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                       FireBaseUtils.getRef().child("publico").child(key).setValue(new Usuario(apodo,email,imagen), new DatabaseReference.CompletionListener() {
-                           @Override
-                           public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-
-
-                               AddDevice(view);
-
-                            /*   FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
-                                   @Override
-                                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                           AddDevice(view);
-                                       Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-
-                                       startActivity(intent);
-
-
-                                   }
-
-                                   @Override
-                                   public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                   }
-                               });*/
-                           }
-                       });
-                   }
-               });
-
-                   /*db.child("id").setValue(FireBaseUtils.getUser().getUid());
-
-                   db.child("datos").setValue(new Usuario(apodo,email,imagen));
-*/
-
-
-
-                 //  db.setValue(new Usuario(apodo,email,imagen));
-
-               }
-               else{
-                   Snackbar.make(view,ErroresAuth(task.getException()), Snackbar.LENGTH_LONG)
-                           .show();
-
-
-
-               }
-               view.setEnabled(true);
-           }
-       });
-
-
-    }
-    public void LoginUser(String email, final String password , final View view) throws InterruptedException {
         view.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
 
 
-
-       auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
-                    AddDevice(view);
+                    // Sign in is successful
+                    //firebaseStorage=FirebaseStorage.g
 
 
+                    // FireBaseUtils.CrearRef();
+
+                    final String key = FirebaseUtilsV1.GeneradorKeys();
+
+                    FirebaseUtilsV1.RegistroUsuario(key,new Usuario(apodo,imagen,key),LoginActivity.this);
+
+                } else {
+                    Snackbar.make(view, ErroresAuth(task.getException()), Snackbar.LENGTH_LONG)
+                            .show();
 
 
                 }
-                else{
+                view.setEnabled(true);
+            }
+        });
 
-                   Snackbar.make(view,ErroresAuth(task.getException()), Snackbar.LENGTH_LONG)
+
+    }
+
+    public void LoginUser(String email, final String password, final View view) throws InterruptedException {
+        view.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
+
+
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
+                if (task.isSuccessful()) {
+
+
+                    FirebaseUtilsV1.AddDevice(LoginActivity.this);
+
+
+                } else {
+
+                    Snackbar.make(view, ErroresAuth(task.getException()), Snackbar.LENGTH_LONG)
                             .show();
                     passTextLayout.setPasswordVisibilityToggleEnabled(true);
 
@@ -310,7 +251,8 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
 
     }
-    public void AnyadirToggle(EditText e ,final TextInputLayout t){
+
+    public void AnyadirToggle(EditText e, final TextInputLayout t) {
         e.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -332,30 +274,29 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
     }
 
 
-    public String ErroresAuth(Exception f){
+    public String ErroresAuth(Exception f) {
 
         if (FirebaseNetworkException.class.equals(f.getClass())) {
-            return  "Error de red";
+            return "Error de red";
 
         } else if (FirebaseAuthInvalidCredentialsException.class.equals(f.getClass())) {
-            return  "Contraseña incorrecta";
+            return "Contraseña incorrecta";
 
         } else if (FirebaseAuthUserCollisionException.class.equals(f.getClass())) {
 
-            return  "Usuario ya existente";
-        }
-        else if(FirebaseAuthInvalidUserException.class.equals(f.getClass())){
-            return  "Usuario inexistente";
+            return "Usuario ya existente";
+        } else if (FirebaseAuthInvalidUserException.class.equals(f.getClass())) {
+            return "Usuario inexistente";
         }
 
-      return "Error";
+        return "Error";
     }
 
-    public void closeTecladoMovil(){
+    public void closeTecladoMovil() {
         View view = this.getCurrentFocus();
-        if(view!=null){
+        if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         }
     }
@@ -367,12 +308,12 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
 
     }
+}
 
 
 
 
-
-    public void AddDevice(final View view) {
+    /*public void AddDevice(final View view) {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -405,7 +346,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
                             }
 
 
-                            });*/
+                            });
 
                     }
                 });
@@ -413,3 +354,4 @@ public class LoginActivity extends Actividad implements View.OnClickListener  {
 
     }
 }
+*/
