@@ -212,6 +212,8 @@ public class FirebaseUtilsV1 {
             String id =  FirebaseUtilsV1.ref.child("key").push().getKey();
             FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(p.getKey()).child("combates").child(id).child("masterid").setValue(master);
             FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(p.getKey()).child("combates").child(id).child("combateid").setValue(combate);
+            FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(p.getKey()).child("combates").child(id).child("vida").setValue(p.getVida());
+            FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(p.getKey()).child("combates").child(id).child("armadura").setValue(p.getArmadura());
             Toast.makeText(context,"Exito",Toast.LENGTH_LONG).show();
 
         }
@@ -219,6 +221,10 @@ public class FirebaseUtilsV1 {
             Toast.makeText(context,"Este personaje ya esta incluido en este combate", Toast.LENGTH_LONG).show();
         }
 
+
+    }
+    public static  void SET_Inicaitiva(String key, Combate combate, double init){
+         FirebaseUtilsV1.ref.child("combates").child(FirebaseUtilsV1.getKey()).child(combate.getKey()).child("ordenturno").child(key).child("iniciativa").setValue(init);
 
     }
     static  public void AddCombate(String nombre) throws Exception {

@@ -29,8 +29,9 @@ import com.example.rodofroll.Vistas.Fragments.CombateRecyclerFragment;
 import com.example.rodofroll.Vistas.Fragments.DadosFragment;
 import com.example.rodofroll.Vistas.Fragments.FichaPersonajeFragment;
 import com.example.rodofroll.Vistas.Fragments.MiCuentaFragment;
+import com.example.rodofroll.Vistas.Fragments.MonsRecyclerViewFragment;
 import com.example.rodofroll.Vistas.Fragments.NotificacionesFragment;
-import com.example.rodofroll.Vistas.Fragments.RecyclerViewFragment;
+import com.example.rodofroll.Vistas.Fragments.PerRecyclerViewFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -177,7 +178,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
                 switch (menuItem.getItemId()) {
 
                     case R.id.navigation_item_personajes:
-                        fragment = new RecyclerViewFragment();
+                        fragment = new PerRecyclerViewFragment();
 
                         break;
                     case R.id.navigation_item_dados:
@@ -187,7 +188,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
 
                     case R.id.navigation_item_moster:
-                      //  fragment = new RecyclerViewFragment();
+                        fragment = new MonsRecyclerViewFragment();
 
                         break;
 

@@ -110,7 +110,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MenuEmergenteImagen(imageView);
+                MenuEmergenteImagen(imageView,null);
             }
         });
 
@@ -310,48 +310,3 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
     }
 }
 
-
-
-
-    /*public void AddDevice(final View view) {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-
-                            return;
-
-                        }
-                        final String token = task.getResult().getToken();
-
-
-                        FireBaseUtils.CrearRef();
-                        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
-                        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-
-                        startActivity(intent);
-
-                      /*  FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
-
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                               String token1 = (String) dataSnapshot.getValue();
-                                FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(token);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-
-
-                            });
-
-                    }
-                });
-
-
-    }
-}
-*/

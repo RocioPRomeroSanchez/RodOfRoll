@@ -8,10 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Personaje.CombatesAsociados;
 import com.example.rodofroll.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -65,9 +69,20 @@ public class CombatesAsociadosAdaper extends RecyclerView.Adapter implements Vie
             super(itemView);
             nombre=itemView.findViewById(R.id.textView);
         }
-        public void bind(CombatesAsociados combatesAsociados){
+        public void bind(final CombatesAsociados combatesAsociados){
 
-            nombre.setText(combatesAsociados.getMasterkey());
+            FirebaseUtilsV1.GET_RefCombates(combatesAsociados.getMasterkey()).child(combatesAsociados.getCombatekey()).child("nombre").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    nombre.setText((String)dataSnapshot.getValue());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
         public void onClick(View v) {
             if(listenercorto!= null) listenercorto.onClick(v);

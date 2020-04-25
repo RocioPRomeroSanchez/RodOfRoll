@@ -143,7 +143,7 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.UserimageView:
-                ((MainActivity)getActivity()).MenuEmergenteImagen(userimageView);
+                ((MainActivity)getActivity()).MenuEmergenteImagen(userimageView,null);
 
                 break;
         }

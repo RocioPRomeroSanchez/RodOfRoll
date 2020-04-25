@@ -25,13 +25,15 @@ import com.example.rodofroll.R;
 import androidx.arch.core.util.Function;
 
 
-public class AtributosFragment extends Fragment  implements ComunicateToTabsListener , View.OnClickListener {
+public class AtributosFragment extends Fragment implements View.OnClickListener,ComunicateToTabsListener, EstructuraFragment  {
+
 
 
     View v;
+    //Objeto Pojo
     Personaje p;
 
-    //Vistas
+    //Vistas del layout
     TextView vidaTextView;
     TextView caTextView;
     TextView iniciativaTextView;
@@ -61,6 +63,8 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
     LinearLayout reflejosLayout;
     LinearLayout voluntadLayout;
 
+
+    //El constructor de este fragment debe recibir un objeto persona
     public AtributosFragment(Personaje p){
         this.p=p;
     }
@@ -70,6 +74,17 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
                              final ViewGroup container, final Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.atributos_layout, container, false);
+        //Aqui estamos inicializando todos los componentes que aparecen en el layout
+        InicializarComponentes(v);
+        //Les asociamos a cada componente de la vista los valores del objeto persona
+        AsociarPOJO(p);
+
+        return v;
+    }
+
+
+    @Override
+    public void InicializarComponentes(View view) {
 
         vidaTextView= v.findViewById(R.id.VidaTextView);
         caTextView = v.findViewById(R.id.CATextView);
@@ -115,18 +130,15 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
         fortalezaLayout.setOnClickListener(this);
         reflejosLayout.setOnClickListener(this);
         voluntadLayout.setOnClickListener(this);
+    }
 
+    @Override
+    public void ComportamientoRecycler() {
 
-
-        InicializarDatos(p);
-
-        vidaTextView.setOnClickListener(this);
-
-        return v;
     }
 
     @SuppressLint("DefaultLocale")
-    public void InicializarDatos(Personaje p){
+    public void AsociarPOJO(Personaje p){
         vidaTextView.setText(String.format("%.0f",p.getVida()));
         caTextView.setText(String.format("%.0f",p.getArmadura()));
         iniciativaTextView.setText(String.format("%.0f",p.getModiniciativa()));
@@ -265,6 +277,7 @@ public class AtributosFragment extends Fragment  implements ComunicateToTabsList
 
 
     }
+    //Creamos una funcion que devuelve el objeto Function
 
     public Function CrearFuncion(final String atributo, final Personaje p){
 

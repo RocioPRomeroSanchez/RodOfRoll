@@ -1,6 +1,7 @@
 package com.example.rodofroll.Objetos;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class Combatiente implements Serializable {
@@ -21,6 +22,27 @@ public abstract class Combatiente implements Serializable {
     double reflejos;
     double voluntad;
     double iniciativa;
+    String imagen;
+    String nombre;
+    String raza;
+    String clase;
+    String alineamiento;
+    String descripcion;
+    int level;
+    int exp;
+
+    public static String[] alineamientos = new String[]{
+            "Legal bueno",
+            "Neutral bueno",
+            "Caótico bueno",
+            "Legal neutral",
+            "Neutral",
+            "Caótico neutral",
+            "Legal malvado",
+            "Neutral malvado",
+            "Caótico malvado"
+    };
+
 
 
     public double getVida() {
@@ -156,6 +178,56 @@ public abstract class Combatiente implements Serializable {
 
     boolean turno;
 
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
+    }
+
+    public String getClase() {
+        return clase;
+    }
+
+    public void setClase(String clase) {
+        this.clase = clase;
+    }
+
+    public String getAlineamiento() {
+        return alineamiento;
+    }
+
+    public void setAlineamiento(String alineamiento) {
+        this.alineamiento = alineamiento;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    HashMap<String, Object> atributos;
+    HashMap<String, Object> biografia;
 
     public Combatiente() {
 
@@ -178,6 +250,7 @@ public abstract class Combatiente implements Serializable {
 
         turno= false;
         iniciativa=0;
+        exp=0;
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.rodofroll.Vistas.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.PeriodicSync;
 import android.os.Bundle;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class InventarioFragment extends Fragment implements InicializarVistas, View.OnClickListener , ComunicateToTabsListener{
+public class InventarioFragment extends Fragment implements View.OnClickListener, ComunicateToTabsListener, EstructuraFragment {
 
     View v;
     RecyclerView recyclerView;
@@ -49,10 +50,12 @@ public class InventarioFragment extends Fragment implements InicializarVistas, V
     TextView PesoTextView;
     TextView PesoLimitTextView;
     double contadorpeso;
+    Activity activity;
 
 
-    public InventarioFragment(Personaje p) {
+    public InventarioFragment(Personaje p, Activity activity) {
         this.p=p;
+        this.activity=activity;
     }
 
 
@@ -96,20 +99,20 @@ public class InventarioFragment extends Fragment implements InicializarVistas, V
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.OroTextView:
-                DialogoCambiarDatos.newInstance(OroTextView,99999, CrearFuncionDinero("oro"), getActivity(),true).show(getFragmentManager(),"Oro");
+                DialogoCambiarDatos.newInstance(OroTextView,99999, CrearFuncionDinero("oro"),activity,true).show(getFragmentManager(),"Oro");
                 break;
             case R.id.PlataTextView:
-                DialogoCambiarDatos.newInstance(PlataTextView,99999, CrearFuncionDinero("plata"), getActivity(),true).show(getFragmentManager(),"Plata");
+                DialogoCambiarDatos.newInstance(PlataTextView,99999, CrearFuncionDinero("plata"),activity,true).show(getFragmentManager(),"Plata");
                 break;
             case R.id.CobreTextView:
-                DialogoCambiarDatos.newInstance(CobreTextView,99999, CrearFuncionDinero("cobre"), getActivity(),true).show(getFragmentManager(),"Cobre");
+                DialogoCambiarDatos.newInstance(CobreTextView,99999, CrearFuncionDinero("cobre"), activity,true).show(getFragmentManager(),"Cobre");
                 break;
             case R.id.PesoEditText:
                 //DialogoCambiarDatos.newInstance(PesoTextView,Integer.parseInt(PesoLimitTextView.getText().toString()),null, CrearFuncionPeso(), getActivity()).show(getFragmentManager(),"Peso");
                 break;
             case R.id.LimitPesoTextView:
 
-                    DialogoCambiarDatos.newInstance(PesoLimitTextView,1000, CrearFuncionPesoLimite(), getActivity(),true).show(getFragmentManager(),"LimitPeso");
+                    DialogoCambiarDatos.newInstance(PesoLimitTextView,1000, CrearFuncionPesoLimite(),activity,true).show(getFragmentManager(),"LimitPeso");
 
 
                 break;
@@ -162,7 +165,7 @@ public class InventarioFragment extends Fragment implements InicializarVistas, V
 
     @Override
     public void onClickParentTab() {
-       showDialogoCosas((MainActivity) getActivity());
+       showDialogoCosas((MainActivity) activity);
 
     }
 
@@ -210,15 +213,18 @@ public class InventarioFragment extends Fragment implements InicializarVistas, V
 
 
         FirebaseUtilsV1.GET_RefCosas(FirebaseUtilsV1.getDatosUser(),this.p).addValueEventListener(new ValueEventListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 cosaList.removeAll(cosaList);
+                contadorpeso=0;
+                PesoTextView.setText(String.format("%.0f",contadorpeso));
 
                 for(DataSnapshot d : dataSnapshot.getChildren()){
                     Personaje.Cosa cosa = d.getValue(Personaje.Cosa.class);
                     cosaList.add(cosa);
                     contadorpeso+=cosa.getPeso();
-                    PesoTextView.setText(String.valueOf(contadorpeso));
+                    PesoTextView.setText(String.format("%.0f",contadorpeso));
                 }
                 adapter.notifyDataSetChanged();
             }

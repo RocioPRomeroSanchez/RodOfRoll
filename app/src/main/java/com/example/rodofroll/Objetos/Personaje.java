@@ -13,19 +13,23 @@ public class Personaje extends Combatiente {
 
 
 
-    String imagen;
-    String nombre;
-    String raza;
-    String clase;
-    String alineamiento;
-    String descripcion;
-    double level;
-    double exp;
     List<CombatesAsociados> combates= new ArrayList<>();
-    HashMap<String, Object> atributos;
-    HashMap<String, Object> biografia;
+
     HashMap<String, Object> inventario;
     Dinero dinero=new Dinero();
+
+    public int getExptope() {
+        return exptope;
+    }
+    public int getExp(){
+        return  exp;
+    }
+
+    public void setExptope(int exptope) {
+        this.exptope = exptope;
+    }
+
+   int exptope;
 
     public double getPeso() {
         return peso;
@@ -47,7 +51,6 @@ public class Personaje extends Combatiente {
     }
 
 
-
     public List<CombatesAsociados> getCombates() {
         return combates;
     }
@@ -62,56 +65,6 @@ public class Personaje extends Combatiente {
 
     public void setKey(String key) {
         this.key = key;
-    }
-
-
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getRaza() {
-        return raza;
-    }
-
-    public void setRaza(String raza) {
-        this.raza = raza;
-    }
-
-    public String getClase() {
-        return clase;
-    }
-
-    public void setClase(String clase) {
-        this.clase = clase;
-    }
-
-    public String getAlineamiento() {
-        return alineamiento;
-    }
-
-    public void setAlineamiento(String alineamiento) {
-        this.alineamiento = alineamiento;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public Dinero getDinero() {
@@ -138,20 +91,6 @@ public class Personaje extends Combatiente {
         Personaje.alineamientos = alineamientos;
     }
 
-
-    public static String[] alineamientos = new String[]{
-            "Legal bueno",
-            "Neutral bueno",
-            "Caótico bueno",
-            "Legal neutral",
-            "Neutral",
-            "Caótico neutral",
-            "Legal malvado",
-            "Neutral malvado",
-            "Caótico malvado"
-    };
-
-
     public Personaje(Object atributos, Object biografia, Object inventario, String key) {
         this.atributos = (HashMap<String, Object>) atributos;
         this.biografia = (HashMap<String, Object>)biografia;
@@ -175,8 +114,6 @@ public class Personaje extends Combatiente {
         reflejos = Double.parseDouble(this.atributos.get("reflejos").toString());
         voluntad = Double.parseDouble(this.atributos.get("voluntad").toString());
 
-
-
        //Biografia
         nombre= (String) this.biografia.get("nombre");
         imagen=(String)this.biografia.get("imagen");
@@ -184,6 +121,9 @@ public class Personaje extends Combatiente {
         clase=(String)this.biografia.get("clase");
         alineamiento=(String)this.biografia.get("alineamiento");
         descripcion=(String)this.biografia.get("descripcion");
+        exp= Integer.parseInt(this.biografia.get("exp").toString());
+        level=(Integer.parseInt(this.biografia.get("level").toString()));
+        exptope=(Integer.parseInt(this.biografia.get("exptope").toString()));
 
 
         //Inventario
@@ -204,11 +144,12 @@ public class Personaje extends Combatiente {
         this.clase = "";
         this.alineamiento = "";
         this.descripcion = "";
-        this.level = 0D;
-        this.exp = 0D;
+        this.level = 0;
+        this.exp = 0;
        this.dinero = new Dinero();
        this.peso=0d;
        this.pesolimit=0d;
+       this.exptope=0;
 
 
        ReorganizarPersonaje();
@@ -282,6 +223,7 @@ public class Personaje extends Combatiente {
         biografia.put("descripcion", descripcion);
         biografia.put("level", level);
         biografia.put("exp", exp);
+        biografia.put("exptope",exptope);
 
         inventario = new HashMap<>();
         HashMap<String, Object> dinero = new HashMap<>();
@@ -308,12 +250,33 @@ public class Personaje extends Combatiente {
         return objetPrincipal;
     }
 
+    public CombatesAsociados GetCombateAsociado(String key, String masterkey){
+        for(CombatesAsociados c : combates){
+            if(c.getCombatekey().equals(key)&&c.getMasterkey().equals(masterkey)){
+                return c;
+            }
+        }
+       return null;
+
+    }
+
 
 
    public static class CombatesAsociados{
        String masterkey;
        String combatekey;
-       int vida;
+       double vida;
+       double ca;
+
+       public double getVida() {
+           return vida;
+       }
+
+       public double getCa() {
+           return ca;
+       }
+
+
 
        public String getMasterkey() {
            return masterkey;
@@ -336,6 +299,8 @@ public class Personaje extends Combatiente {
         public CombatesAsociados(String masterkey, String combatekey) {
             this.masterkey = masterkey;
             this.combatekey = combatekey;
+            vida=0;
+            ca=0;
 
         }
     }

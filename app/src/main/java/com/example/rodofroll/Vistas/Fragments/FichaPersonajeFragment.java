@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.rodofroll.Actividad;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.onSelectedItemListener;
@@ -69,8 +70,8 @@ public class FichaPersonajeFragment extends Fragment {
 
 
         adapter.addFragment(new AtributosFragment(p));
-        adapter.addFragment(new BiografiaFragment(p));
-        adapter.addFragment(new InventarioFragment(p));
+        adapter.addFragment(new BiografiaFragment(p,(Actividad) getActivity()));
+        adapter.addFragment(new InventarioFragment(p,getActivity()));
         adapter.addFragment(new CombatPersonajeFragment(p));
 
 

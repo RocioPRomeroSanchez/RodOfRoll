@@ -16,19 +16,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rodofroll.Objetos.ConversorImagenes;
+import com.example.rodofroll.Objetos.OnTaskCompleted;
 
 public class Actividad  extends AppCompatActivity {
     public ImageView remp;
 
     private static int PHOTO_RESULT=0,PICK_IMAGE=1 ;
+    OnTaskCompleted onTaskCompleted;
 
 
 
-    public void MenuEmergenteImagen(final ImageView view){
+    public void MenuEmergenteImagen(final ImageView view, final OnTaskCompleted onTaskCompleted){
         PopupMenu popupMenu = new PopupMenu(getApplicationContext(),view);
         popupMenu.getMenuInflater().inflate(R.menu.menuimagen,popupMenu.getMenu());
 
-
+        this.onTaskCompleted=onTaskCompleted;
         remp=view;
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -48,8 +50,11 @@ public class Actividad  extends AppCompatActivity {
 
                         break;
                     case R.id.opborrar:
+                        remp.setImageResource(R.drawable.mago);
+                        if(onTaskCompleted!=null){
+                           onTaskCompleted.onTaskCompleted();
+                        }
 
-                        view.setImageResource(R.drawable.mago);
                         break;
 
                 }
@@ -71,6 +76,11 @@ public class Actividad  extends AppCompatActivity {
             {
                 resultado = ((Bitmap) data.getParcelableExtra("data"));
                 remp.setImageBitmap(resultado);
+                if(onTaskCompleted!=null){
+                    onTaskCompleted.onTaskCompleted();
+                }
+
+
 
             }
 
@@ -80,7 +90,12 @@ public class Actividad  extends AppCompatActivity {
             Uri selectedImage = data.getData();
             resultado= ConversorImagenes.getScaledBitmap(selectedImage,this);
             remp.setImageBitmap(resultado);
+            if(onTaskCompleted!=null){
+                onTaskCompleted.onTaskCompleted();
+            }
+
         }
+
 
 
     }

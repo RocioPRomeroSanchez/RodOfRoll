@@ -38,7 +38,7 @@ import java.util.List;
 
 
 //Es una clase Fragment que esta vinculada al funcionamiento del layout correspondeinte a los turnos de un combate
-public class TurnoFragment extends Fragment implements View.OnClickListener , InicializarVistas {
+public class TurnoFragment extends Fragment implements EstructuraFragment, View.OnClickListener {
 
     Combate combate;
     ImageButton turnobutton;
@@ -297,8 +297,10 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
                 Personaje p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), dataSnapshot.getKey());
                 nombreTextView.setText(p.getNombre());
                 personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
-                vidaTextView.setText(String.format("%.0f",p.getVida()));
-                caTextView.setText(String.format("%.0f",p.getArmadura()));
+
+                Personaje.CombatesAsociados combate1 = p.GetCombateAsociado( combate.getKey(),FirebaseUtilsV1.getKey());
+                 vidaTextView.setText(String.format("%.0f", combate1.getVida()));
+                caTextView.setText(String.format("%.0f",combate1.getCa()));
 
 
             }
@@ -316,8 +318,9 @@ public class TurnoFragment extends Fragment implements View.OnClickListener , In
             @Override
             public Object apply(Object input) {
 
-                FirebaseUtilsV1.GET_RefCombate(combate.getKey());
+                //FirebaseUtilsV1.GET_RefCombate(combate.getKey());
                // FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(key).child("iniciativa").setValue(input);
+                FirebaseUtilsV1.SET_Inicaitiva(key,combate,(double)input);
                 return null;
             }
         };

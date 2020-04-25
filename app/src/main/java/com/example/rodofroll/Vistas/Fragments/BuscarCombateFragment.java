@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class BuscarCombateFragment  extends Fragment {
+public class BuscarCombateFragment  extends Fragment implements EstructuraFragment{
 
     EditText MasterEditTesxt;
     RecyclerView MasterrecyclerView;
@@ -41,44 +41,7 @@ public class BuscarCombateFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.busqusuarios_layout,container,false);
-        MasterEditTesxt = view.findViewById(R.id.Mastereditext);
-        MasterrecyclerView = view.findViewById(R.id.Masterrecycler);
-
-        NombreList = new ArrayList<>();
-        EmailList = new ArrayList<>();
-        FotoList = new ArrayList<>();
-
-
-        MasterEditTesxt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                if(!s.toString().isEmpty()){
-
-                    setAdapter(s.toString());
-
-                }
-                else{
-                    NombreList.clear();
-                    EmailList.clear();
-                    FotoList.clear();
-                    MasterrecyclerView.removeAllViews();
-                }
-
-            }
-        });
-
-
+        InicializarComponentes(view);
 
         return view;
     }
@@ -154,5 +117,51 @@ public class BuscarCombateFragment  extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void InicializarComponentes(View view) {
+        MasterEditTesxt = view.findViewById(R.id.Mastereditext);
+        MasterrecyclerView = view.findViewById(R.id.Masterrecycler);
+
+        NombreList = new ArrayList<>();
+        EmailList = new ArrayList<>();
+        FotoList = new ArrayList<>();
+
+
+        MasterEditTesxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(!s.toString().isEmpty()){
+
+                    setAdapter(s.toString());
+
+                }
+                else{
+                    NombreList.clear();
+                    EmailList.clear();
+                    FotoList.clear();
+                    MasterrecyclerView.removeAllViews();
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void ComportamientoRecycler() {
+
     }
 }

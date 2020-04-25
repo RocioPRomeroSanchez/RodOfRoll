@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
-import com.example.rodofroll.Vistas.Adapters.Adapter;
-import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
+import com.example.rodofroll.Vistas.Adapters.Adapter;
+import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,8 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecyclerViewFragment extends Fragment {
-
+public class MonsRecyclerViewFragment extends Fragment{
     Adapter adapter= null;
     List<Personaje> personajes;
     @Nullable
@@ -68,7 +67,7 @@ public class RecyclerViewFragment extends Fragment {
                         }
                         p.setCombates(combatesAsociados);
                     }
-              
+
                     personajes.add(p);
                 }
                 adapter.notifyDataSetChanged();
@@ -85,7 +84,7 @@ public class RecyclerViewFragment extends Fragment {
             public void onClick(View v) {
                 int posicion=recyclerView.getChildAdapterPosition(v);
 
-               FichaPersonajeFragment fichaPersonajeFragment= new FichaPersonajeFragment(personajes.get(posicion));
+                FichaPersonajeFragment fichaPersonajeFragment= new FichaPersonajeFragment(personajes.get(posicion));
                 ((MainActivity)getActivity()).RemplazarFragment(fichaPersonajeFragment,true);
 
             }
@@ -98,7 +97,7 @@ public class RecyclerViewFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // ((MainActivity)getActivity()).RemplazarFragment(new FichaPersonajeFragment(),true);
+                // ((MainActivity)getActivity()).RemplazarFragment(new FichaPersonajeFragment(),true);
                 Dialogos.showDialogoNuevoCombatiente((MainActivity) getActivity(),getContext());
 
             }
@@ -139,10 +138,5 @@ public class RecyclerViewFragment extends Fragment {
 
         return view;
     }
-
-
-
-
-
 
 }

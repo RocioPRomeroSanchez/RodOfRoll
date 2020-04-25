@@ -76,13 +76,14 @@ public class DialogoCambiarDatos extends DialogFragment {
                         Double numero = Double.valueOf(cadena);
 
                         if (Math.abs(numero) < limite) {
-                            if(vista!=null){
+                            if(vista!=null) {
 
-                                vista.setText(String.format("%.0f",numero));
+                                vista.setText(String.format("%.0f", numero));
+                            }
                                 function.apply(numero);
 
                                 dismiss();
-                            }
+
                         }
                         else{
                             editText.setError("Tiene que ser menor de "+ limite);

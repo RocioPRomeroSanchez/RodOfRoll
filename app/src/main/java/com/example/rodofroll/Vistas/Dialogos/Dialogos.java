@@ -50,7 +50,7 @@ public class Dialogos {
        imageView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               activity.MenuEmergenteImagen(imageView);
+               activity.MenuEmergenteImagen(imageView,null);
            }
        });
 
