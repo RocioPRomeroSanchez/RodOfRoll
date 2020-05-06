@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.Personaje;
-import com.example.rodofroll.Objetos.Personaje.CombatesAsociados;
+import com.example.rodofroll.Objetos.Combatiente.CombatesAsociados;
 import com.example.rodofroll.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

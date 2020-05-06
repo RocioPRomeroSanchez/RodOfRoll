@@ -70,7 +70,7 @@ public class CombateRecyclerFragment extends Fragment {
             public void onClick(View v) {
                 int posicion=recyclerView.getChildAdapterPosition(v);
 
-                ((MainActivity)getActivity()).RemplazarFragment(new TurnoFragment(combateList.get(posicion)),true);
+                ((MainActivity)getActivity()).RemplazarFragment(new TurnoFragment(combateList.get(posicion),(MainActivity)getActivity()),true);
             }
         });
 

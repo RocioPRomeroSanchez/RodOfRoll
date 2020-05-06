@@ -106,30 +106,7 @@ public class DialogoCambiarDatos extends DialogFragment {
                 else{
                     editText.setError("No puede ser nulo");
                 }
-            /*    if(cadena.isEmpty()){
-                    editText.setError("No puede ser nulo");
-                }
-               else if(EsUnNuemroReal(cadena)&&isnumber) {
-                   Double numero = Double.valueOf(cadena);
 
-                    if (Math.abs(numero) < limite) {
-                        if(vista!=null){
-                            vista.setText(String.format("%.0f",numero));
-                        }
-
-                            function.apply(numero);
-
-                        dismiss();
-                    }
-                    else{
-                        editText.setError("Tiene que ser menor de "+ limite);
-                    }
-                }
-
-               else if()
-               else {
-                    editText.setError("No se interpretar ");
-                }*/
 
 
             }

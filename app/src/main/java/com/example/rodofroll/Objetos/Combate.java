@@ -57,6 +57,15 @@ public class Combate {
         this.ordenTurno=personEnCombates;
     }
 
+    public static class MonstruoEnCombate{
+        String monstruokey;
+        Long iniciativa;
+        Boolean turno;
+        String keyprincipal;
+
+
+    }
+
     public static class PersonEnCombate{
 
         String personajekey;
@@ -65,33 +74,38 @@ public class Combate {
         Boolean turno;
         String keyprincipal;
 
+        public int getVida() {
+            return vida;
+        }
+
+        public void setVida(int vida) {
+            this.vida = vida;
+        }
+
+        public int getArmadua() {
+            return armadua;
+        }
+
+        public void setArmadua(int armadua) {
+            this.armadua = armadua;
+        }
+
+        int vida;
+        int armadua;
+
+
+        public boolean isIsmonster() {
+            return ismonster;
+        }
+
+        boolean ismonster;
+
         public Boolean getTurno() {
             return turno;
         }
 
         public void setTurno(final Boolean turno1,Combate combate) {
-           /*final Query q = FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").orderByChild("personajekey").equalTo(this.personajekey);
-
-
-                    q.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            HashMap hashMap = (HashMap) dataSnapshot.getValue();
-                            key = (String) hashMap.keySet().toArray()[0];
-                            DatabaseReference dt = q.getRef().child(key).child("turno");
-                            dt.setValue(turno1);
-
-                            turno = turno1;
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });*/
-
             FirebaseUtilsV1.SET_Turno(combate.getKey(),keyprincipal,turno1);
-          // FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(keyprincipal).child("turno").setValue(turno1);
            turno=turno1;
         }
 
@@ -114,13 +128,22 @@ public class Combate {
             this.keyprincipal = keyprincipal;
         }
 
-        public PersonEnCombate(String key, String personajekey, String usuariokey, Long iniciativa, Boolean turno, Boolean avisar) {
+        public PersonEnCombate(String key, String personajekey, String usuariokey, Long iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
             this.personajekey=personajekey;
             this.usuariokey=usuariokey;
             this.iniciativa=iniciativa;
             this.turno=turno;
             this.avisar=avisar;
             this.keyprincipal=key;
+            if(ismonster==null){
+                this.ismonster=false;
+            }
+            else{
+                this.ismonster=ismonster;
+            }
+            vida=0;
+            armadua=0;
+
         }
 
 
@@ -154,4 +177,6 @@ public class Combate {
             FirebaseUtilsV1.SET_Turno(combate.getKey(),this.keyprincipal,true);
         }
     }
+
+
 }

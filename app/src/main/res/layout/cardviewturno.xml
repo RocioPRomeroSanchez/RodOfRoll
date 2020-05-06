@@ -21,74 +21,75 @@
         android:layout_height="wrap_content">
 
 
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textColor="@android:color/white"
-
-            />
-
         <LinearLayout
-            android:id="@+id/IniciativaLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
 
-            android:background="@color/colorPrimary"
-            android:orientation="vertical"
-            android:padding="4dp">
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Iniciativa"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+            android:id="@+id/FondoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#243D94"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/IniciativatextView"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text=""
+                android:text="TextView"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@android:color/white"
+
+                />
+
+            <LinearLayout
+                android:id="@+id/IniciativaLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+
+                android:background="@color/colorPrimary"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Iniciativa"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/IniciativatextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/AvisarImagen"
+                android:layout_width="74dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:visibility="invisible"
+
+                app:srcCompat="@drawable/avisar"
+                tools:ignore="VectorDrawableCompat" />
+
 
         </LinearLayout>
-
-
-        <ImageView
-            android:id="@+id/AvisarImagen"
-            android:layout_width="74dp"
-            android:layout_height="48dp"
-            android:layout_margin="5dp"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-
-            app:srcCompat="@drawable/avisar"
-            tools:ignore="VectorDrawableCompat" />
-
-
-    </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

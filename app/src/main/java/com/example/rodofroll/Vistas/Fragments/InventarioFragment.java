@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
+import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.InicializarVistas;
 import com.example.rodofroll.Objetos.Personaje;
@@ -53,8 +54,8 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
     Activity activity;
 
 
-    public InventarioFragment(Personaje p, Activity activity) {
-        this.p=p;
+    public InventarioFragment(Combatiente p, Activity activity) {
+        this.p=(Personaje) p;
         this.activity=activity;
     }
 

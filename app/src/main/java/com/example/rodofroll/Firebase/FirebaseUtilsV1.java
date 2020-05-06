@@ -7,12 +7,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.arch.core.util.Function;
 
 import com.example.rodofroll.LoginActivity;
 import com.example.rodofroll.MainActivity;
-import com.example.rodofroll.Objetos.AppKilledService;
 import com.example.rodofroll.Objetos.Combate;
+import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,10 +63,13 @@ public class FirebaseUtilsV1 {
     }
 
 
-    private static final FirebaseUtilsV1 ourInstance = new FirebaseUtilsV1();
+    private static  FirebaseUtilsV1 ourInstance = new FirebaseUtilsV1();
 
     public static FirebaseUtilsV1 getInstance() {
         return ourInstance;
+    }
+    public static void RecreateInstance(){
+        ourInstance= new FirebaseUtilsV1();
     }
 
     private FirebaseUtilsV1() {
@@ -139,9 +141,15 @@ public class FirebaseUtilsV1 {
     static public DatabaseReference GET_RefPersonajes(){
         return    FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes");
     }
+    static public  DatabaseReference GET_RefMonstruos(){
+        return  FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("monstruos");
+    }
 
     static public DatabaseReference GET_RefPersonaje(String usuariokey,String personajekey){
         return    FirebaseUtilsV1.ref.child("publico").child(usuariokey).child("personajes").child(personajekey);
+    }
+    static public DatabaseReference GET_RefMonstruo(String usuariokey,String monstruokey){
+        return    FirebaseUtilsV1.ref.child("publico").child(usuariokey).child("monstruos").child(monstruokey);
     }
     static public DatabaseReference GET_RefCombates(String masterkey){
         return FirebaseUtilsV1.ref.child("combates").child(masterkey);
@@ -176,8 +184,14 @@ public class FirebaseUtilsV1 {
 
 
     }
-    static public void SET_Atributo(String atributo, Object nuevovalor, Personaje personaje){
-        FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(personaje.getKey()).child("atributos").child(atributo).setValue(nuevovalor);
+    static public void SET_Atributo(String atributo, Object nuevovalor, Combatiente combatiente){
+        if(combatiente instanceof Personaje){
+            FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(combatiente.getKey()).child("atributos").child(atributo).setValue(nuevovalor);
+        }
+        else {
+            FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("monstruos").child(combatiente.getKey()).child("atributos").child(atributo).setValue(nuevovalor);
+        }
+
     }
     static public void SET_Peso(Object nuevovalor, Personaje personaje){
         FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(personaje.getKey()).child("inventario").child("peso").setValue(nuevovalor);
@@ -236,13 +250,16 @@ public class FirebaseUtilsV1 {
 
         }
 
-    static public void AnyadirCombatiente(Personaje c) throws Exception {
+    static public void AnyadirCombatiente(Combatiente c) throws Exception {
 
 
             if (c instanceof Personaje) {
 
                 FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").push().setValue(c.Map());
 
+            }
+            else {
+                FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("monstruos").push().setValue(c.Map());
             }
 
 
@@ -259,7 +276,6 @@ public class FirebaseUtilsV1 {
             datosUser = null;
             key = null;
             setEstado(false);
-
 
         }
 

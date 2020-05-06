@@ -12,9 +12,10 @@
         android:textSize="36sp" />
 
     <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:layout_gravity="center"
-        android:layout_width="323dp"
-        android:layout_height="284dp"
 
         >
 
@@ -37,7 +38,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/PesoEditText"
+                android:id="@+id/VidaTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -81,10 +82,12 @@
         </LinearLayout>
 
     </FrameLayout>
+
     <FrameLayout
         android:layout_gravity="center"
-        android:layout_width="323dp"
-        android:layout_height="284dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
 
         >
 
@@ -107,7 +110,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/VidaTesxtVissew"
+                android:id="@+id/ArmaduraTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 

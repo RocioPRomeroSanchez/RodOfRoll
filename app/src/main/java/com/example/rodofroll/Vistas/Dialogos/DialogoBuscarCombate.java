@@ -115,7 +115,7 @@ public class DialogoBuscarCombate extends DialogFragment implements InicializarV
                         for (Map.Entry<String,Object> s :combates.entrySet()) {
                             String combateid = (String) ((HashMap<String,Object>)s.getValue()).get("combateid");
                             String masterid = (String) ((HashMap<String,Object>)s.getValue()).get("masterid");
-                            combatesAsociados.add(new Personaje.CombatesAsociados(masterid,combateid));
+                            combatesAsociados.add(new Personaje.CombatesAsociados(masterid,combateid, s.getKey()));
                         }
                         p.setCombates(combatesAsociados);
                     }

@@ -369,7 +369,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/concentracionlayout"
+                android:id="@+id/constitucionlayout"
                 android:layout_width="20dp"
                 android:layout_columnWeight="1"
                 android:layout_marginRight="5dp"
@@ -394,7 +394,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:src="@drawable/concentracion">
+                        android:src="@drawable/constitucion">
 
                     </ImageView>
 
@@ -402,7 +402,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/ConcentracionTextView"
+                    android:id="@+id/ConstitucionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hola">
@@ -481,7 +481,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:src="@drawable/book">
+                        android:src="@drawable/concentracion">
 
                     </ImageView>
 

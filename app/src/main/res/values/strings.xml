@@ -41,4 +41,5 @@
     <string name="no_esta_en_un_combate">No esta en un combate</string>
     <string name="cancelar">Cancelar</string>
     <string name="serviciofin">Es un servicio que borra datos propios de RodOfRoll cuando sales de la aplicacion</string>
+    <string name="experiecia">Experiecia</string>
 </resources>

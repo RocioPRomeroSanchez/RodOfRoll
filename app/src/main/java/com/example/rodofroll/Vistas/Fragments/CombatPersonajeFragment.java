@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
+import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Adapters.CombatesAsociadosAdaper;
@@ -27,14 +28,14 @@ public class CombatPersonajeFragment extends Fragment {
 
     RecyclerView recyclerView;
     TextView nomcombattextview;
-    Personaje p;
+    Combatiente p;
     CombatesAsociadosAdaper adapter;
     ValueEventListener listener;
     DatabaseReference reference;
 
 
-    public CombatPersonajeFragment(Personaje p){
-        this.p=p;
+    public CombatPersonajeFragment(Combatiente p){
+        this.p= p;
     }
     @Override
     public View onCreateView(final LayoutInflater inflater,
@@ -56,8 +57,8 @@ public class CombatPersonajeFragment extends Fragment {
         adapter.setOnClickCortoListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ((MainActivity)getActivity()).RemplazarFragment(new VidaCombatFragment(),true);
+                int posicion=recyclerView.getChildAdapterPosition(v);
+                ((MainActivity)getActivity()).RemplazarFragment(new VidaCombatFragment(p.getCombates().get(posicion), p),true);
             }
         });
         recyclerView.setHasFixedSize(true);
@@ -71,10 +72,10 @@ public class CombatPersonajeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                p.getCombates().removeAll(p.getCombates());
-                Personaje.CombatesAsociados combateasociado=null;
+                Combatiente.CombatesAsociados combateasociado=null;
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                     HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
-                    combateasociado = new Personaje.CombatesAsociados((String) principal.get("masterid"),(String) principal.get("combateid"));
+                    combateasociado = new Combatiente.CombatesAsociados((String) principal.get("masterid"),(String) principal.get("combateid"),snapshot.getKey());
                     p.getCombates().add(combateasociado);
                 }
 

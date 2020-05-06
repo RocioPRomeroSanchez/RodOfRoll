@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
-import com.example.rodofroll.Objetos.AppKilledService;
+import com.example.rodofroll.Objetos.ListenUserService;
 import com.example.rodofroll.Objetos.AsynTarea;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.ConversorImagenes;
@@ -74,16 +74,10 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-      /* String notifcaciones = FireBaseUtils.getUser().getUid()+"notif";
-        FirebaseMessaging.getInstance().subscribeToTopic(notifcaciones);*/
-
 
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         listener=null;
-
-
-
 
         listener = new OnTaskCompleted() {
             @Override
@@ -94,19 +88,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
                 toolbar.setVisibility(View.VISIBLE);
                 Intent intent = getIntent();
 
-            //    int i = intent.getIntExtra("rol", 0);
-
-
                 CrearMenus(R.menu.mastermenu);
-
-               /* if ((i == 0)) {
-                    CrearMenus(R.menu.mastermenu, i);
-
-                } else {
-                    CrearMenus(R.menu.jugadormenu, i);
-
-                }*/
-
 
 
 
@@ -135,7 +117,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
     }
 
     public void CrearMenus(int tipomenu) {
-        startService(new Intent(getApplicationContext(), AppKilledService.class));
+        startService(new Intent(getApplicationContext(), ListenUserService.class));
         Toolbar toolbar = findViewById(R.id.toolbar);
 
 
@@ -229,7 +211,6 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
 
-               // FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).child("token").setValue(null);
                 FirebaseUtilsV1.SET_TOKEN(null);
 
 
@@ -301,6 +282,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
     protected void onDestroy() {
         super.onDestroy();
         FirebaseUtilsV1.Borrar();
+
     }
 
     @Override

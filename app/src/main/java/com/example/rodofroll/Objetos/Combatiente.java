@@ -1,6 +1,7 @@
 package com.example.rodofroll.Objetos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public abstract class Combatiente implements Serializable {
     double velocidad;
     double fuerza;
     double destreza;
-    double concentracion;
+    double constitucion;
     double inteligencia;
     double sabiduria;
     double carisma;
@@ -26,10 +27,23 @@ public abstract class Combatiente implements Serializable {
     String nombre;
     String raza;
     String clase;
-    String alineamiento;
+    int alineamiento;
     String descripcion;
     int level;
     int exp;
+    String key;
+
+    List<CombatesAsociados> combates= new ArrayList<>();
+
+
+    HashMap<String, Object> atributos;
+    HashMap<String, Object> biografia;
+
+
+    public int getLevel() {
+        return level;
+    }
+
 
     public static String[] alineamientos = new String[]{
             "Legal bueno",
@@ -49,131 +63,74 @@ public abstract class Combatiente implements Serializable {
         return vida;
     }
 
-    public void setVida(int vida) {
-        this.vida = vida;
-    }
 
     public double getArmadura() {
         return armadura;
     }
 
-    public void setArmadura(int armadura) {
-        this.armadura = armadura;
-    }
 
     public double getModiniciativa() {
         return modiniciativa;
     }
 
-    public void setModiniciativa(int modiniciativa) {
-        this.modiniciativa = modiniciativa;
-    }
 
     public double getAtaque() {
         return ataque;
     }
 
-    public void setAtaque(int ataque) {
-        this.ataque = ataque;
-    }
 
     public double getVelocidad() {
         return velocidad;
     }
 
-    public void setVelocidad(int velocidad) {
-        this.velocidad = velocidad;
-    }
-
-
-
-    public double getIniciativa() {
-        return iniciativa;
-    }
-
-    public void setIniciativa(int iniciativa) {
-        this.iniciativa = iniciativa;
+    public String getKey() {
+        return key;
     }
 
     public double getFuerza() {
         return fuerza;
     }
 
-    public void setFuerza(int fuerza) {
-        this.fuerza = fuerza;
-    }
 
     public double getDestreza() {
         return destreza;
     }
 
-    public void setDestreza(int destreza) {
-        this.destreza = destreza;
+
+    public double getConstitucion() {
+        return constitucion;
     }
 
-    public double getConcentracion() {
-        return concentracion;
-    }
-
-    public void setConcentracion(int concentracion) {
-        this.concentracion = concentracion;
-    }
 
     public double getInteligencia() {
         return inteligencia;
     }
 
-    public void setInteligencia(int inteligencia) {
-        this.inteligencia = inteligencia;
-    }
 
     public double getSabiduria() {
         return sabiduria;
     }
 
-    public void setSabiduria(int sabiduria) {
-        this.sabiduria = sabiduria;
-    }
 
     public double getCarisma() {
         return carisma;
     }
 
-    public void setCarisma(int carisma) {
-        this.carisma = carisma;
-    }
 
     public double getFortaleza() {
         return fortaleza;
     }
 
-    public void setFortaleza(int fortaleza) {
-        this.fortaleza = fortaleza;
-    }
 
     public double getReflejos() {
         return reflejos;
     }
 
-    public void setReflejos(int reflejos) {
-        this.reflejos = reflejos;
-    }
 
     public double getVoluntad() {
         return voluntad;
     }
 
-    public void setVoluntad(int voluntad) {
-        this.voluntad = voluntad;
-    }
-
-    public boolean isTurno() {
-        return turno;
-    }
-
-    public void setTurno(boolean turno) {
-        this.turno = turno;
-    }
 
 
     boolean turno;
@@ -206,28 +163,18 @@ public abstract class Combatiente implements Serializable {
         return clase;
     }
 
-    public void setClase(String clase) {
-        this.clase = clase;
-    }
 
-    public String getAlineamiento() {
+    public int getAlineamiento() {
         return alineamiento;
-    }
-
-    public void setAlineamiento(String alineamiento) {
-        this.alineamiento = alineamiento;
     }
 
     public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public List<CombatesAsociados> getCombates() {
+        return combates;
     }
-
-    HashMap<String, Object> atributos;
-    HashMap<String, Object> biografia;
 
     public Combatiente() {
 
@@ -239,7 +186,7 @@ public abstract class Combatiente implements Serializable {
 
         fuerza=0;
         destreza= 0;
-        concentracion= 0;
+        constitucion= 0;
         inteligencia= 0;
         sabiduria= 0;
         carisma= 0;
@@ -250,8 +197,110 @@ public abstract class Combatiente implements Serializable {
 
         turno= false;
         iniciativa=0;
-        exp=0;
+
+        this.raza = "";
+        this.clase = "";
+        this.alineamiento = 0;
+        this.descripcion = "";
+        this.level = 0;
+        this.exp = 0;
     }
+
+    protected void  ReorganizarPersonaje(){
+        atributos = new HashMap<>();
+        atributos.put("vida", vida);
+        atributos.put("armadura", armadura);
+        atributos.put("iniciativa", iniciativa);
+        atributos.put("ataque", ataque);
+        atributos.put("velocidad", velocidad);
+        atributos.put("fuerza",fuerza);
+        atributos.put("destreza",destreza);
+        atributos.put("carisma",carisma);
+        atributos.put("inteligencia",inteligencia);
+        atributos.put("sabiduria",sabiduria);
+        atributos.put("constitucion",constitucion);
+        atributos.put("fortaleza",fortaleza);
+        atributos.put("reflejos",reflejos);
+        atributos.put("voluntad",voluntad);
+
+
+        biografia = new HashMap<>();
+        biografia.put("imagen", imagen);
+        biografia.put("nombre", nombre);
+        biografia.put("raza", raza);
+        biografia.put("clase", clase);
+        biografia.put("alineamiento", alineamiento);
+        biografia.put("descripcion", descripcion);
+        biografia.put("level", level);
+        biografia.put("exp", exp);
+
+
+    }
+    public HashMap<String,Object> Map(){
+        HashMap<String, HashMap<String, Object>> principal = new HashMap<>();
+        principal.put("atributos",atributos);
+        principal.put("biografia",biografia);
+
+
+        HashMap<String, Object> objetPrincipal = new HashMap<String, Object>(principal);
+        return objetPrincipal;
+    }
+
+    public static class CombatesAsociados{
+        String masterkey;
+        String combatekey;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        String id;
+        double vida;
+        double ca;
+
+        public double getVida() {
+            return vida;
+        }
+
+        public double getCa() {
+            return ca;
+        }
+
+
+
+        public String getMasterkey() {
+            return masterkey;
+        }
+
+        public void setMasterkey(String masterkey) {
+            this.masterkey = masterkey;
+        }
+
+        public String getCombatekey() {
+            return combatekey;
+        }
+
+        public void setCombatekey(String combatekey) {
+            this.combatekey = combatekey;
+        }
+
+        public CombatesAsociados() {
+        }
+
+        public CombatesAsociados(String masterkey, String combatekey, String id) {
+            this.masterkey = masterkey;
+            this.combatekey = combatekey;
+            this.id=id;
+            vida=0;
+            ca=0;
+
+        }
+    }
+
 
 
 

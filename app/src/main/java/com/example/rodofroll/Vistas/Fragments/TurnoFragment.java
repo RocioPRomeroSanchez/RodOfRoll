@@ -1,31 +1,43 @@
 package com.example.rodofroll.Vistas.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.rodofroll.Actividad;
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
+import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.ElementoAdapterClick;
 import com.example.rodofroll.Objetos.InicializarVistas;
+import com.example.rodofroll.Objetos.Monstruo;
 import com.example.rodofroll.Objetos.Personaje;
+import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Adapters.TurnoAdapter;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +47,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 //Es una clase Fragment que esta vinculada al funcionamiento del layout correspondeinte a los turnos de un combate
@@ -55,13 +68,16 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
     TextView velociadTextView;
     Query ref;
     ValueEventListener listenerrecycler;
+    ImageButton monstruobutton;
+    Actividad actividad;
 
 
 
 
     //Constructor del Fragment requiere de un objeto Combate
-    public TurnoFragment(Combate combate){
+    public TurnoFragment(Combate combate, Actividad actividad){
         this.combate=combate;
+        this.actividad=actividad;
 
     }
     @Nullable
@@ -111,16 +127,19 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         iniciativaTextView = view.findViewById(R.id.IniciativaTextView);
         ataqueBaseTextView = view.findViewById(R.id.AtaqueBaseTextView);
         velociadTextView = view.findViewById(R.id.VelocidadTextView);
+        monstruobutton = view.findViewById(R.id.MonstruoButton);
 
         ronda.setOnClickListener(this);
         turnobutton=view.findViewById(R.id.turnobutton);
         turnobutton.setOnClickListener(this);
+        monstruobutton.setOnClickListener(this);
 
         personajeEnCombateoList= new ArrayList<>();
 
     }
     //Metodo que define el comportamiento de nuestro recycler
     public void ComportamientoRecycler(){
+
 
         //Hacemos una consulta a firebase preguntando por los combatientes que hay en el combate pasado por argumento ordenados por su iniciativa de forma ascendente,
         //(Firebase no da opcion ha hacerlo de forma descendete)
@@ -138,8 +157,15 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 //Recogemos todos los datos y lo anyadimos a la lista
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
-                    Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"));
+                    Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
+                    try {
+                        persona.setVida((int) Long.parseLong(valor.get("vida").toString()));
+                        persona.setArmadua((int) Long.parseLong(valor.get("armadura").toString()));
+                    }catch (NullPointerException ex){
+
+                    }
                     personajeEnCombateoList.add(persona);
+
 
                 }
                 //Notifamos al adaptador de los cambios
@@ -269,6 +295,13 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             case R.id.rondatextView:
                 DialogoCambiarDatos.newInstance((TextView) v,100,  FuncionRonda(),getActivity(),true).show(getFragmentManager(),"Ronda");
                 break;
+
+            case R.id.MonstruoButton:
+
+                //Dialogo Monstruo
+
+                showDialogoAddMonstruo(actividad);
+                break;
         }
     }
 
@@ -286,23 +319,106 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
     //Recoloca la informacion del personaje seleccionado en la parte informativa de nuestro layout
 
-    public void SeleccionPersonaje(Combate.PersonEnCombate personEnCombate){
+    public void SeleccionPersonaje(final Combate.PersonEnCombate personEnCombate){
         //Pregunta a la base de datos por el personaje seleccionado y saca sus datos
 
-        FirebaseUtilsV1.GET_RefPersonaje(personEnCombate.getUsuariokey(),personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("DefaultLocale")
+        vidaTextView.setOnClickListener(null);
+        caTextView.setOnClickListener(null);
+
+        if(!personEnCombate.isIsmonster()) {
+            FirebaseUtilsV1.GET_RefPersonaje(personEnCombate.getUsuariokey(), personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("DefaultLocale")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    HashMap principal = (HashMap) dataSnapshot.getValue();
+                    Personaje p = new Personaje(principal.get("atributos"), principal.get("biografia"), principal.get("inventario"), dataSnapshot.getKey());
+                    nombreTextView.setText(p.getNombre());
+                    personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
+
+                    HashMap<String, Object> combates = (HashMap<String, Object>) principal.get("combates");
+                    for (Map.Entry<String, Object> c : combates.entrySet()) {
+
+
+                        if (((HashMap<String, Object>) c.getValue()).get("masterid").equals(FirebaseUtilsV1.getKey()) && ((HashMap<String, Object>) c.getValue()).get("combateid").equals(combate.getKey())) {
+
+
+                            int vida = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("vida").toString());
+                            int ca = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("armadura").toString());
+                            vidaTextView.setText(String.valueOf(vida));
+                            caTextView.setText(String.valueOf(ca));
+
+
+
+                            break;
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+        else{
+            FirebaseUtilsV1.GET_RefMonstruo(FirebaseUtilsV1.getKey(),personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    HashMap principal = (HashMap) dataSnapshot.getValue();
+                    Monstruo monstruo = new Monstruo(principal.get("atributos"), principal.get("biografia"), dataSnapshot.getKey());
+                    nombreTextView.setText(monstruo.getNombre());
+                    personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(monstruo.getImagen()));
+                    vidaTextView.setText(String.valueOf(personEnCombate.getVida()));
+                    caTextView.setText(String.valueOf(personEnCombate.getArmadua()));
+
+                    vidaTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(actividad,"Hola",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+    }
+
+    public void showDialogoAddMonstruo(final Actividad mainActivity){
+        final androidx.appcompat.app.AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mainActivity);
+        LayoutInflater inflater = mainActivity.getLayoutInflater();
+        Button aceptarbutton;
+        final Spinner spinner;
+        final List<Monstruo> monstruos=new ArrayList<>();
+        final List<String> nombres = new ArrayList<>();
+
+        final View myView = inflater.inflate(R.layout.addmonstruodialogo, null);
+        aceptarbutton= myView.findViewById(R.id.AceptarButton);
+        spinner=myView.findViewById(R.id.spinner);
+        FirebaseUtilsV1.GET_RefMonstruos().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap principal = (HashMap) dataSnapshot.getValue();
-                Personaje p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), dataSnapshot.getKey());
-                nombreTextView.setText(p.getNombre());
-                personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
+                monstruos.removeAll(monstruos);
+                nombres.removeAll(nombres);
 
-                Personaje.CombatesAsociados combate1 = p.GetCombateAsociado( combate.getKey(),FirebaseUtilsV1.getKey());
-                 vidaTextView.setText(String.format("%.0f", combate1.getVida()));
-                caTextView.setText(String.format("%.0f",combate1.getCa()));
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
 
+                    Monstruo m = new Monstruo(principal.get("atributos"),principal.get("biografia"), snapshot.getKey());
 
+                    monstruos.add(m);
+                    nombres.add(m.getNombre());
+                }
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(actividad, android.R.layout.simple_spinner_item, nombres);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(arrayAdapter);
             }
 
             @Override
@@ -310,6 +426,23 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
             }
         });
+
+        aceptarbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Monstruo  monstruo = monstruos.get(spinner.getSelectedItemPosition());
+                String key = FirebaseUtilsV1.GeneradorKeys();
+                Combate.PersonEnCombate p = new Combate.PersonEnCombate(key, monstruo.getKey(), FirebaseUtilsV1.getKey(),(long)monstruo.getModiniciativa(),false,false,true);
+
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).setValue(p);
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("vida").setValue(0);
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("armadura").setValue(0);
+            }
+        });
+
+        dialogBuilder.setView(myView);
+        dialogBuilder.show();
+
     }
 
     //Cambia el valor de la iniciativa
@@ -318,8 +451,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             @Override
             public Object apply(Object input) {
 
-                //FirebaseUtilsV1.GET_RefCombate(combate.getKey());
-               // FireBaseUtils.getRef().child("combates").child(FireBaseUtils.getKey()).child(combate.getKey()).child("ordenturno").child(key).child("iniciativa").setValue(input);
+
                 FirebaseUtilsV1.SET_Inicaitiva(key,combate,(double)input);
                 return null;
             }

@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
+import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
@@ -31,7 +32,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
     View v;
     //Objeto Pojo
-    Personaje p;
+    Combatiente p;
 
     //Vistas del layout
     TextView vidaTextView;
@@ -41,7 +42,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
     TextView velocidadTextView;
     TextView fuerzaTextView;
     TextView destrezaTextView;
-    TextView concentracionTextView;
+    TextView constitucionTextView;
     TextView inteligenciaTextView;
     TextView sabiduriaTextView;
     TextView carismaTextView;
@@ -55,7 +56,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
     LinearLayout velocidadLayout;
     LinearLayout fuerzaLayout;
     LinearLayout destrezaLayout;
-    LinearLayout concentracionLayout;
+    LinearLayout constitucionLayout;
     LinearLayout inteligenciaLayout;
     LinearLayout sabiduriaLayout;
     LinearLayout carismaLayout;
@@ -65,7 +66,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
 
     //El constructor de este fragment debe recibir un objeto persona
-    public AtributosFragment(Personaje p){
+    public AtributosFragment(Combatiente p){
         this.p=p;
     }
 
@@ -93,7 +94,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
         velocidadTextView = v.findViewById(R.id.VelocidadTextView);
         fuerzaTextView = v.findViewById(R.id.FuerzaTextView);
         destrezaTextView = v.findViewById(R.id.DestrezaTextView);
-        concentracionTextView = v.findViewById(R.id.ConcentracionTextView);
+        constitucionTextView = v.findViewById(R.id.ConstitucionTextView);
         inteligenciaTextView = v.findViewById(R.id.InteligenciaTextView);
         sabiduriaTextView = v.findViewById(R.id.SabiduriaTextView);
         carismaTextView =v.findViewById(R.id.CarismaTextView);
@@ -108,7 +109,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
         velocidadLayout= v.findViewById(R.id.velocidadlayout);
         fuerzaLayout= v.findViewById(R.id.fuerzalayout);
         destrezaLayout= v.findViewById(R.id.destrezalayout);
-        concentracionLayout=v.findViewById(R.id.concentracionlayout);
+        constitucionLayout=v.findViewById(R.id.constitucionlayout);
         inteligenciaLayout=v.findViewById(R.id.inteligencialayout);
         sabiduriaLayout= v.findViewById(R.id.sabidurialayout);
         carismaLayout=v.findViewById(R.id.carismalayout);
@@ -123,7 +124,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
         velocidadLayout.setOnClickListener(this);
         fuerzaLayout.setOnClickListener(this);
         destrezaLayout.setOnClickListener(this);
-        concentracionLayout.setOnClickListener(this);
+        constitucionLayout.setOnClickListener(this);
         inteligenciaLayout.setOnClickListener(this);
         sabiduriaLayout.setOnClickListener(this);
         carismaLayout.setOnClickListener(this);
@@ -138,7 +139,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
     }
 
     @SuppressLint("DefaultLocale")
-    public void AsociarPOJO(Personaje p){
+    public void AsociarPOJO(Combatiente p){
         vidaTextView.setText(String.format("%.0f",p.getVida()));
         caTextView.setText(String.format("%.0f",p.getArmadura()));
         iniciativaTextView.setText(String.format("%.0f",p.getModiniciativa()));
@@ -147,7 +148,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
         fuerzaTextView.setText(String.format("%.0f",p.getFuerza()));
         destrezaTextView.setText(String.format("%.0f",p.getDestreza()));
-        concentracionTextView.setText(String.format("%.0f",p.getConcentracion()));
+        constitucionTextView.setText(String.format("%.0f",p.getConstitucion()));
         inteligenciaTextView.setText(String.format("%.0f",p.getInteligencia()));
         sabiduriaTextView.setText(String.format("%.0f",p.getSabiduria()));
         carismaTextView.setText(String.format("%.0f",p.getCarisma()));
@@ -223,10 +224,10 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
                 break;
 
-            case R.id.concentracionlayout:
-                f=CrearFuncion("concentracion",p);
-                dialogoDatos= DialogoCambiarDatos.newInstance(concentracionTextView,900,f,getActivity(),true);
-                dialogoDatos.show(getFragmentManager(),"concentracion");
+            case R.id.constitucionlayout:
+                f=CrearFuncion("constitucion",p);
+                dialogoDatos= DialogoCambiarDatos.newInstance(constitucionTextView,900,f,getActivity(),true);
+                dialogoDatos.show(getFragmentManager(),"constitucion");
 
                 break;
 
@@ -279,7 +280,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
     }
     //Creamos una funcion que devuelve el objeto Function
 
-    public Function CrearFuncion(final String atributo, final Personaje p){
+    public Function CrearFuncion(final String atributo, final Combatiente p){
 
         Function function = new Function() {
 

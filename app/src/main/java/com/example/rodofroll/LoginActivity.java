@@ -74,6 +74,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
         setTheme(R.style.AppTheme);
 
 
+
         emailTextLayout = findViewById(R.id.emaillayout);
         apodoTextLayout = findViewById(R.id.apodolayout);
         passTextLayout = findViewById(R.id.passlayout);
@@ -198,14 +199,11 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
 
-                    // Sign in is successful
-                    //firebaseStorage=FirebaseStorage.g
-
-
-                    // FireBaseUtils.CrearRef();
-
                     final String key = FirebaseUtilsV1.GeneradorKeys();
+                    if(FirebaseUtilsV1.getInstance()!=null){
+                        FirebaseUtilsV1.RecreateInstance();
 
+                    }
                     FirebaseUtilsV1.RegistroUsuario(key,new Usuario(apodo,imagen,key),LoginActivity.this);
 
                 } else {
@@ -232,7 +230,10 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
 
+                    if(FirebaseUtilsV1.getInstance()!=null){
+                        FirebaseUtilsV1.RecreateInstance();
 
+                    }
                     FirebaseUtilsV1.AddDevice(LoginActivity.this);
 
 

@@ -17,11 +17,14 @@ import androidx.arch.core.util.Function;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
+import com.example.rodofroll.Objetos.Combatiente;
+import com.example.rodofroll.Objetos.Monstruo;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Fragments.FichaPersonajeFragment;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,7 @@ public class Dialogos {
 
 
 
-    public static void showDialogoNuevoCombatiente(final MainActivity activity, final Context context){
+    public static void showDialogoNuevoCombatiente(final MainActivity activity, final Context context,final Combatiente combatiente){
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
@@ -58,22 +61,27 @@ public class Dialogos {
             @Override
             public void onClick(View v) {
                 if(Validacion.ValidarEdit(editText)){
-                    FichaPersonajeFragment fichaPersonajeFragment= new FichaPersonajeFragment();
                     String imagen =convertirImagenString(((BitmapDrawable)imageView.getDrawable()).getBitmap());
 
-                    Personaje p = new Personaje(editText.getText().toString(),imagen);
-                    try {
-                        FirebaseUtilsV1.AnyadirCombatiente(p);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if(combatiente instanceof  Personaje){
+                        Combatiente p = new Personaje(editText.getText().toString(),imagen);
+                        try {
+                            FirebaseUtilsV1.AnyadirCombatiente(p);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
+                    else {
+                        Combatiente m = new Monstruo(editText.getText().toString(),imagen);
+                        try {
+                            FirebaseUtilsV1.AnyadirCombatiente(m);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                  /*  fichaPersonajeFragment= new FichaPersonajeFragment(p);
-                    activity.RemplazarFragment(fichaPersonajeFragment,true);*/
-
-
+                    }
                     alertDialog.dismiss();
-
 
                 }
                 else{

@@ -15,7 +15,6 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
 
     FragmentManager fm;
     CargandoFragment fragment;
-    boolean fin = false;
     private OnTaskCompleted listener;
     long inicio;
 

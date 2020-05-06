@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.Combate;
+import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.ElementoAdapterClick;
+import com.example.rodofroll.Objetos.Monstruo;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.google.firebase.database.DataSnapshot;
@@ -108,11 +110,12 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
         ImageView imagenavisar;
         LinearLayout bordelayout;
         LinearLayout iniciativalayout;
+        LinearLayout fondolayout;
         ElementoAdapterClick imagenAdapterClick;
         ElementoAdapterClick iniciativaAdapterClick;
-
-        Personaje per=new Personaje();
+        Combatiente combatiente;
         Combate.PersonEnCombate personEnCombate;
+        View.OnClickListener listener;
 
 
 
@@ -124,8 +127,8 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
             iniciativalayout = itemView.findViewById(R.id.IniciativaLayout);
             imagenavisar.setOnClickListener(this);
             iniciativalayout.setOnClickListener(this);
-
             txtIniciativa=itemView.findViewById(R.id.IniciativatextView);
+            fondolayout=itemView.findViewById(R.id.FondoLayout);
 
 
         }
@@ -140,25 +143,56 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
                 imagenavisar.setVisibility(View.INVISIBLE);
             }
             personEnCombate=p;
-            FirebaseUtilsV1.GET_RefPersonaje(p.getUsuariokey(),p.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
 
-                    if(snapshot.getValue()!=null){
-                        per= new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
-                        txtNombre.setText(per.getNombre());
-                        txtIniciativa.setText(p.getIniciativa().toString());
+
+            if(!p.isIsmonster()){
+
+
+                FirebaseUtilsV1.GET_RefPersonaje(p.getUsuariokey(),p.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
+
+                        if(snapshot.getValue()!=null){
+                            combatiente= new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
+                            txtNombre.setText(combatiente.getNombre());
+                            txtIniciativa.setText(p.getIniciativa().toString());
+                        }
+
+
                     }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
+                    }
+                });
+            }
+            else{
+                imagenavisar.setVisibility(View.INVISIBLE);
+                FirebaseUtilsV1.GET_RefMonstruo(p.getUsuariokey(),p.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
 
-                }
-            });
+                        if(snapshot.getValue()!=null){
+                            combatiente= new Monstruo(principal.get("atributos"),principal.get("biografia"), snapshot.getKey());
+                            txtNombre.setText(combatiente.getNombre());
+                            txtIniciativa.setText(p.getIniciativa().toString());
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
         }
 
 
@@ -173,10 +207,18 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
                     if(iniciativaAdapterClick!=null)  iniciativaAdapterClick.onElementoClick(personEnCombate);
                     break;
 
+                default:
+                    if(listener!= null) listener.onClick(v);
+                    break;
+
+
+
             }
 
 
         }
+
+
 
         public void setClickBtnImagen(ElementoAdapterClick listener) {
             if(listener!=null){

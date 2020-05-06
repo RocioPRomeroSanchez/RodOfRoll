@@ -17,7 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class AppKilledService extends Service {
+public class ListenUserService extends Service {
 
 
 

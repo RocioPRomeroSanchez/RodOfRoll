@@ -11,9 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 
+import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.rodofroll.Objetos.ConversorImagenes.convertirStringBitmap;
@@ -21,13 +26,13 @@ import static com.example.rodofroll.Objetos.ConversorImagenes.convertirStringBit
 
 public class Adapter extends RecyclerView.Adapter implements  View.OnClickListener{
 
-    List<Personaje> personajes;
+    List<Combatiente> combatientes;
     HolderCombatientes holder;
     View.OnClickListener listener,listenerimagen;
 
 
-    public Adapter(List<Personaje> personajes) {
-        this.personajes = personajes;
+    public Adapter(List<Combatiente>combatientes) {
+        this.combatientes = combatientes;
     }
 
     @NonNull
@@ -43,13 +48,13 @@ public class Adapter extends RecyclerView.Adapter implements  View.OnClickListen
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Personaje p=personajes.get(position);
+        Combatiente p=combatientes.get(position);
         ((HolderCombatientes)holder).bind(p);
     }
 
     @Override
     public int getItemCount() {
-        return personajes.size() ;
+        return combatientes.size() ;
     }
 
 
@@ -82,7 +87,7 @@ public class Adapter extends RecyclerView.Adapter implements  View.OnClickListen
 
         }
 
-        public void bind(Personaje p) {
+        public void bind(Combatiente p) {
             txtNombre.setText(p.getNombre());
             Bitmap b = convertirStringBitmap(p.getImagen());
             imagen.setImageBitmap(b);

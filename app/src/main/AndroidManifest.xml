@@ -3,7 +3,6 @@
     package="com.example.rodofroll">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -26,8 +25,6 @@
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait"
             >
-
-
         </activity>
         <meta-data
             android:name="preloaded_fonts"
@@ -40,14 +37,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".Objetos.AppKilledService" android:stopWithTask="false" android:description="@string/serviciofin">
-
-        </service>
-
-
+        <service android:name=".Objetos.ListenUserService" android:stopWithTask="false" android:description="@string/serviciofin"></service>
     </application>
-
-
-
-
 </manifest>

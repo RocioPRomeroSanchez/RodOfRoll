@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
+import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Vistas.Adapters.Adapter;
 import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.example.rodofroll.Objetos.Personaje;
@@ -33,7 +34,7 @@ import java.util.Map;
 public class PerRecyclerViewFragment extends Fragment {
 
     Adapter adapter= null;
-    List<Personaje> personajes;
+    List<Combatiente> personajes;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class PerRecyclerViewFragment extends Fragment {
                         for (Map.Entry<String,Object> s :combates.entrySet()) {
                             String combateid = (String) ((HashMap<String,Object>)s.getValue()).get("combateid");
                             String masterid = (String) ((HashMap<String,Object>)s.getValue()).get("masterid");
-                            combatesAsociados.add(new Personaje.CombatesAsociados(masterid,combateid));
+                            combatesAsociados.add(new Personaje.CombatesAsociados(masterid,combateid, snapshot.getKey()));
                         }
                         p.setCombates(combatesAsociados);
                     }
@@ -85,7 +86,7 @@ public class PerRecyclerViewFragment extends Fragment {
             public void onClick(View v) {
                 int posicion=recyclerView.getChildAdapterPosition(v);
 
-               FichaPersonajeFragment fichaPersonajeFragment= new FichaPersonajeFragment(personajes.get(posicion));
+               FichaPersonajeFragment fichaPersonajeFragment= new FichaPersonajeFragment((Personaje) personajes.get(posicion));
                 ((MainActivity)getActivity()).RemplazarFragment(fichaPersonajeFragment,true);
 
             }
@@ -99,7 +100,7 @@ public class PerRecyclerViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                // ((MainActivity)getActivity()).RemplazarFragment(new FichaPersonajeFragment(),true);
-                Dialogos.showDialogoNuevoCombatiente((MainActivity) getActivity(),getContext());
+                Dialogos.showDialogoNuevoCombatiente((MainActivity) getActivity(),getContext(),new Personaje());
 
             }
         });
@@ -118,7 +119,7 @@ public class PerRecyclerViewFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Personaje p = personajes.get(viewHolder.getAdapterPosition());
+                Personaje p = (Personaje) personajes.get(viewHolder.getAdapterPosition());
 
                 Function<String,Void> function = new Function<String, Void>() {
                     @Override
