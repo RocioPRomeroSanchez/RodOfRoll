@@ -42,7 +42,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="70dp"
+                    android:layout_width="80dp"
                     android:layout_height="113dp"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
@@ -52,7 +52,7 @@
                     <ImageView
                         android:id="@+id/PersonajeimageView"
 
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="80dp"
 
                         android:layout_weight="0"
@@ -75,32 +75,56 @@
 
                         >
 
+
+
                         <ImageView
-                            android:id="@+id/vidaddimageview"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:id="@+id/VidaImageView"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
 
 
                             android:layout_gravity="center"
                             android:src="@drawable/heart">
 
                         </ImageView>
-
-                        <TextView
-                            android:id="@+id/VidaTextView"
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
                             android:layout_gravity="center"
-                            android:fontFamily="cursive"
-                            android:textAlignment="center"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/VidaActualTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
 
 
-                            android:textColor="@android:color/white"
-                            android:textSize="15sp"
-                            android:textStyle="bold">
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold">
 
-                        </TextView>
+                            </TextView>
+
+                            <TextView
+                                android:id="@+id/VidaTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
+
+
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold">
+
+                            </TextView>
+
+                        </LinearLayout>
+
 
                     </FrameLayout>
 
@@ -112,9 +136,9 @@
                         >
 
                         <ImageView
-                            android:id="@+id/vidaddiaamageview"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:id="@+id/CAImageView"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
 
 
                             android:layout_gravity="center"
@@ -122,21 +146,44 @@
 
                         </ImageView>
 
-                        <TextView
-                            android:id="@+id/CATextView"
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
                             android:layout_gravity="center"
-                            android:fontFamily="cursive"
-                            android:textAlignment="center"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/CAActualTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
 
 
-                            android:textColor="@android:color/white"
-                            android:textSize="15sp"
-                            android:textStyle="bold">
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold">
 
-                        </TextView>
+                            </TextView>
+
+                            <TextView
+                                android:id="@+id/CATextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center"
+                                android:fontFamily="cursive"
+                                android:textAlignment="center"
+
+
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold">
+
+                            </TextView>
+
+                        </LinearLayout>
+
 
                     </FrameLayout>
 
@@ -195,7 +242,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/colorAccent"
+                android:background="@color/colorPrimary"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/textView7"
@@ -203,7 +250,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ronda"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/rondatextView"

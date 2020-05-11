@@ -19,6 +19,7 @@ public class Personaje extends Combatiente {
     Dinero dinero=new Dinero();
     double peso;
     double pesolimit;
+    int exptope;
     List<Cosa> cosas;
 
 
@@ -26,15 +27,9 @@ public class Personaje extends Combatiente {
     public int getExptope() {
         return exptope;
     }
-    public int getExp(){
-        return  exp;
-    }
 
-    public void setExptope(int exptope) {
-        this.exptope = exptope;
-    }
 
-   int exptope;
+
 
     public double getPeso() {
         return peso;

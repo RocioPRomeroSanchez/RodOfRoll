@@ -57,11 +57,13 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
     TextView expTextView;
     TextView exptopeTextView;
     TextView levelTextView;
+    TextView separatorTextView;
     EditText nombreEditText;
     EditText claseEditText;
     EditText razaEditText;
     EditText descripcionEditText;
     DatabaseReference reference;
+
 
 
 
@@ -141,6 +143,18 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
         claseEditText = view.findViewById(R.id.ClaseEditText);
 
         levelTextView=view.findViewById(R.id.LevelTextView);
+        separatorTextView=view.findViewById(R.id.SeparatortextfView);
+
+        if(p instanceof Monstruo){
+            exptopeTextView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            separatorTextView.setVisibility(View.GONE);
+        }
+        else {
+            exptopeTextView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            separatorTextView.setVisibility(View.VISIBLE);
+        }
 
         imagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +170,7 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
 
         levelTextView.setOnClickListener(this);
         exptopeTextView.setOnClickListener(this);
+        expTextView.setOnClickListener(this);
 
 
         nombreEditText.addTextChangedListener(new TextWatcher() {
@@ -254,6 +269,15 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
         razaEditText.setText(p.getRaza());
         descripcionEditText.setText(p.getDescripcion());
         spinner.setSelection(p.getAlineamiento());
+        if(p instanceof Personaje){
+            exptopeTextView.setText(String.valueOf(((Personaje)p).getExptope()));
+            expTextView.setText(String.valueOf(((Personaje)p).getExp()));
+            progressBar.setMax(((Personaje)p).getExptope());
+            progressBar.setProgress(((Personaje)p).getExp());
+
+        }
+
+
 
     }
 
@@ -266,16 +290,36 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.LevelTextView:
-                DialogoCambiarDatos.newInstance(levelTextView,100,CrearFuncion(),actividad,true).show(getFragmentManager(),"Level");
+                Objects.requireNonNull(DialogoCambiarDatos.newInstance(levelTextView, 100, CrearFuncion(), actividad, true)).show(getFragmentManager(),"Level");
                 break;
 
             case R.id.ExpTopeTextView:
-                DialogoCambiarDatos.newInstance(exptopeTextView,100000000,CrearFuncionExpTope(),actividad,true).show(getFragmentManager(),"Experiecia");
+                Objects.requireNonNull(DialogoCambiarDatos.newInstance(exptopeTextView, 100000000, CrearFuncionExpTope(), actividad, true)).show(getFragmentManager(),"ExperieciaTope");
+                break;
+            case R.id.ExpTextView:
+                Objects.requireNonNull(DialogoCambiarDatos.newInstance(expTextView, 100000000, CrearFuncionExp(), actividad, true)).show(getFragmentManager(),"Experiecia");
+
                 break;
 
 
         }
 
+    }
+
+    private Function CrearFuncionExp() {
+        Function function = new Function() {
+
+            @Override
+            public Object apply(Object input) {
+
+                reference.child("biografia").child("exp").setValue((int)(Math.round((double)input)));
+                progressBar.setProgress((int)(Math.round((double)input)));
+
+                return null;
+            }
+        };
+
+        return  function;
     }
 
     //Creamos una funcion que devuelve el objeto Function
@@ -287,7 +331,7 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
             @Override
             public Object apply(Object input) {
 
-                reference.child("biografia").child("level").setValue((Math.round((double)input)));
+                reference.child("biografia").child("level").setValue((int)(Math.round((double)input)));
 
                 return null;
             }

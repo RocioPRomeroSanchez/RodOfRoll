@@ -61,8 +61,11 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
     DatabaseReference refronda;
     ImageView personajeImageView;
     TextView nombreTextView;
+    TextView vidaactualTextView;
+    TextView caatualTextView;
     TextView vidaTextView;
     TextView caTextView;
+
     TextView iniciativaTextView;
     TextView ataqueBaseTextView;
     TextView velociadTextView;
@@ -70,6 +73,8 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
     ValueEventListener listenerrecycler;
     ImageButton monstruobutton;
     Actividad actividad;
+    ImageView VidaImageView;
+    ImageView CaImageView;
 
 
 
@@ -122,12 +127,17 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
         personajeImageView = view.findViewById(R.id.PersonajeimageView);
         nombreTextView = view.findViewById(R.id.NombreText);
-        vidaTextView = view.findViewById(R.id.VidaTextView);
-        caTextView = view.findViewById(R.id.CATextView);
+        vidaactualTextView = view.findViewById(R.id.VidaActualTextView);
+        vidaTextView=view.findViewById(R.id.VidaTextView);
+
+        caatualTextView = view.findViewById(R.id.CAActualTextView);
+        caTextView=view.findViewById(R.id.CATextView);
         iniciativaTextView = view.findViewById(R.id.IniciativaTextView);
         ataqueBaseTextView = view.findViewById(R.id.AtaqueBaseTextView);
         velociadTextView = view.findViewById(R.id.VelocidadTextView);
         monstruobutton = view.findViewById(R.id.MonstruoButton);
+        VidaImageView = view.findViewById(R.id.VidaImageView);
+        CaImageView = view.findViewById(R.id.CAImageView);
 
         ronda.setOnClickListener(this);
         turnobutton=view.findViewById(R.id.turnobutton);
@@ -157,7 +167,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 //Recogemos todos los datos y lo anyadimos a la lista
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
-                    Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"),  (Long) valor.get("iniciativa"), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
+                    Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"), Integer.parseInt(valor.get("iniciativa").toString()), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
                     try {
                         persona.setVida((int) Long.parseLong(valor.get("vida").toString()));
                         persona.setArmadua((int) Long.parseLong(valor.get("armadura").toString()));
@@ -185,7 +195,9 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             @Override
             public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
                 Toast.makeText(getContext(),"Avisando..."+personEnCombate.getIniciativa(), Toast.LENGTH_SHORT).show();
-                personEnCombate.Avisar(combate);
+
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(personEnCombate.getKeyprincipal()).child("avisar").setValue(true);
+
             }
         });
         //Evento que ocurre al clickear el elemento correspondiente a la iniciativa de personaje del cardview , se creara un dialogo al que se le pasara
@@ -344,8 +356,12 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
                             int vida = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("vida").toString());
                             int ca = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("armadura").toString());
-                            vidaTextView.setText(String.valueOf(vida));
+
+                            vidaactualTextView.setText(String.valueOf(personEnCombate.getVida()));
+                            caatualTextView.setText(String.valueOf(personEnCombate.getArmadua()));
                             caTextView.setText(String.valueOf(ca));
+                            vidaTextView.setText("/"+String.format("%.0f",p.getVida()));
+                            caTextView.setText("/"+(String.format("%.0f",p.getArmadura())));
 
 
 
@@ -365,18 +381,29 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         else{
             FirebaseUtilsV1.GET_RefMonstruo(FirebaseUtilsV1.getKey(),personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    HashMap principal = (HashMap) dataSnapshot.getValue();
-                    Monstruo monstruo = new Monstruo(principal.get("atributos"), principal.get("biografia"), dataSnapshot.getKey());
+                public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                    final HashMap principal = (HashMap) dataSnapshot.getValue();
+                    final Monstruo monstruo = new Monstruo(principal.get("atributos"), principal.get("biografia"), dataSnapshot.getKey());
                     nombreTextView.setText(monstruo.getNombre());
                     personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(monstruo.getImagen()));
-                    vidaTextView.setText(String.valueOf(personEnCombate.getVida()));
-                    caTextView.setText(String.valueOf(personEnCombate.getArmadua()));
 
-                    vidaTextView.setOnClickListener(new View.OnClickListener() {
+
+                    vidaactualTextView.setText(String.valueOf(personEnCombate.getVida()));
+                    caatualTextView.setText(String.valueOf(personEnCombate.getArmadua()));
+                    caTextView.setText(String.valueOf(personEnCombate.getArmadua()));
+                    vidaTextView.setText("/"+String.format("%.0f",monstruo.getVida()));
+                    caTextView.setText("/"+(String.format("%.0f",monstruo.getArmadura())));
+
+                    VidaImageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(actividad,"Hola",Toast.LENGTH_LONG).show();
+                            new DialogoCambiarDatos(vidaactualTextView, monstruo.getVida()+1, FuncionVida(personEnCombate.getKeyprincipal()),actividad,true).show(getFragmentManager(),"Vida");
+                        }
+                    });
+                    CaImageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new DialogoCambiarDatos(caatualTextView, monstruo.getArmadura()+1, FuncionCA(personEnCombate.getKeyprincipal()),actividad,true).show(getFragmentManager(),"CA");
                         }
                     });
                 }
@@ -432,11 +459,11 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             public void onClick(View v) {
                 Monstruo  monstruo = monstruos.get(spinner.getSelectedItemPosition());
                 String key = FirebaseUtilsV1.GeneradorKeys();
-                Combate.PersonEnCombate p = new Combate.PersonEnCombate(key, monstruo.getKey(), FirebaseUtilsV1.getKey(),(long)monstruo.getModiniciativa(),false,false,true);
+                Combate.PersonEnCombate p = new Combate.PersonEnCombate(key, monstruo.getKey(), FirebaseUtilsV1.getKey(),5,false,false,true);
 
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).setValue(p);
-                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("vida").setValue(0);
-                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("armadura").setValue(0);
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("vida").setValue(monstruo.getVida());
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("armadura").setValue(monstruo.getArmadura());
             }
         });
 
@@ -465,6 +492,38 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             @Override
             public Object apply(Object input) {
                 FirebaseUtilsV1.SET_Ronda(input,combate);
+
+                return null;
+            }
+        };
+        return f;
+
+    }
+    //Cambia el valor de la ronda
+    public Function FuncionVida(final String key){
+
+        Function f = new Function() {
+            @Override
+            public Object apply(Object input) {
+
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("vida").setValue(input);
+
+
+                return null;
+            }
+        };
+        return f;
+
+    }
+    //Cambia el valor de la ronda
+    public Function FuncionCA(final String key){
+
+        Function f = new Function() {
+            @Override
+            public Object apply(Object input) {
+
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("armadura").setValue(input);
+
 
                 return null;
             }

@@ -143,11 +143,12 @@
                             android:id="@+id/ExpTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="200"
+                            android:inputType="number"
+                            android:text="0"
                             android:textSize="24sp" />
 
                         <TextView
-                            android:id="@+id/textfView10"
+                            android:id="@+id/SeparatortextfView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="/"
@@ -157,7 +158,8 @@
                             android:id="@+id/ExpTopeTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="300"
+                            android:inputType="number"
+                            android:text="0"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -198,6 +200,7 @@
                         android:layout_height="60dp"
                         android:background="@color/colorClaro"
                         android:gravity="center"
+                        android:inputType="numberSigned"
                         android:text="0"
                         android:textSize="30sp">
 

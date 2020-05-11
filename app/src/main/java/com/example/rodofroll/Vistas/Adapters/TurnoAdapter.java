@@ -156,7 +156,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
                         if(snapshot.getValue()!=null){
                             combatiente= new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
                             txtNombre.setText(combatiente.getNombre());
-                            txtIniciativa.setText(p.getIniciativa().toString());
+                            txtIniciativa.setText(String.valueOf(p.getIniciativa()));
                         }
 
 
@@ -179,7 +179,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
                         if(snapshot.getValue()!=null){
                             combatiente= new Monstruo(principal.get("atributos"),principal.get("biografia"), snapshot.getKey());
                             txtNombre.setText(combatiente.getNombre());
-                            txtIniciativa.setText(p.getIniciativa().toString());
+                            txtIniciativa.setText(String.valueOf(p.getIniciativa()));
                         }
 
 

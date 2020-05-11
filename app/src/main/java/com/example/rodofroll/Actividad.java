@@ -1,25 +1,20 @@
 package com.example.rodofroll;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.AttributeSet;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.OnTaskCompleted;
 
 public class Actividad  extends AppCompatActivity {
-    public ImageView remp;
+    protected ImageView imagenremp;
 
     private static int PHOTO_RESULT=0,PICK_IMAGE=1 ;
     OnTaskCompleted onTaskCompleted;
@@ -31,7 +26,7 @@ public class Actividad  extends AppCompatActivity {
         popupMenu.getMenuInflater().inflate(R.menu.menuimagen,popupMenu.getMenu());
 
         this.onTaskCompleted=onTaskCompleted;
-        remp=view;
+        imagenremp =view;
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -50,7 +45,7 @@ public class Actividad  extends AppCompatActivity {
 
                         break;
                     case R.id.opborrar:
-                        remp.setImageResource(R.drawable.mago);
+                        imagenremp.setImageResource(R.drawable.mago);
                         if(onTaskCompleted!=null){
                            onTaskCompleted.onTaskCompleted();
                         }
@@ -75,7 +70,7 @@ public class Actividad  extends AppCompatActivity {
             if(data.hasExtra("data"))
             {
                 resultado = ((Bitmap) data.getParcelableExtra("data"));
-                remp.setImageBitmap(resultado);
+                imagenremp.setImageBitmap(resultado);
                 if(onTaskCompleted!=null){
                     onTaskCompleted.onTaskCompleted();
                 }
@@ -89,7 +84,7 @@ public class Actividad  extends AppCompatActivity {
 
             Uri selectedImage = data.getData();
             resultado= ConversorImagenes.getScaledBitmap(selectedImage,this);
-            remp.setImageBitmap(resultado);
+            imagenremp.setImageBitmap(resultado);
             if(onTaskCompleted!=null){
                 onTaskCompleted.onTaskCompleted();
             }

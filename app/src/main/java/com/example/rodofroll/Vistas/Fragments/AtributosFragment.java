@@ -174,6 +174,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
               f = CrearFuncion("vida",p);
               dialogoDatos= DialogoCambiarDatos.newInstance(vidaTextView,900,f,getActivity(),true);
+                assert getFragmentManager() != null;
                 dialogoDatos.show(getFragmentManager(),"vida");
 
                break;
@@ -183,6 +184,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
                 f = CrearFuncion("armadura",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(caTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"armadura");
 
                 break;
@@ -191,7 +193,8 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
                 f= CrearFuncion("iniciativa",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(iniciativaTextView,100,f,getActivity(),true);
-                dialogoDatos.show(getFragmentManager(),"iniciativa");
+               assert dialogoDatos != null;
+               dialogoDatos.show(getFragmentManager(),"iniciativa");
 
 
                 break;
@@ -200,6 +203,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
                 f= CrearFuncion("ataque",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(ataquebaseTextView,100,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"ataque");
 
                 break;
@@ -208,18 +212,21 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
                f= CrearFuncion("velocidad",p);
                dialogoDatos= DialogoCambiarDatos.newInstance(velocidadTextView,100,f,getActivity(),true);
+               assert dialogoDatos != null;
                dialogoDatos.show(getFragmentManager(),"velocidad");
 
                 break;
             case R.id.fuerzalayout:
                 f= CrearFuncion("fuerza",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(fuerzaTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"fuerza");
 
                 break;
             case R.id.destrezalayout:
                 f=CrearFuncion("destreza",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(destrezaTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"destreza");
 
                 break;
@@ -227,6 +234,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
             case R.id.constitucionlayout:
                 f=CrearFuncion("constitucion",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(constitucionTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"constitucion");
 
                 break;
@@ -234,6 +242,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
             case R.id.inteligencialayout:
                 f=CrearFuncion("inteligencia",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(inteligenciaTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"inteligencia");
 
                 break;
@@ -241,6 +250,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
             case R.id.sabidurialayout:
                 f=CrearFuncion("sabiduria",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(sabiduriaTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"sabiduria");
 
 
@@ -249,12 +259,14 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
             case R.id.carismalayout:
                 f=CrearFuncion("carisma",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(carismaTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"carisma");
                 break;
 
             case R.id.fortalezalayout:
                 f=CrearFuncion("fortaleza",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(fortalezaTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"fortaleza");
 
                 break;
@@ -262,6 +274,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
             case R.id.reflejoslayout:
                 f=CrearFuncion("reflejos",p);
                 dialogoDatos= DialogoCambiarDatos.newInstance(reflejosTextView,900,f,getActivity(),true);
+                assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"reflejos");
 
                 break;
@@ -269,6 +282,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
            case  R.id.voluntadlayout:
                f=CrearFuncion("voluntad",p);
                dialogoDatos= DialogoCambiarDatos.newInstance(voluntadTextView,900,f,getActivity(),true);
+               assert dialogoDatos != null;
                dialogoDatos.show(getFragmentManager(),"voluntad");
 
                 break;

@@ -205,13 +205,9 @@ public class FirebaseUtilsV1 {
 
     public static void SET_PersonjeINTOCombat(Context context, String master, String combate, int iniciativa, Personaje p){
 
-        HashMap<String,Object> objeto = new HashMap<>();
-        objeto.put("usuariokey",FirebaseUtilsV1.key);
-        objeto.put("personajekey",p.getKey());
-        objeto.put("iniciativa",iniciativa);
-        objeto.put("turno",false);
-        objeto.put("avisar",false);
 
+
+        Combate.PersonEnCombate personEnCombate = new Combate.PersonEnCombate(p.getKey(),FirebaseUtilsV1.getKey(),iniciativa,false,false,false);
 
         boolean existe = false;
         for(Personaje.CombatesAsociados combatesAsociados: p.getCombates()){
@@ -222,7 +218,7 @@ public class FirebaseUtilsV1 {
         }
 
         if(!existe){
-            FirebaseUtilsV1.ref.child("combates").child(master).child(combate).child("ordenturno").push().setValue(objeto);
+            FirebaseUtilsV1.ref.child("combates").child(master).child(combate).child("ordenturno").push().setValue(personEnCombate);
             String id =  FirebaseUtilsV1.ref.child("key").push().getKey();
             FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(p.getKey()).child("combates").child(id).child("masterid").setValue(master);
             FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(p.getKey()).child("combates").child(id).child("combateid").setValue(combate);

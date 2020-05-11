@@ -58,6 +58,9 @@ public abstract class Combatiente implements Serializable {
     };
 
 
+    public int getExp(){
+        return  exp;
+    }
 
     public double getVida() {
         return vida;

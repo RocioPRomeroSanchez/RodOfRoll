@@ -70,7 +70,7 @@ public class Combate {
 
         String personajekey;
         String usuariokey;
-        Long iniciativa;
+        int iniciativa;
         Boolean turno;
         String keyprincipal;
 
@@ -128,23 +128,30 @@ public class Combate {
             this.keyprincipal = keyprincipal;
         }
 
-        public PersonEnCombate(String key, String personajekey, String usuariokey, Long iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
+        public PersonEnCombate(String key, String personajekey, String usuariokey, int iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
             this.personajekey=personajekey;
             this.usuariokey=usuariokey;
             this.iniciativa=iniciativa;
             this.turno=turno;
             this.avisar=avisar;
             this.keyprincipal=key;
-            if(ismonster==null){
-                this.ismonster=false;
-            }
-            else{
-                this.ismonster=ismonster;
-            }
+            this.ismonster=ismonster;
             vida=0;
             armadua=0;
 
         }
+        public PersonEnCombate(String personajekey, String usuariokey,int iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
+            this.personajekey=personajekey;
+            this.usuariokey=usuariokey;
+            this.iniciativa=iniciativa;
+            this.turno=turno;
+            this.avisar=avisar;
+            this.ismonster=ismonster;
+            vida=0;
+            armadua=0;
+
+        }
+
 
 
         public String getPersonajekey() {
@@ -164,11 +171,11 @@ public class Combate {
         }
 
 
-        public Long getIniciativa() {
+        public int getIniciativa() {
             return iniciativa;
         }
 
-        public void setIniciativa(Long iniciativa) {
+        public void setIniciativa(int iniciativa) {
             this.iniciativa = iniciativa;
         }
 

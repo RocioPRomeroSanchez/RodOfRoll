@@ -48,8 +48,6 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawerLayout;
-    File personajes;
-    File monstruos;
     Toolbar toolbar;
     NavigationView navigationView;
 
