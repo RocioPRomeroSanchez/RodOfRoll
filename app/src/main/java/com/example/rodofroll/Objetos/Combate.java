@@ -83,15 +83,15 @@ public class Combate {
         }
 
         public int getArmadua() {
-            return armadua;
+            return armadura;
         }
 
-        public void setArmadua(int armadua) {
-            this.armadua = armadua;
+        public void setArmadua(int armadura) {
+            this.armadura = armadura;
         }
 
         int vida;
-        int armadua;
+        int armadura;
 
 
         public boolean isIsmonster() {
@@ -137,7 +137,7 @@ public class Combate {
             this.keyprincipal=key;
             this.ismonster=ismonster;
             vida=0;
-            armadua=0;
+            armadura=0;
 
         }
         public PersonEnCombate(String personajekey, String usuariokey,int iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
@@ -148,7 +148,7 @@ public class Combate {
             this.avisar=avisar;
             this.ismonster=ismonster;
             vida=0;
-            armadua=0;
+            armadura=0;
 
         }
 

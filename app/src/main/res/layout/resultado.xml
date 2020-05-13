@@ -19,20 +19,38 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/NombreTiradatextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/textViewNumDados"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView" />
 
-        <TextView
-            android:id="@+id/textViewResultado"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="20"
-            android:textAlignment="center"
-            android:textSize="70sp" />
+
+            <TextView
+                android:id="@+id/textViewResultado"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="20"
+                android:textAlignment="center"
+                android:textSize="70sp" />
+
+
+
+
+
+
+
 
         <TextView
             android:id="@+id/textViewTiradas"
@@ -41,6 +59,16 @@
             android:layout_weight="1"
             android:textAlignment="center"
             android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/idwhatsapp"
+            android:layout_width="49dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:minWidth="100dp"
+            android:src="@drawable/whatsapp">
+
+        </ImageView>
 
     </LinearLayout>
 

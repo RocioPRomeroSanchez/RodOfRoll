@@ -3,6 +3,7 @@ package com.example.rodofroll.Vistas.Dialogos;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -100,15 +101,24 @@ public class Dialogos {
 
     }
 
-    public static int showDialogoDado(int tipodado, View view, int numero, int modificador, Activity activity) {
+    public static int showDialogoDado(int tipodado, View view, int numero, int modificador,String NombreTirada, final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         LayoutInflater inflater = activity.getLayoutInflater();
 
         View v = inflater.inflate(R.layout.resultado, null);
         builder.setView(v);
-        TextView resultado = v.findViewById(R.id.textViewResultado);
-        TextView info = v.findViewById(R.id.textViewNumDados);
-        TextView tiradastextview = v.findViewById(R.id.textViewTiradas);
+        final TextView resultado = v.findViewById(R.id.textViewResultado);
+        final TextView info = v.findViewById(R.id.textViewNumDados);
+        final TextView tiradastextview = v.findViewById(R.id.textViewTiradas);
+        final TextView nombretiradatextview = v.findViewById(R.id.NombreTiradatextView);
+        ImageView whatsappimage = v.findViewById(R.id.idwhatsapp);
+
+
+
+        if(NombreTirada.isEmpty()){
+            nombretiradatextview.setVisibility(View.GONE);
+        }
+        nombretiradatextview.setText(NombreTirada);
 
 
         Random r = new Random();
@@ -139,6 +149,24 @@ public class Dialogos {
         tiradastextview.setText(cadena);
 
         builder.show();
+
+        whatsappimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+                whatsappIntent.setType("text/plain");
+                whatsappIntent.setPackage("com.whatsapp");
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*"+nombretiradatextview.getText().toString()+"*"+"\n"+"Informacion:"+info.getText().toString()+"\n"+"Resultado:"+resultado.getText().toString()+"\nDados:"+tiradastextview.getText().toString());
+                try {
+                    activity.startActivity(whatsappIntent);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(activity,  "Whatsapp no instalado", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
 
         return res;
 

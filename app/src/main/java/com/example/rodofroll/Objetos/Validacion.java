@@ -73,4 +73,10 @@ public class Validacion {
          }
          return bol ;
     }
+
+    public static boolean EsUnNuemroReal(String cadena){
+        return cadena.matches("^(-)?\\d+(.)?\\d*");
+
+    }
+
 }

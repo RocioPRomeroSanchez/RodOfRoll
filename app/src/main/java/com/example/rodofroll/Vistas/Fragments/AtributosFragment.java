@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
@@ -19,14 +20,22 @@ import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 
+import com.example.rodofroll.Objetos.Monstruo;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
+import com.example.rodofroll.Vistas.Dialogos.Dialogos;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.arch.core.util.Function;
 
+import java.util.HashMap;
 
-public class AtributosFragment extends Fragment implements View.OnClickListener,ComunicateToTabsListener, EstructuraFragment  {
+
+public class AtributosFragment extends Fragment implements View.OnClickListener,ComunicateToTabsListener, EstructuraFragment , View.OnLongClickListener {
 
 
 
@@ -64,6 +73,8 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
     LinearLayout reflejosLayout;
     LinearLayout voluntadLayout;
 
+    DatabaseReference db;
+
 
     //El constructor de este fragment debe recibir un objeto persona
     public AtributosFragment(Combatiente p){
@@ -75,6 +86,13 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                              final ViewGroup container, final Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.atributos_layout, container, false);
+
+        if(p instanceof Personaje){
+            db=  FirebaseUtilsV1.GET_RefPersonaje(FirebaseUtilsV1.getKey(),p.getKey());
+        }
+        else{
+            db=  FirebaseUtilsV1.GET_RefMonstruo(FirebaseUtilsV1.getKey(),p.getKey());
+        }
         //Aqui estamos inicializando todos los componentes que aparecen en el layout
         InicializarComponentes(v);
         //Les asociamos a cada componente de la vista los valores del objeto persona
@@ -131,6 +149,17 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
         fortalezaLayout.setOnClickListener(this);
         reflejosLayout.setOnClickListener(this);
         voluntadLayout.setOnClickListener(this);
+
+        fuerzaLayout.setOnLongClickListener(this);
+        destrezaLayout.setOnLongClickListener(this);
+        constitucionLayout.setOnLongClickListener(this);
+        inteligenciaLayout.setOnLongClickListener(this);
+        sabiduriaLayout.setOnLongClickListener(this);
+        carismaLayout.setOnLongClickListener(this);
+        fortalezaLayout.setOnLongClickListener(this);
+        reflejosLayout.setOnLongClickListener(this);
+        voluntadLayout.setOnLongClickListener(this);
+
     }
 
     @Override
@@ -146,16 +175,16 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
         ataquebaseTextView.setText(String.format("%.0f",p.getAtaque()));
         velocidadTextView.setText(String.format("%.0f",p.getVelocidad()));
 
-        fuerzaTextView.setText(String.format("%.0f",p.getFuerza()));
-        destrezaTextView.setText(String.format("%.0f",p.getDestreza()));
-        constitucionTextView.setText(String.format("%.0f",p.getConstitucion()));
-        inteligenciaTextView.setText(String.format("%.0f",p.getInteligencia()));
-        sabiduriaTextView.setText(String.format("%.0f",p.getSabiduria()));
-        carismaTextView.setText(String.format("%.0f",p.getCarisma()));
+        fuerzaTextView.setText(String.valueOf(p.getFuerza()));
+        destrezaTextView.setText(String.valueOf(p.getDestreza()));
+        constitucionTextView.setText(String.valueOf(p.getConstitucion()));
+        inteligenciaTextView.setText(String.valueOf(p.getInteligencia()));
+        sabiduriaTextView.setText(String.valueOf(p.getSabiduria()));
+        carismaTextView.setText(String.valueOf(p.getCarisma()));
 
-        fortalezaTextView.setText(String.format("%.0f",p.getFortaleza()));
-        reflejosTextView.setText(String.format("%.0f",p.getReflejos()));
-        voluntadTextView.setText(String.format("%.0f",p.getVoluntad()));
+        fortalezaTextView.setText(String.valueOf(p.getFortaleza()));
+        reflejosTextView.setText(String.valueOf(p.getReflejos()));
+        voluntadTextView.setText(String.valueOf(p.getVoluntad()));
     }
 
 
@@ -172,7 +201,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
         switch (v.getId()){
             case R.id.vidaimageview:
 
-              f = CrearFuncion("vida",p);
+              f = CrearFuncion("vida");
               dialogoDatos= DialogoCambiarDatos.newInstance(vidaTextView,900,f,getActivity(),true);
                 assert getFragmentManager() != null;
                 dialogoDatos.show(getFragmentManager(),"vida");
@@ -182,7 +211,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
             case R.id.caimageview:
 
-                f = CrearFuncion("armadura",p);
+                f = CrearFuncion("armadura");
                 dialogoDatos= DialogoCambiarDatos.newInstance(caTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"armadura");
@@ -191,7 +220,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
            case R.id.iniciativalayout:
 
-                f= CrearFuncion("iniciativa",p);
+                f= CrearFuncion("iniciativa");
                 dialogoDatos= DialogoCambiarDatos.newInstance(iniciativaTextView,100,f,getActivity(),true);
                assert dialogoDatos != null;
                dialogoDatos.show(getFragmentManager(),"iniciativa");
@@ -201,7 +230,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
             case R.id.ataquebaselayout:
 
-                f= CrearFuncion("ataque",p);
+                f= CrearFuncion("ataque");
                 dialogoDatos= DialogoCambiarDatos.newInstance(ataquebaseTextView,100,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"ataque");
@@ -210,21 +239,21 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
            case R.id.velocidadlayout:
 
-               f= CrearFuncion("velocidad",p);
+               f= CrearFuncion("velocidad");
                dialogoDatos= DialogoCambiarDatos.newInstance(velocidadTextView,100,f,getActivity(),true);
                assert dialogoDatos != null;
                dialogoDatos.show(getFragmentManager(),"velocidad");
 
                 break;
             case R.id.fuerzalayout:
-                f= CrearFuncion("fuerza",p);
+                f= CrearFuncion("fuerza");
                 dialogoDatos= DialogoCambiarDatos.newInstance(fuerzaTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"fuerza");
 
                 break;
             case R.id.destrezalayout:
-                f=CrearFuncion("destreza",p);
+                f=CrearFuncion("destreza");
                 dialogoDatos= DialogoCambiarDatos.newInstance(destrezaTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"destreza");
@@ -232,7 +261,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.constitucionlayout:
-                f=CrearFuncion("constitucion",p);
+                f=CrearFuncion("constitucion");
                 dialogoDatos= DialogoCambiarDatos.newInstance(constitucionTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"constitucion");
@@ -240,7 +269,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.inteligencialayout:
-                f=CrearFuncion("inteligencia",p);
+                f=CrearFuncion("inteligencia");
                 dialogoDatos= DialogoCambiarDatos.newInstance(inteligenciaTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"inteligencia");
@@ -248,7 +277,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.sabidurialayout:
-                f=CrearFuncion("sabiduria",p);
+                f=CrearFuncion("sabiduria");
                 dialogoDatos= DialogoCambiarDatos.newInstance(sabiduriaTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"sabiduria");
@@ -257,14 +286,14 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.carismalayout:
-                f=CrearFuncion("carisma",p);
+                f=CrearFuncion("carisma");
                 dialogoDatos= DialogoCambiarDatos.newInstance(carismaTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"carisma");
                 break;
 
             case R.id.fortalezalayout:
-                f=CrearFuncion("fortaleza",p);
+                f=CrearFuncion("fortaleza");
                 dialogoDatos= DialogoCambiarDatos.newInstance(fortalezaTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"fortaleza");
@@ -272,7 +301,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.reflejoslayout:
-                f=CrearFuncion("reflejos",p);
+                f=CrearFuncion("reflejos");
                 dialogoDatos= DialogoCambiarDatos.newInstance(reflejosTextView,900,f,getActivity(),true);
                 assert dialogoDatos != null;
                 dialogoDatos.show(getFragmentManager(),"reflejos");
@@ -280,7 +309,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                 break;
 
            case  R.id.voluntadlayout:
-               f=CrearFuncion("voluntad",p);
+               f=CrearFuncion("voluntad");
                dialogoDatos= DialogoCambiarDatos.newInstance(voluntadTextView,900,f,getActivity(),true);
                assert dialogoDatos != null;
                dialogoDatos.show(getFragmentManager(),"voluntad");
@@ -291,22 +320,100 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
 
 
+
     }
     //Creamos una funcion que devuelve el objeto Function
 
-    public Function CrearFuncion(final String atributo, final Combatiente p){
+    public Function CrearFuncion(final String atributo){
 
         Function function = new Function() {
 
             @Override
             public Object apply(Object input) {
                 FirebaseUtilsV1.SET_Atributo(atributo,(double)input,p);
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        HashMap<String,Object> principal= (HashMap<String, Object>) dataSnapshot.getValue();
+
+                        if(p instanceof  Personaje)
+                      p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), dataSnapshot.getKey());
+
+                        else{
+                            p = new Monstruo(principal.get("atributos"),principal.get("biografia"), dataSnapshot.getKey());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
                 return null;
             }
         };
 
         return  function;
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+
+        switch (v.getId()){
+            case R.id.fuerzalayout:
+                Dialogos.showDialogoDado(20,v,1,p.getFuerza(),"Tirada de Fuerza",getActivity());
+                break;
+
+        case R.id.destrezalayout:
+            Dialogos.showDialogoDado(20,v,1,p.getDestreza(),"Tirada de Destreza",getActivity());
+
+
+        break;
+
+        case R.id.constitucionlayout:
+            Dialogos.showDialogoDado(20,v,1,p.getConstitucion(),"Tirada de Constitucion",getActivity());
+
+
+        break;
+
+        case R.id.inteligencialayout:
+            Dialogos.showDialogoDado(20,v,1,p.getInteligencia(),"Tirada de Inteligencia",getActivity());
+
+
+        break;
+
+        case R.id.sabidurialayout:
+            Dialogos.showDialogoDado(20,v,1,p.getSabiduria(),"Tirada de Sabiduria",getActivity());
+
+
+
+        break;
+
+        case R.id.carismalayout:
+            Dialogos.showDialogoDado(20,v,1,p.getCarisma(),"Tirada de Carisma",getActivity());
+
+        break;
+
+        case R.id.fortalezalayout:
+            Dialogos.showDialogoDado(20,v,1,p.getFortaleza(),"Tirada de Fortaleza",getActivity());
+
+
+        break;
+
+        case R.id.reflejoslayout:
+            Dialogos.showDialogoDado(20,v,1,p.getReflejos(),"Tirada de Reflejos",getActivity());
+
+
+        break;
+
+        case  R.id.voluntadlayout:
+            Dialogos.showDialogoDado(20,v,1,p.getVoluntad(),"Tirada de Voluntad",getActivity());
+
+        break;
+
+        }
+        return false;
     }
 }
 

@@ -8,69 +8,70 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nombrecombat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Nombre"
-            android:id="@+id/nombrecombat"
             android:layout_weight="1"
+            android:hint="@string/Nombre"
 
-            app:passwordToggleTint="@color/colorAccent"
-            >
+            app:passwordToggleTint="@color/colorAccent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nombrecombatedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:id="@+id/nombrecombatedit"
 
                 />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            >
+
+            <Button
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:layout_weight="1"
+                android:id="@+id/cancelbutton"
+
+
+                android:text="Cancelar"
+
+
 
 
                 >
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:layout_weight="1"
-                    android:id="@+id/cancelbutton"
+            </Button>
 
-
-                    android:text="Cancelar"
-
-
-
-
-                    >
-
-                </Button>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:layout_weight="1"
-                    android:text="Aceptar"
-                    android:id="@+id/aceptarbutton"
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:layout_weight="1"
+                android:text="Aceptar"
+                android:id="@+id/aceptarbutton"
 
 
 
-                    >
+                >
 
-                </Button>
-
-
-            </LinearLayout>
+            </Button>
 
 
-        </com.google.android.material.textfield.TextInputLayout>
+
 
     </LinearLayout>
 

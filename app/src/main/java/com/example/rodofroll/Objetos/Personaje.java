@@ -66,20 +66,20 @@ public class Personaje extends Combatiente {
         this.key=key;
 
        //Atributos
-        vida = Double.parseDouble(this.atributos.get("vida").toString());
-        modiniciativa = Double.parseDouble(this.atributos.get("iniciativa").toString());
-        armadura = Double.parseDouble(this.atributos.get("armadura").toString());
-        ataque = Double.parseDouble(this.atributos.get("ataque").toString());
-        velocidad = Double.parseDouble(this.atributos.get("velocidad").toString());
-        fuerza = Double.parseDouble(this.atributos.get("fuerza").toString());
-        destreza = Double.parseDouble(this.atributos.get("destreza").toString());
-        constitucion = Double.parseDouble(this.atributos.get("constitucion").toString());
-        inteligencia = Double.parseDouble(this.atributos.get("inteligencia").toString());
-        sabiduria = Double.parseDouble(this.atributos.get("sabiduria").toString());
-        carisma = Double.parseDouble(this.atributos.get("carisma").toString());
-        fortaleza = Double.parseDouble(this.atributos.get("fortaleza").toString());
-        reflejos = Double.parseDouble(this.atributos.get("reflejos").toString());
-        voluntad = Double.parseDouble(this.atributos.get("voluntad").toString());
+        vida = Integer.parseInt(this.atributos.get("vida").toString());
+        modiniciativa = Integer.parseInt(this.atributos.get("iniciativa").toString());
+        armadura = Integer.parseInt(this.atributos.get("armadura").toString());
+        ataque = Integer.parseInt(this.atributos.get("ataque").toString());
+        velocidad = Integer.parseInt(this.atributos.get("velocidad").toString());
+        fuerza = Integer.parseInt(this.atributos.get("fuerza").toString());
+        destreza = Integer.parseInt(this.atributos.get("destreza").toString());
+        constitucion = Integer.parseInt(this.atributos.get("constitucion").toString());
+        inteligencia = Integer.parseInt(this.atributos.get("inteligencia").toString());
+        sabiduria = Integer.parseInt(this.atributos.get("sabiduria").toString());
+        carisma = Integer.parseInt(this.atributos.get("carisma").toString());
+        fortaleza = Integer.parseInt(this.atributos.get("fortaleza").toString());
+        reflejos = Integer.parseInt(this.atributos.get("reflejos").toString());
+        voluntad = Integer.parseInt(this.atributos.get("voluntad").toString());
 
        //Biografia
         nombre= (String) this.biografia.get("nombre");
@@ -174,6 +174,15 @@ public class Personaje extends Combatiente {
 
 
     public static class Cosa {
+        String key="";
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
         public String getNombre() {
             return nombre;
         }
@@ -196,6 +205,7 @@ public class Personaje extends Combatiente {
         public Cosa(String nombre, double peso) {
             this.nombre = nombre;
             this.peso = peso;
+
         }
 
         public Cosa() {

@@ -242,7 +242,7 @@ public class DialogoBuscarCombate extends DialogFragment implements InicializarV
         dadoimagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int num = Dialogos.showDialogoDado(20, v, 1, 0, activity);
+                int num = Dialogos.showDialogoDado(20, v, 1, 0, "Tirada de Iniciativa",activity);
                 dadoeditext.setText(String.valueOf(num));
                 dadoeditext.setError(null);
             }

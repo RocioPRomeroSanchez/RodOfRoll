@@ -8,21 +8,21 @@ import java.util.List;
 public abstract class Combatiente implements Serializable {
 
 
-    double vida;
-    double armadura;
-    double modiniciativa;
-    double ataque;
-    double velocidad;
-    double fuerza;
-    double destreza;
-    double constitucion;
-    double inteligencia;
-    double sabiduria;
-    double carisma;
-    double fortaleza;
-    double reflejos;
-    double voluntad;
-    double iniciativa;
+    int vida;
+    int armadura;
+    int modiniciativa;
+    int ataque;
+    int velocidad;
+    int fuerza;
+    int destreza;
+    int constitucion;
+    int inteligencia;
+    int sabiduria;
+    int carisma;
+    int fortaleza;
+    int reflejos;
+    int voluntad;
+    int iniciativa;
     String imagen;
     String nombre;
     String raza;
@@ -90,47 +90,47 @@ public abstract class Combatiente implements Serializable {
         return key;
     }
 
-    public double getFuerza() {
+    public int getFuerza() {
         return fuerza;
     }
 
 
-    public double getDestreza() {
+    public int getDestreza() {
         return destreza;
     }
 
 
-    public double getConstitucion() {
+    public int getConstitucion() {
         return constitucion;
     }
 
 
-    public double getInteligencia() {
+    public int getInteligencia() {
         return inteligencia;
     }
 
 
-    public double getSabiduria() {
+    public int getSabiduria() {
         return sabiduria;
     }
 
 
-    public double getCarisma() {
+    public int getCarisma() {
         return carisma;
     }
 
 
-    public double getFortaleza() {
+    public int getFortaleza() {
         return fortaleza;
     }
 
 
-    public double getReflejos() {
+    public int getReflejos() {
         return reflejos;
     }
 
 
-    public double getVoluntad() {
+    public int getVoluntad() {
         return voluntad;
     }
 

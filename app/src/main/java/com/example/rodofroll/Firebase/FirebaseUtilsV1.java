@@ -187,6 +187,7 @@ public class FirebaseUtilsV1 {
     static public void SET_Atributo(String atributo, Object nuevovalor, Combatiente combatiente){
         if(combatiente instanceof Personaje){
             FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("personajes").child(combatiente.getKey()).child("atributos").child(atributo).setValue(nuevovalor);
+
         }
         else {
             FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.key).child("monstruos").child(combatiente.getKey()).child("atributos").child(atributo).setValue(nuevovalor);

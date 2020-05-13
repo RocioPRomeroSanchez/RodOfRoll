@@ -2,6 +2,7 @@ package com.example.rodofroll.Vistas.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.PeriodicSync;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,14 +32,19 @@ import com.example.rodofroll.Objetos.InicializarVistas;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
+import com.example.rodofroll.Vistas.Adapters.Adapter;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
+import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InventarioFragment extends Fragment implements View.OnClickListener, ComunicateToTabsListener, EstructuraFragment {
 
@@ -52,6 +59,7 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
     TextView PesoLimitTextView;
     double contadorpeso;
     Activity activity;
+    List<Personaje.Cosa> cosaList;
 
 
     public InventarioFragment(Combatiente p, Activity activity) {
@@ -67,7 +75,9 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
 
         v = inflater.inflate(R.layout.inventario_layout, container, false);
         contadorpeso=0;
+        cosaList=new ArrayList<>();
        InicializarComponentes(v);
+        adapter = new AdapterInventario(cosaList);
        ComportamientoRecycler();
 
 
@@ -82,7 +92,7 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
         OroTextView = v.findViewById(R.id.OroTextView);
         PlataTextView = v.findViewById(R.id.PlataTextView);
         CobreTextView = v.findViewById(R.id.CobreTextView);
-        PesoTextView = v.findViewById(R.id.PesoEditText);
+        PesoTextView = v.findViewById(R.id.PesoTextView);
         PesoLimitTextView = v.findViewById(R.id.LimitPesoTextView);
 
         OroTextView.setOnClickListener(this);
@@ -108,14 +118,8 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
             case R.id.CobreTextView:
                 DialogoCambiarDatos.newInstance(CobreTextView,99999, CrearFuncionDinero("cobre"), activity,true).show(getFragmentManager(),"Cobre");
                 break;
-            case R.id.PesoEditText:
-                //DialogoCambiarDatos.newInstance(PesoTextView,Integer.parseInt(PesoLimitTextView.getText().toString()),null, CrearFuncionPeso(), getActivity()).show(getFragmentManager(),"Peso");
-                break;
             case R.id.LimitPesoTextView:
-
                     DialogoCambiarDatos.newInstance(PesoLimitTextView,1000, CrearFuncionPesoLimite(),activity,true).show(getFragmentManager(),"LimitPeso");
-
-
                 break;
         }
     }
@@ -131,18 +135,7 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
         };
        return f;
    }
-    public Function CrearFuncionPeso(){
 
-
-        Function f= new Function() {
-            @Override
-            public Object apply(Object input) {
-                FirebaseUtilsV1.SET_Peso((double)input,p);
-                return null;
-            }
-        };
-        return f;
-    }
     public Function CrearFuncionPesoLimite(){
 
 
@@ -168,6 +161,8 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
     public void onClickParentTab() {
        showDialogoCosas((MainActivity) activity);
 
+
+
     }
 
     public void showDialogoCosas(final MainActivity mainActivity){
@@ -182,51 +177,64 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
         NombreEditText = myView.findViewById(R.id.NombreEditText);
         PesoEditText = myView.findViewById(R.id.PesoEditText);
 
+        dialogBuilder.setView(myView);
+        final Dialog dialog =dialogBuilder.show();
 
         aceptarbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
+
                 if(Validacion.ValidarEdit(NombreEditText)&Validacion.ValidarEdit(PesoEditText)){
-                if(Double.parseDouble(PesoEditText.getText().toString())+contadorpeso>Double.parseDouble(PesoLimitTextView.getText().toString())){
+                    if(!Validacion.EsUnNuemroReal(PesoEditText.getText().toString())){
+                        PesoEditText.setError("No se puede interpretar como un numero");
+                    }
+                else if(Double.parseDouble(PesoEditText.getText().toString())+contadorpeso>Double.parseDouble(PesoLimitTextView.getText().toString())){
                     PesoEditText.setError("No puedes llevar tanto peso");
                 }
                 else{
-
-                    Personaje.Cosa cosa = new Personaje.Cosa(NombreEditText.getText().toString(),Double.parseDouble(PesoEditText.getText().toString()));
+                    String numero = PesoEditText.getText().toString().replace(',','.');
+                    Double numerdouble = Double.parseDouble(String.format("%.2f",Double.parseDouble(numero)).replace(',','.'));
+                    Personaje.Cosa cosa = new Personaje.Cosa(NombreEditText.getText().toString(),numerdouble);
                     FirebaseUtilsV1.GET_RefCosas(FirebaseUtilsV1.getDatosUser(),p).push().setValue(cosa);
-
+                    dialog.dismiss();
 
                 }
+
                 }
+
+
+
 
             }
         });
-        dialogBuilder.setView(myView);
-        dialogBuilder.show();
+
 
     }
+
     public void ComportamientoRecycler(){
 
-
-        final List<Personaje.Cosa> cosaList=new ArrayList<>();
+        cosaList=new ArrayList<>();
         adapter = new AdapterInventario(cosaList);
 
 
-        FirebaseUtilsV1.GET_RefCosas(FirebaseUtilsV1.getDatosUser(),this.p).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("DefaultLocale")
+        final DatabaseReference cosasdb = FirebaseUtilsV1.GET_RefCosas(FirebaseUtilsV1.getDatosUser(),p);
+
+
+        cosasdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 cosaList.removeAll(cosaList);
+                recyclerView.removeAllViews();
                 contadorpeso=0;
-                PesoTextView.setText(String.format("%.0f",contadorpeso));
-
-                for(DataSnapshot d : dataSnapshot.getChildren()){
-                    Personaje.Cosa cosa = d.getValue(Personaje.Cosa.class);
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Personaje.Cosa cosa = snapshot.getValue(Personaje.Cosa.class);
+                    cosa.setKey(snapshot.getKey());
                     cosaList.add(cosa);
                     contadorpeso+=cosa.getPeso();
-                    PesoTextView.setText(String.format("%.0f",contadorpeso));
                 }
+                PesoTextView.setText(String.format("%.2f",contadorpeso));
                 adapter.notifyDataSetChanged();
             }
 
@@ -235,9 +243,43 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
 
             }
         });
+
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+
+
+        ) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+
+                return false;
+            }
+
+
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                Personaje.Cosa cosa = (Personaje.Cosa) cosaList.get(viewHolder.getAdapterPosition());
+
+                Function<String,Void> function = new Function<String, Void>() {
+                    @Override
+                    public Void apply(String input) {
+                        cosasdb.child(input).removeValue();
+                        return null;
+                    }
+                };
+
+                Dialogos.showEliminar(cosa.getNombre(), getActivity(),cosa.getKey(),function).show();
+                adapter.notifyDataSetChanged();
+
+            }
+        } ).attachToRecyclerView(recyclerView);
+
+
     }
 
 
@@ -283,7 +325,7 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
     }
     class AdapterInventario extends RecyclerView.Adapter implements View.OnClickListener {
 
-        List<Personaje.Cosa> cosas=new ArrayList<>();
+        List<Personaje.Cosa> cosas;
         HolderInventario holderInventario;
 
 
@@ -303,12 +345,12 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-          holderInventario.bind(cosas.get(position));
+          holderInventario.bind(this.cosas.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return cosas.size();
+            return this.cosas.size();
         }
 
         @Override

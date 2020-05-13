@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,10 +38,12 @@ import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Adapters.TurnoAdapter;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
+import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -164,8 +167,11 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 //Al efectuar un cambio en la referencia vaciamos la lista de personajes en el combate
                 personajeEnCombateoList.removeAll(personajeEnCombateoList);
 
+                recyclerView.refreshDrawableState();
+
                 //Recogemos todos los datos y lo anyadimos a la lista
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+
                     HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
                     Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"), Integer.parseInt(valor.get("iniciativa").toString()), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
                     try {
@@ -233,10 +239,47 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             }
         });
 
+
+
+
         //Se definen los aspectos de recycler vinculando el adapter a el
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+
+
+        ) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+
+                return false;
+            }
+
+
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+                int numero =Math.abs(viewHolder.getAdapterPosition()-(personajeEnCombateoList.size()-1));
+                Combate.PersonEnCombate personEnCombate = (Combate.PersonEnCombate) personajeEnCombateoList.get(numero);
+
+                Function<String,Void> function = new Function<String, Void>() {
+                    @Override
+                    public Void apply(String input) {
+                        ref.getRef().child(input).removeValue();
+                        return null;
+                    }
+                };
+
+                Dialogos.showEliminar("", getActivity(),personEnCombate.getKeyprincipal(),function).show();
+                adapter.notifyDataSetChanged();
+
+            }
+        } ).attachToRecyclerView(recyclerView);
+
     }
 
     //Metodo que ocurre al pulsar el boton de pasar turno
@@ -310,8 +353,6 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
             case R.id.MonstruoButton:
 
-                //Dialogo Monstruo
-
                 showDialogoAddMonstruo(actividad);
                 break;
         }
@@ -357,9 +398,8 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                             int vida = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("vida").toString());
                             int ca = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("armadura").toString());
 
-                            vidaactualTextView.setText(String.valueOf(personEnCombate.getVida()));
-                            caatualTextView.setText(String.valueOf(personEnCombate.getArmadua()));
-                            caTextView.setText(String.valueOf(ca));
+                            vidaactualTextView.setText(String.valueOf(vida));
+                            caatualTextView.setText(String.valueOf(String.valueOf(ca)));
                             vidaTextView.setText("/"+String.format("%.0f",p.getVida()));
                             caTextView.setText("/"+(String.format("%.0f",p.getArmadura())));
 
@@ -457,13 +497,22 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         aceptarbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(monstruos.size()> 0){
+
+
                 Monstruo  monstruo = monstruos.get(spinner.getSelectedItemPosition());
+
+
                 String key = FirebaseUtilsV1.GeneradorKeys();
                 Combate.PersonEnCombate p = new Combate.PersonEnCombate(key, monstruo.getKey(), FirebaseUtilsV1.getKey(),5,false,false,true);
+
 
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).setValue(p);
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("vida").setValue(monstruo.getVida());
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("armadura").setValue(monstruo.getArmadura());
+
+                }
             }
         });
 

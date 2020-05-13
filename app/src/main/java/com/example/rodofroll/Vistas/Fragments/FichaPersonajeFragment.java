@@ -1,5 +1,6 @@
 package com.example.rodofroll.Vistas.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -62,24 +63,26 @@ public class FichaPersonajeFragment extends Fragment {
         tabs = view.findViewById(R.id.fichatab);
         tabs.addTab(tabs.newTab().setText("Atributos").setIcon(R.drawable.shield_star));
         tabs.addTab(tabs.newTab().setText("Biografia").setIcon(R.drawable.book));
-        if(p instanceof  Personaje){
-            tabs.addTab(tabs.newTab().setText("Inventario").setIcon(R.drawable.chest));
-        }
-
-        tabs.addTab(tabs.newTab().setText("Combate").setIcon(R.drawable.sword_cross));
-
 
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewPager);
         final PageAdapter adapter = new PageAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
+        if(p instanceof  Personaje){
+            tabs.addTab(tabs.newTab().setText("Inventario").setIcon(R.drawable.chest));
+            tabs.addTab(tabs.newTab().setText("Combate").setIcon(R.drawable.sword_cross));
+        }
+
+
 
 
         adapter.addFragment(new AtributosFragment(p));
         adapter.addFragment(new BiografiaFragment(p,(Actividad) getActivity()));
         if(p instanceof  Personaje){
             adapter.addFragment(new InventarioFragment(p,getActivity()));
+            adapter.addFragment(new CombatPersonajeFragment(p));
         }
 
-        adapter.addFragment(new CombatPersonajeFragment(p));
+
 
 
         mviewPager.setAdapter(adapter);
@@ -89,14 +92,16 @@ public class FichaPersonajeFragment extends Fragment {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
         {
 
+            @SuppressLint("RestrictedApi")
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mviewPager.setCurrentItem(tab.getPosition());
                 if(tab.getPosition()==2){
+                    button.setVisibility(View.VISIBLE);
                     button.setImageResource(R.drawable.plus);
                 }
                 else{
-                    button.setImageResource(R.drawable.check);
+                    button.setVisibility(View.GONE);
                 }
 
             }

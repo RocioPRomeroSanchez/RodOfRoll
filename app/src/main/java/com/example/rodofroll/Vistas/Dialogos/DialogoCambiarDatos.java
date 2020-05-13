@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.rodofroll.Objetos.Personaje;
+import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
 import androidx.arch.core.util.Function;
 
@@ -72,13 +73,19 @@ public class DialogoCambiarDatos extends DialogFragment {
                 String cadena = editText.getText().toString();
 
                 if(!cadena.isEmpty()){
-                    if(EsUnNuemroReal(cadena)&&isnumber){
+                    if(Validacion.EsUnNuemroReal(cadena)&&isnumber){
                         Double numero = Double.valueOf(cadena);
 
                         if (Math.abs(numero) < limite) {
                             if(vista!=null) {
 
-                                vista.setText(String.format("%.0f", numero));
+                                if(numero%1 !=0){
+                                    vista.setText(String.valueOf(numero));
+                                }
+                                else{
+                                    vista.setText(String.format("%.0f",numero));
+                                }
+
                             }
                                 function.apply(numero);
 
@@ -116,10 +123,6 @@ public class DialogoCambiarDatos extends DialogFragment {
         return builder.create();
     }
 
-    public boolean EsUnNuemroReal(String cadena){
-       return cadena.matches("^(-)?\\d*");
-
-    }
 
 
 }
