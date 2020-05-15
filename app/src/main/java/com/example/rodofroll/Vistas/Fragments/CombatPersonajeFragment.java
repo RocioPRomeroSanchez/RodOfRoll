@@ -42,6 +42,7 @@ public class CombatPersonajeFragment extends Fragment {
                              final ViewGroup container, final Bundle savedInstanceState) {
         View v;
 
+        this.p=((FichaPersonajeFragment)getParentFragment()).getPersonaje();
         v= inflater.inflate(R.layout.combatespersonajelayout, container, false);
         nomcombattextview=v.findViewById(R.id.NoCombatestextView);
         recyclerView = v.findViewById(R.id.recycler);
@@ -58,6 +59,8 @@ public class CombatPersonajeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int posicion=recyclerView.getChildAdapterPosition(v);
+
+
                 ((MainActivity)getActivity()).RemplazarFragment(new VidaCombatFragment(p.getCombates().get(posicion), p),true);
             }
         });

@@ -342,6 +342,8 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                         else{
                             p = new Monstruo(principal.get("atributos"),principal.get("biografia"), dataSnapshot.getKey());
                         }
+
+                        ((FichaPersonajeFragment) getParentFragment()).setPersonaje(p);
                     }
 
                     @Override
@@ -414,6 +416,12 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
         }
         return false;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ((FichaPersonajeFragment) getParentFragment()).setPersonaje(p);
     }
 }
 

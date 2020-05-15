@@ -176,7 +176,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                     Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"), Integer.parseInt(valor.get("iniciativa").toString()), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
                     try {
                         persona.setVida((int) Long.parseLong(valor.get("vida").toString()));
-                        persona.setArmadua((int) Long.parseLong(valor.get("armadura").toString()));
+                        persona.setArmadura((int) Long.parseLong(valor.get("armadura").toString()));
                     }catch (NullPointerException ex){
 
                     }
@@ -423,29 +423,34 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 @Override
                 public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                     final HashMap principal = (HashMap) dataSnapshot.getValue();
-                    final Monstruo monstruo = new Monstruo(principal.get("atributos"), principal.get("biografia"), dataSnapshot.getKey());
-                    nombreTextView.setText(monstruo.getNombre());
-                    personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(monstruo.getImagen()));
+
+                    if(principal!=null){
+                        final Monstruo monstruo = new Monstruo(principal.get("atributos"), principal.get("biografia"), dataSnapshot.getKey());
+                        nombreTextView.setText(monstruo.getNombre());
+                        personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(monstruo.getImagen()));
 
 
-                    vidaactualTextView.setText(String.valueOf(personEnCombate.getVida()));
-                    caatualTextView.setText(String.valueOf(personEnCombate.getArmadua()));
-                    caTextView.setText(String.valueOf(personEnCombate.getArmadua()));
-                    vidaTextView.setText("/"+String.format("%.0f",monstruo.getVida()));
-                    caTextView.setText("/"+(String.format("%.0f",monstruo.getArmadura())));
+                        vidaactualTextView.setText(String.valueOf(personEnCombate.getVida()));
+                        caatualTextView.setText(String.valueOf(personEnCombate.getArmadura()));
+                        caTextView.setText(String.valueOf(personEnCombate.getArmadura()));
+                        vidaTextView.setText("/"+String.format("%.0f",monstruo.getVida()));
+                        caTextView.setText("/"+(String.format("%.0f",monstruo.getArmadura())));
 
-                    VidaImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            new DialogoCambiarDatos(vidaactualTextView, monstruo.getVida()+1, FuncionVida(personEnCombate.getKeyprincipal()),actividad,true).show(getFragmentManager(),"Vida");
-                        }
-                    });
-                    CaImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            new DialogoCambiarDatos(caatualTextView, monstruo.getArmadura()+1, FuncionCA(personEnCombate.getKeyprincipal()),actividad,true).show(getFragmentManager(),"CA");
-                        }
-                    });
+                        VidaImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new DialogoCambiarDatos(vidaactualTextView, monstruo.getVida()+1, FuncionVida(personEnCombate.getKeyprincipal()),actividad,true).show(getFragmentManager(),"Vida");
+                            }
+                        });
+                        CaImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new DialogoCambiarDatos(caatualTextView, monstruo.getArmadura()+1, FuncionCA(personEnCombate.getKeyprincipal()),actividad,true).show(getFragmentManager(),"CA");
+                            }
+                        });
+
+                    }
+
                 }
 
                 @Override

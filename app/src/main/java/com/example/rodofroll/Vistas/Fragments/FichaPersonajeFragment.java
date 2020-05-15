@@ -31,7 +31,7 @@ public class FichaPersonajeFragment extends Fragment {
 
     onSelectedItemListener milistener;
     TabLayout tabs;
-    Combatiente p=null;
+    Combatiente p;
 
     //codigo nuevo fragment
     List<Fragment> fragments;
@@ -50,7 +50,7 @@ public class FichaPersonajeFragment extends Fragment {
         return p;
     }
 
-    public void setPersonaje(Personaje p) {
+    public void setPersonaje(Combatiente p) {
         this.p = p;
     }
 

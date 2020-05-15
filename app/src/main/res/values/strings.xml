@@ -42,4 +42,5 @@
     <string name="cancelar">Cancelar</string>
     <string name="serviciofin">Es un servicio que borra datos propios de RodOfRoll cuando sales de la aplicacion</string>
     <string name="experiecia">Experiecia</string>
+    <string name="no_tienes_notificaciones">No tienes notificaciones</string>
 </resources>

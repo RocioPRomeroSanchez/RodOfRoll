@@ -356,4 +356,9 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
         return  function;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((FichaPersonajeFragment) getParentFragment()).setPersonaje(p);
+    }
 }

@@ -82,11 +82,11 @@ public class Combate {
             this.vida = vida;
         }
 
-        public int getArmadua() {
+        public int getArmadura() {
             return armadura;
         }
 
-        public void setArmadua(int armadura) {
+        public void setArmadura(int armadura) {
             this.armadura = armadura;
         }
 

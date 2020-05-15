@@ -1,5 +1,6 @@
 package com.example.rodofroll.Vistas.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class VidaCombatFragment extends Fragment  {
 
     Combatiente.CombatesAsociados combate;
@@ -36,6 +39,7 @@ public class VidaCombatFragment extends Fragment  {
     TextView ArmaduraActualTextVeiw;
     TextView VidaTextView;
     TextView ArmaduraTextView;
+    String nombrecombate;
 
     int vida;
     int armadura;
@@ -44,40 +48,30 @@ public class VidaCombatFragment extends Fragment  {
         this.combate = combate;
         this.combatiente=(Personaje) combatiente1;
 
-        FirebaseUtilsV1.GET_RefPersonaje(FirebaseUtilsV1.getKey(),combatiente.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                combatiente = dataSnapshot.getValue(Personaje.class);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        this.nombrecombate=nombrecombate;
 
 
 
     }
 
+    @SuppressLint("DefaultLocale")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.vidacombate_layout, container, false);
-        ImageView imageView = view.findViewById(R.id.vidaimageview);
+        ImageView VidaimageView = view.findViewById(R.id.vidaimageview);
+        ImageView CAimageView = view.findViewById(R.id.armaduraimageview);
         VidaActualTextView = view.findViewById(R.id.VidaActualTextView);
         ArmaduraActualTextVeiw = view.findViewById(R.id.ArmaduraActualTextView);
 
 
+
         ArmaduraTextView = view.findViewById(R.id.ArmaduraTextView);
         VidaTextView = view.findViewById(R.id.VidaTextView);
-
-        ArmaduraTextView.setText(String.valueOf(combatiente.getArmadura()));
-        VidaTextView.setText(String.valueOf(combatiente.getVida()));
-
-
-
+        ArmaduraTextView.setText(String.format("%.0f",combatiente.getArmadura()));
+        VidaTextView.setText(String.format("%.0f",combatiente.getVida()));
 
         referenceinfo=  FirebaseUtilsV1.GET_RefPersonaje(FirebaseUtilsV1.getKey(),combatiente.getKey()).child("combates").child(combate.getId());
 
@@ -89,19 +83,22 @@ public class VidaCombatFragment extends Fragment  {
         anim.setFillAfter(true); // Needed to keep the result of the animation
         anim.setDuration(2000);
         anim.setRepeatCount(Animation.INFINITE);
-        imageView.startAnimation(anim);
+        VidaimageView.startAnimation(anim);
 
 
 
        referenceinfo.addValueEventListener(listener =new ValueEventListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                vida = Integer.parseInt(String.valueOf(dataSnapshot.child("vida").getValue()));
-                armadura = Integer.parseInt(String.valueOf(dataSnapshot.child("armadura").getValue()));
-                VidaActualTextView.setText(String.valueOf(vida));
-                ArmaduraTextView.setText(String.valueOf(armadura));
 
+                if(dataSnapshot.child("vida").getValue()!=null&&dataSnapshot.child("armadura").getValue()!=null){
 
+                    vida = Integer.parseInt(String.valueOf(dataSnapshot.child("vida").getValue()));
+                    armadura = Integer.parseInt(String.valueOf(dataSnapshot.child("armadura").getValue()));
+                    VidaActualTextView.setText(String.valueOf(vida));
+                    ArmaduraActualTextVeiw.setText(String.valueOf(armadura));
+                }
 
 
             }
@@ -114,12 +111,21 @@ public class VidaCombatFragment extends Fragment  {
 
 
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        VidaimageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogoCambiarDatos.newInstance(VidaActualTextView,200,CrearFuncionVida(),getActivity(),true).show(getFragmentManager(),"Vida");
+                DialogoCambiarDatos.newInstance(VidaActualTextView,Integer.parseInt(VidaTextView.getText().toString())+1,CrearFuncionVida(),getActivity(),true).show(getFragmentManager(),"Vida");
             }
         });
+
+        CAimageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogoCambiarDatos.newInstance(ArmaduraActualTextVeiw,Integer.parseInt(ArmaduraTextView.getText().toString())+1,CrearFuncionCA(),getActivity(),true).show(getFragmentManager(),"Armadura");
+            }
+        });
+
+
 
         return  view;
     }

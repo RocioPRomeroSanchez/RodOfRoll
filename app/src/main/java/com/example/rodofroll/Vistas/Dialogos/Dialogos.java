@@ -172,7 +172,7 @@ public class Dialogos {
 
     }
 
-    public static AlertDialog.Builder showEliminar(String nombre, Activity activity, final String cadena, final Function function){
+    public static AlertDialog.Builder showEliminar(String nombre, Activity activity, final Object cadena, final Function function){
         // Use the Builder class for convenient dialog construction
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 

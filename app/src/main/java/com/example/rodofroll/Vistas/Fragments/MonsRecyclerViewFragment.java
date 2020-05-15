@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +23,11 @@ import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Adapters.Adapter;
 import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.AbstractCollection;
@@ -37,10 +40,11 @@ import java.util.Map;
 public class MonsRecyclerViewFragment extends Fragment{
     Adapter adapter= null;
     List<Combatiente> monstruos;
+    boolean existecombat = false;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recycler, container, false);
+        final View view = inflater.inflate(R.layout.recycler, container, false);
         final RecyclerView recyclerView = view.findViewById(R.id.recycler);
         FloatingActionButton floatingActionButton = view.findViewById(R.id.recyclerFloatingButton);
 
@@ -121,12 +125,46 @@ public class MonsRecyclerViewFragment extends Fragment{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Monstruo mons = (Monstruo) monstruos.get(viewHolder.getAdapterPosition());
+                final Monstruo mons = (Monstruo) monstruos.get(viewHolder.getAdapterPosition());
+
+                existecombat=false;
+
+
+
+                FirebaseUtilsV1.GET_RefCombates(FirebaseUtilsV1.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                      for(DataSnapshot d : dataSnapshot.getChildren()){
+                          DataSnapshot ordenturno = d.child("ordenturno");
+                          for(DataSnapshot d1 : ordenturno.getChildren()){
+                              if(d1.child("personajekey").getValue().equals(mons.getKey())){
+                                  existecombat=true;
+                              }
+                          }
+
+                      }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
                 Function<String,Void> function = new Function<String, Void>() {
                     @Override
                     public Void apply(String input) {
-                        monstruosdb.child(input).removeValue();
+
+                        if(!existecombat){
+                            monstruosdb.child(input).removeValue();
+                        }
+                        else{
+                            Snackbar.make(view,"No puede eliminar este personaje porque esta en algun combate", Snackbar.LENGTH_LONG).show();
+                        }
+
                         return null;
                     }
                 };

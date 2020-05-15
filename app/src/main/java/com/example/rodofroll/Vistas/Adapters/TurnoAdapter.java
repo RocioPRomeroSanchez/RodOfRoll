@@ -175,14 +175,9 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
-
-                        if(snapshot.getValue()!=null){
                             combatiente= new Monstruo(principal.get("atributos"),principal.get("biografia"), snapshot.getKey());
                             txtNombre.setText(combatiente.getNombre());
                             txtIniciativa.setText(String.valueOf(p.getIniciativa()));
-                        }
-
-
                     }
 
                     @Override

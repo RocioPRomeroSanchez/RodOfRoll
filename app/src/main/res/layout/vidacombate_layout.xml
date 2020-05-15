@@ -4,13 +4,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/CombatTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ElCombate"
-        android:textSize="36sp" />
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,10 +37,11 @@
 
                 android:layout_gravity="center"
                 android:fontFamily="cursive"
-                android:text="120"
+                android:inputType="number"
+                android:text="0"
+
+
                 android:textAlignment="center"
-
-
                 android:textColor="@android:color/white"
                 android:textSize="45sp"
                 android:textStyle="bold">
@@ -69,10 +63,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="cursive"
+                android:inputType="number"
                 android:text="120"
+
+
                 android:textAlignment="center"
-
-
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="36sp"
                 android:textStyle="bold">
@@ -92,7 +87,7 @@
         >
 
         <ImageView
-            android:id="@+id/vidaimagevssiew"
+            android:id="@+id/armaduraimageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/shield"
@@ -116,10 +111,11 @@
 
                 android:layout_gravity="center"
                 android:fontFamily="cursive"
-                android:text="120"
+                android:inputType="number"
+                android:text="0"
+
+
                 android:textAlignment="center"
-
-
                 android:textColor="@android:color/white"
                 android:textSize="45sp"
                 android:textStyle="bold">
@@ -141,10 +137,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="cursive"
+                android:inputType="number"
                 android:text="120"
+
+
                 android:textAlignment="center"
-
-
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="36sp"
                 android:textStyle="bold">
