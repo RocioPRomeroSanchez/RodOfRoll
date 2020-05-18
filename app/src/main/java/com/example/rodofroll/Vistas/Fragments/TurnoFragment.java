@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -381,52 +382,61 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         vidaTextView.setOnClickListener(null);
         caTextView.setOnClickListener(null);
 
-        if(!personEnCombate.isIsmonster()) {
-            FirebaseUtilsV1.GET_RefPersonaje(personEnCombate.getUsuariokey(), personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("DefaultLocale")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    HashMap principal = (HashMap) dataSnapshot.getValue();
-                    Personaje p = new Personaje(principal.get("atributos"), principal.get("biografia"), principal.get("inventario"), dataSnapshot.getKey());
-                    nombreTextView.setText(p.getNombre());
-                    personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
 
-                    HashMap<String, Object> combates = (HashMap<String, Object>) principal.get("combates");
-                    for (Map.Entry<String, Object> c : combates.entrySet()) {
+            if (!personEnCombate.isIsmonster()) {
 
 
-                        if (((HashMap<String, Object>) c.getValue()).get("masterid").equals(FirebaseUtilsV1.getKey()) && ((HashMap<String, Object>) c.getValue()).get("combateid").equals(combate.getKey())) {
+                    FirebaseUtilsV1.GET_RefPersonaje(personEnCombate.getUsuariokey(), personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @SuppressLint("DefaultLocale")
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            HashMap principal = (HashMap) dataSnapshot.getValue();
+                            Personaje p = new Personaje(principal.get("atributos"), principal.get("biografia"), principal.get("inventario"), dataSnapshot.getKey());
+                            nombreTextView.setText(p.getNombre());
+                            personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
+
+                            HashMap<String, Object> combates = (HashMap<String, Object>) principal.get("combates");
 
 
-                            int vida = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("vida").toString());
-                            int ca = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("armadura").toString());
-
-                            vidaactualTextView.setText(String.valueOf(vida));
-                            caatualTextView.setText(String.valueOf(String.valueOf(ca)));
-                            vidaTextView.setText("/"+String.format("%.0f",p.getVida()));
-                            caTextView.setText("/"+(String.format("%.0f",p.getArmadura())));
+                            if(combates!=null) {
+                                for (Map.Entry<String, Object> c : combates.entrySet()) {
 
 
+                                    if (((HashMap<String, Object>) c.getValue()).get("masterid").equals(FirebaseUtilsV1.getKey()) && ((HashMap<String, Object>) c.getValue()).get("combateid").equals(combate.getKey())) {
 
-                            break;
+
+                                        int vida = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("vida").toString());
+                                        int ca = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("armadura").toString());
+
+                                        vidaactualTextView.setText(String.valueOf(vida));
+                                        caatualTextView.setText(String.valueOf(String.valueOf(ca)));
+                                        vidaTextView.setText("/" + String.format("%.0f", p.getVida()));
+                                        caTextView.setText("/" + (String.format("%.0f", p.getArmadura())));
+
+
+                                        break;
+                                    }
+
+                                }
+                            }
                         }
 
-                    }
-                }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
+                        }
 
 
-            });
-            VidaImageView.setOnClickListener(null);
-            CaImageView.setOnClickListener(null);
+                    });
 
-            VidaImageView.setColorFilter(R.color.colorWhiete);
-            CaImageView.setColorFilter(R.color.colorWhiete);
-        }
+                VidaImageView.setOnClickListener(null);
+                CaImageView.setOnClickListener(null);
+
+                VidaImageView.setColorFilter(R.color.colorWhiete);
+                CaImageView.setColorFilter(R.color.colorWhiete);
+            }
+
 
         else{
             FirebaseUtilsV1.GET_RefMonstruo(FirebaseUtilsV1.getKey(),personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
