@@ -11,12 +11,14 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.arch.core.util.Function;
 import androidx.fragment.app.Fragment;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.R;
+import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 
 public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
@@ -54,7 +56,18 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()){
             case  R.id.BorrarCuentabutton:
-                FirebaseUtilsV1.BorrarCuenta(getActivity());
+                Function f = new Function() {
+                    @Override
+                    public Object apply(Object input) {
+                        FirebaseUtilsV1.BorrarCuenta(getActivity());
+                        return null;
+                    }
+                } ;
+
+                Dialogos.showEliminar(null,getActivity(),null,f).show();
+
+
+
                 break;
 
             case R.id.ModifButton:

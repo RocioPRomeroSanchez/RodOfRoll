@@ -204,7 +204,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         adapter.setClickBtnImagen(new ElementoAdapterClick() {
             @Override
             public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
-                Toast.makeText(getContext(),"Avisando..."+personEnCombate.getIniciativa(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Avisando...", Toast.LENGTH_SHORT).show();
 
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(personEnCombate.getKeyprincipal()).child("avisar").setValue(true);
 
@@ -218,7 +218,6 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
             @Override
             public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
-                Toast.makeText(getContext(),"Elemnto", Toast.LENGTH_SHORT).show();
                 Function f = FuncionIniciativa(personEnCombate.getKeyprincipal());
 
                 DialogoCambiarDatos.newInstance(null,100,f,getActivity(),true).show(getFragmentManager(),"Iniciativa");
@@ -604,7 +603,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
 
                 if (monstruos.size() == 0) {
-                    Toast.makeText(getContext(), "Este usuario no tiene personajes asociados", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Este usuario no tiene monstruos asociados", Toast.LENGTH_LONG).show();
                 } else {
 
                     if(Validacion.ValidarEdit(TiradaEditText)){

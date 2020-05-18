@@ -175,8 +175,15 @@ public class Dialogos {
     public static AlertDialog.Builder showEliminar(String nombre, Activity activity, final Object cadena, final Function function){
         // Use the Builder class for convenient dialog construction
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        String mensaje;
+        if(nombre==null||nombre.isEmpty()){
+            mensaje="¿Estas seguro?";
+        }
+        else{
+            mensaje="De verdad deseas eliminar a"+nombre;
+        }
 
-        builder.setMessage("De verdad deseas eliminar a "+ Html.fromHtml("<b>"+nombre+"</b>"))
+        builder.setMessage(mensaje)
                 .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         function.apply(cadena);
