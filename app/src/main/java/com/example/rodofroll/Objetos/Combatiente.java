@@ -265,33 +265,12 @@ public abstract class Combatiente implements Serializable {
         double vida;
         double ca;
 
-        public double getVida() {
-            return vida;
-        }
-
-        public double getCa() {
-            return ca;
-        }
-
-
-
         public String getMasterkey() {
             return masterkey;
         }
 
-        public void setMasterkey(String masterkey) {
-            this.masterkey = masterkey;
-        }
-
         public String getCombatekey() {
             return combatekey;
-        }
-
-        public void setCombatekey(String combatekey) {
-            this.combatekey = combatekey;
-        }
-
-        public CombatesAsociados() {
         }
 
         public CombatesAsociados(String masterkey, String combatekey, String id) {

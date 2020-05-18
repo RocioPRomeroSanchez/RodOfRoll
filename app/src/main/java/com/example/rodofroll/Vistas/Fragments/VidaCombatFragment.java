@@ -47,8 +47,6 @@ public class VidaCombatFragment extends Fragment  {
     public VidaCombatFragment(Combatiente.CombatesAsociados combate, Combatiente combatiente1) {
         this.combate = combate;
         this.combatiente=(Personaje) combatiente1;
-
-
         this.nombrecombate=nombrecombate;
 
 

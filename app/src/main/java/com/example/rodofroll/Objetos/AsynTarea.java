@@ -52,9 +52,6 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-      // FireBaseUtils.CrearRef();
-// Math.abs(( new Timestamp(System.currentTimeMillis()).getTime() - inicio.getTime())) < 1)
-
         double tiempo;
         int contador_info=0;
         do{
@@ -68,9 +65,6 @@ public class AsynTarea extends AsyncTask<Void,Void,Void> {
 
         }while (!FirebaseUtilsV1.isEstado());
 
-
-
-        //Espera 3 segundos a que cargue la app
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

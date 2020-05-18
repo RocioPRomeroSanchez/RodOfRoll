@@ -34,7 +34,7 @@ import androidx.arch.core.util.Function;
 
 import java.util.HashMap;
 
-
+//Fragment de los atributos del combatiente
 public class AtributosFragment extends Fragment implements View.OnClickListener,ComunicateToTabsListener, EstructuraFragment , View.OnLongClickListener {
 
 
@@ -87,6 +87,7 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
 
         v = inflater.inflate(R.layout.atributos_layout, container, false);
 
+        //Si el combatiente es un personaje o un monstruo la referencia a base de datos a la que apuntamos cambia
         if(p instanceof Personaje){
             db=  FirebaseUtilsV1.GET_RefPersonaje(FirebaseUtilsV1.getKey(),p.getKey());
         }
@@ -207,8 +208,6 @@ public class AtributosFragment extends Fragment implements View.OnClickListener,
                 dialogoDatos.show(getFragmentManager(),"vida");
 
                break;
-
-
             case R.id.caimageview:
 
                 f = CrearFuncion("armadura");

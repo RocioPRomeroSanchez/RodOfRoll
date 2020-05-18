@@ -2,6 +2,7 @@ package com.example.rodofroll.Vistas.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -418,7 +419,14 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
+
+
             });
+            VidaImageView.setOnClickListener(null);
+            CaImageView.setOnClickListener(null);
+
+            VidaImageView.setColorFilter(R.color.colorWhiete);
+            CaImageView.setColorFilter(R.color.colorWhiete);
         }
 
         else{
@@ -439,6 +447,8 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                         vidaTextView.setText("/"+String.format("%.0f",monstruo.getVida()));
                         caTextView.setText("/"+(String.format("%.0f",monstruo.getArmadura())));
 
+
+
                         VidaImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -454,6 +464,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
                     }
 
+
                 }
 
                 @Override
@@ -461,6 +472,10 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
                 }
             });
+
+
+            VidaImageView.setColorFilter(null);
+            CaImageView.setColorFilter(null);
 
         }
     }

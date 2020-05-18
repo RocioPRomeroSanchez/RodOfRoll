@@ -32,8 +32,11 @@ import java.util.List;
 
 public class CombateRecyclerFragment extends Fragment {
 
+    ValueEventListener listenercombat;
+    DatabaseReference db;
     @Nullable
     @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.recycler, container, false);
@@ -43,9 +46,9 @@ public class CombateRecyclerFragment extends Fragment {
         final CombatesAdapter adapter;
         final List<Combate> combateList=new ArrayList<>();
         adapter = new CombatesAdapter(combateList);
-        final DatabaseReference db = FirebaseUtilsV1.GET_RefCombates(FirebaseUtilsV1.getKey());
+        db = FirebaseUtilsV1.GET_RefCombates(FirebaseUtilsV1.getKey());
 
-        db.addValueEventListener(new ValueEventListener() {
+        db.addValueEventListener(listenercombat =new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 combateList.removeAll(combateList);
@@ -127,24 +130,10 @@ public class CombateRecyclerFragment extends Fragment {
         return view;
     }
 
-
-   /* public Function CrearFuncion(){
-
-        Function function = new Function() {
-
-            @Override
-            public Object apply(Object input) {
-
-                try {
-                    FirebaseUtilsV1.AddCombate((String) input);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                return null;
-            }
-        };
-        return function;
-    }*/
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(listenercombat!=null)
+        db.removeEventListener(listenercombat);
+    }
 }

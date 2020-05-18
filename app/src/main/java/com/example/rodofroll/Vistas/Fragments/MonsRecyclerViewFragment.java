@@ -41,6 +41,8 @@ public class MonsRecyclerViewFragment extends Fragment{
     Adapter adapter= null;
     List<Combatiente> monstruos;
     boolean existecombat = false;
+    DatabaseReference monstruosdb;
+    ValueEventListener monstruoslistener;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,10 +54,10 @@ public class MonsRecyclerViewFragment extends Fragment{
         adapter = new Adapter(monstruos);
 
 
-        final DatabaseReference monstruosdb = FirebaseUtilsV1.GET_RefMonstruos();
+        monstruosdb = FirebaseUtilsV1.GET_RefMonstruos();
 
 
-        monstruosdb.addValueEventListener(new ValueEventListener() {
+        monstruosdb.addValueEventListener(monstruoslistener=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 monstruos.removeAll(monstruos);
@@ -181,4 +183,11 @@ public class MonsRecyclerViewFragment extends Fragment{
         return view;
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(monstruoslistener!=null)
+        monstruosdb.removeEventListener(monstruoslistener);
+    }
 }

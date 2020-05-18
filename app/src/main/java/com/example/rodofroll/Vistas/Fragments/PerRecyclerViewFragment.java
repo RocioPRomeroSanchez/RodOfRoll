@@ -35,6 +35,8 @@ public class PerRecyclerViewFragment extends Fragment {
 
     Adapter adapter= null;
     List<Combatiente> personajes;
+    DatabaseReference personajesdb;
+    ValueEventListener listenerpersonajesdb;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,10 +48,10 @@ public class PerRecyclerViewFragment extends Fragment {
         adapter = new Adapter(personajes);
 
 
-        final DatabaseReference personajesdb = FirebaseUtilsV1.GET_RefPersonajes();
+       personajesdb = FirebaseUtilsV1.GET_RefPersonajes();
 
 
-        personajesdb.addValueEventListener(new ValueEventListener() {
+        personajesdb.addValueEventListener(listenerpersonajesdb =new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 personajes.removeAll(personajes);
@@ -142,8 +144,10 @@ public class PerRecyclerViewFragment extends Fragment {
     }
 
 
-
-
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(listenerpersonajesdb!=null)
+        personajesdb.removeEventListener(listenerpersonajesdb);
+    }
 }
