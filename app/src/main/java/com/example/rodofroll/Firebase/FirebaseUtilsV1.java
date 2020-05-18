@@ -62,6 +62,13 @@ public class FirebaseUtilsV1 {
         return datosUser;
     }
 
+    public static void setUserDetalls(String nombre, String foto){
+        datosUser.setNombre(nombre);
+        datosUser.setFoto(foto);
+        FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.getKey()).child("nombre").setValue(nombre);
+        FirebaseUtilsV1.ref.child("publico").child(FirebaseUtilsV1.getKey()).child("foto").setValue(foto);
+    }
+
 
     private static  FirebaseUtilsV1 ourInstance = new FirebaseUtilsV1();
 

@@ -1,6 +1,5 @@
 package com.example.rodofroll.Vistas.Fragments;
 
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,14 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
-import com.example.rodofroll.LoginActivity;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.ConversorImagenes;
-import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
@@ -42,6 +36,9 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
         editText = view.findViewById(R.id.apodetext);
 
+        editText.setText(FirebaseUtilsV1.getDatosUser().getNombre());
+        userimageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(FirebaseUtilsV1.getDatosUser().getFoto()));
+
 
         eliminarcuentabutton = view.findViewById(R.id.BorrarCuentabutton);
         eliminarcuentabutton.setOnClickListener(this);
@@ -57,88 +54,13 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()){
             case  R.id.BorrarCuentabutton:
-
                 FirebaseUtilsV1.BorrarCuenta(getActivity());
-               /* FirebaseUtilsV1.getRef().child("publico").child(FireBaseUtils.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-
-
-                                FireBaseUtils.getUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                                        startActivity(intent);
-
-
-                                    }
-                                });
-
-                            }
-
-                        });
-
-
-                    }
-                });*/
-
-               /* Function<String,Void> function = new Function<String, Void>() {
-                    @Override
-                    public Void apply(String input) {
-                        FireBaseUtils.getRef().child("publico").child(FireBaseUtils.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-
-                                FireBaseUtils.getRef().child("usuarios").child(FireBaseUtils.getUser().getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-
-
-                                        FireBaseUtils.getUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                                                startActivity(intent);
-
-
-                                            }
-                                        });
-
-                                    }
-
-                                });
-
-
-                            }
-                        });
-                        return null;
-                    }
-                };*/
-
-               // Dialogos.showEliminar("tu perfil",getActivity(), function);
-
-
                 break;
 
             case R.id.ModifButton:
 
-             /*   String key = FireBaseUtils.getDatosUser().getKey();
-                Usuario usuario = new Usuario(editText.getText().toString(),FireBaseUtils.getUser().getEmail(), ConversorImagenes.convertirImagenString(((BitmapDrawable)userimageView.getDrawable()).getBitmap()));
-
-               /** Map<String,Object> update = new HashMap<String, Object>();
-                update.put("email", usuario.getEmail());
-                update.put("foto",usuario.getFoto());
-                update.put("nombre",usuario.getNombre());
-
-                FireBaseUtils.getRef().child("publico").child(key).updateChildren(update);*/
+                FirebaseUtilsV1.setUserDetalls(editText.getText().toString(),ConversorImagenes.convertirImagenString(((BitmapDrawable)userimageView.getDrawable()).getBitmap()));
+                ((MainActivity)getActivity()).CrearMenus(R.menu.principalmenu);
 
                 break;
 

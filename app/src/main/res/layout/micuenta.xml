@@ -7,9 +7,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:padding="5dp">
+
         <ImageView
             android:id="@+id/UserimageView"
             android:layout_width="150dp"
@@ -17,26 +19,28 @@
             android:layout_gravity="top|center"
 
             app:srcCompat="@drawable/mago" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_margin="40dp"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/apodolayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/apodolayout"
-                app:errorEnabled="true"
-                android:hint="Apodo"
                 android:layout_weight="1"
+                android:hint="Apodo"
+                app:errorEnabled="true"
 
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/apodetext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:id="@+id/apodetext"
 
                     />
 
@@ -54,7 +58,7 @@
             </Button>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -65,13 +69,6 @@
         android:gravity="center"
         android:padding="20dp"
         android:orientation="vertical">
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:text="Cambiar contraseña" />
 
         <Button
             android:id="@+id/BorrarCuentabutton"

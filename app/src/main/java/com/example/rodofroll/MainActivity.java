@@ -35,117 +35,108 @@ import com.example.rodofroll.Vistas.Fragments.PerRecyclerViewFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.File;
-import java.util.List;
-
-
+//Actividad principal es la que se encarga de gestionar los Fragments de la aplicacion
 public class MainActivity extends Actividad implements onSelectedItemListener {
 
 
-
-
-
+    //Manejador de los fragmentos
     FragmentManager fragmentManager;
+    //Objeto que maneja las transiciones de los fragmentos
     FragmentTransaction fragmentTransaction;
+    //Conetendor del menu lateral
     DrawerLayout drawerLayout;
+    //Barra Tollbar
     Toolbar toolbar;
+    //Representa un menu de navegacion estandar
     NavigationView navigationView;
 
-
-
-
+    //Interfaz que escucha cuando una tarea se ha completado
     private OnTaskCompleted listener;
+    //Tarea
     AsynTarea tarea;
 
 
+
+    //Evento que ocurre al iniciar esta actividad
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //Inicializacion Componentes
         toolbar = findViewById(R.id.toolbar);
         toolbar.setVisibility(View.GONE);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
-
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-
-
+        //Al inicio de la aplicacion cerramos el menu lateral porque primero se reproducira la animacion de carga
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
+        //El listener OnTask lo inicializamos a nulo
         listener=null;
-
+        //Sobrescribimos su metodo , cuando el listener se dispare abriremos el drawer layout y mostraremos el toolbar
         listener = new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {
 
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED);
-
                 toolbar.setVisibility(View.VISIBLE);
-                Intent intent = getIntent();
-
-                CrearMenus(R.menu.mastermenu);
-
-
+                //Llamaremos al metodo CrearMenus y le pasaremos el tipo de menu principal
+                CrearMenus(R.menu.principalmenu);
 
             }
-
             @Override
             public void onTaskFailure() {
 
             }
         };
 
-
+        //inicializamos la tarea a nula y le pasamos el fragmentmanager y el listener
         tarea = null;
         try {
             tarea = new AsynTarea(listener, fragmentManager);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        //Ejecutamos la Tarea
         tarea.execute();
-
+        //Intentamos obtener los datos del usuario principales el Nombre y su Foto
         FirebaseUtilsV1.GetDatosUsuario();
 
 
 
     }
-
+    //Metodo que crea el menu lateral
     public void CrearMenus(int tipomenu) {
+        //Inicializamos el servicio que escucha el cambio de usuario
         startService(new Intent(getApplicationContext(), ListenUserService.class));
-        Toolbar toolbar = findViewById(R.id.toolbar);
 
-
+        //Inicializamos la toolbar y le añadimos el simbolo del menu
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
+        //Creamos el primer Fragment que se va a ver
         Fragment fragment = new MiCuentaFragment();
+        //Llamamos al metodo remplazar fragment y le decimos que no lo vamos a apilar
         RemplazarFragment(fragment, false);
-
-
-        final NavigationView navigationView = findViewById(R.id.navigation_view);
+        //Inflamos el tipo de menu el el navigationView
         navigationView.inflateMenu(tipomenu);
 
 
+        //Inicializamos el Nombre y la foto que se muestra en el menu
         View hView = navigationView.getHeaderView(0);
-        TextView correo = (TextView) hView.findViewById(R.id.identiftextView);
+        TextView nombre = (TextView) hView.findViewById(R.id.identiftextView);
         ImageView imagen = hView.findViewById(R.id.usuarioimagen);
 
-
         String apodo = FirebaseUtilsV1.getDatosUser().getNombre();
-         String foto= FirebaseUtilsV1.getDatosUser().getFoto();
-         correo.setText(apodo);
-          imagen.setImageBitmap(ConversorImagenes.convertirStringBitmap(foto));
+        String foto= FirebaseUtilsV1.getDatosUser().getFoto();
+        nombre.setText(apodo);
+        imagen.setImageBitmap(ConversorImagenes.convertirStringBitmap(foto));
 
 
-
-
+        //Escuchamos las distintas respuestas que se pueden dar al seleccionar una de las opciones del menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -195,26 +186,31 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
 
         });
-
+        //Al principio de la app la primea opcion seleccionada sera la de micuenta
         navigationView.setCheckedItem(R.id.micuenta);
     }
 
+    //Detecta las opciones del toolbar
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
+                //Abre el menu lateral manualmente
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
+                //Sale de la aplicacion
 
+                //El atributo token de la base de datos se pone a nulo
                 FirebaseUtilsV1.SET_TOKEN(null);
-
-
+                //Nos deslogueamos en firebase
+                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(this, LoginActivity.class);
 
+                //Se borran los datos del usuario temporales de la app
                 FirebaseUtilsV1.Borrar();
+                //Se vuelve atras
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -225,6 +221,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         return super.onOptionsItemSelected(item);
     }
 
+    //Añadimos en el toolbar el logout
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menuoptions, menu);
@@ -232,6 +229,8 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
         return true;
     }
 
+
+    //Recibe datos del Fragment actual
 
     @Override
     public void onSelectedItemListener(int str, Fragment f) {
@@ -252,6 +251,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
     }
 
+    //Remplaza un fragment por otro tiene la opcion de apilar un booleano que sirve para saber si el antiguo fragment se queda detras
     public void RemplazarFragment(Fragment fragment, boolean apilar) {
 
        // fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -262,20 +262,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
     }
 
-    public Fragment CurrentFragment() {
-        FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
-        List<Fragment> fragments = fragmentManager.getFragments();
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
-                if (fragment != null && fragment.isVisible())
-                    return fragment;
-            }
-        }
-        return null;
-
-
-    }
-
+//Al destruir esta actividad se borran los datos del usuario temporal
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -283,6 +270,7 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
     }
 
+    //Al salir de la aplicacion la tarea asincrona se cancela para que la aplicacion no pete
     @Override
     public void onBackPressed() {
         super.onBackPressed();

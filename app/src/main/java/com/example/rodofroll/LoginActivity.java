@@ -38,7 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
-
+//Actividad de Login gestiona el acceso a la aplicacion
 public class LoginActivity extends Actividad implements View.OnClickListener {
 
     TextInputLayout emailTextLayout;
@@ -66,39 +66,38 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
     }
 
 
+    //evento que se realiza al crearse la actividad
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //Al inicializar la actividad se habia cargado un tema distinto para mostrar un splash screen , aqui lo ponemos al tema que deberia ser
         setTheme(R.style.AppTheme);
 
 
-
+        //Se empezara mostrando la opcion de Login en vez de la de registrarse
         emailTextLayout = findViewById(R.id.emaillayout);
         apodoTextLayout = findViewById(R.id.apodolayout);
         passTextLayout = findViewById(R.id.passlayout);
         pass2TextLayout = findViewById(R.id.pass2layout);
         imageView = findViewById(R.id.UserimageView);
-
-
-        pass2TextLayout.setVisibility(View.GONE);
-        apodoTextLayout.setVisibility(View.GONE);
-        imageView.setVisibility(View.GONE);
-
-
         emailEditText = findViewById(R.id.emaileditext);
         apodoEditText = findViewById(R.id.apodoeditext);
         passEditText = findViewById(R.id.passeditext);
         pass2EditText = findViewById(R.id.pass2editext);
 
 
+        pass2TextLayout.setVisibility(View.GONE);
+        apodoTextLayout.setVisibility(View.GONE);
+        imageView.setVisibility(View.GONE);
+
+        //Se añade el simbolo del ojo a los siguientes editText
         AnyadirToggle(passEditText, passTextLayout);
         AnyadirToggle(pass2EditText, pass2TextLayout);
 
         signOption = findViewById(R.id.signoptiontextView);
         signOption.setOnClickListener(this);
-
 
         b = findViewById(R.id.button);
         b.setOnClickListener(this);
@@ -108,6 +107,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
         progressBar.setVisibility(View.GONE);
 
 
+        //Al cliclear a la imagen se llamara al metodo MenuEmergente se le pasara el onTaskCompleted a nulo porque el cambio de la imagen en la base de datos se hara desde aqui
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +124,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
 
         switch (v.getId()) {
 
+            //Al teclear al texto de Login/Registrar se mostraran o se ocultaran distintos elementos
             case R.id.signoptiontextView:
                 if (signOption.getText().equals(getResources().getString(R.string.Registrarse))) {
                     signOption.setText(R.string.Login);
@@ -150,10 +151,12 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
 
                 }
                 break;
-
+             //Al clickear al boton de aceptar se comprobara en que estado estamos si en Registrar o en Login
             case R.id.button:
 
+                //se cerrara el teclado del movil ya que ahora no sera necesario
                 closeTecladoMovil();
+                //boolpass comprueba que todos los editext que deben verse en las dos opciones esten correctos
                 boolean boolpass = true;
 
 
@@ -188,11 +191,13 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
 
     }
 
+    //Es un metodo que registra al usuario en la base de datos
     public void RegistrarUser(final String email, final String apodo, final String password, final String imagen, final View view) throws InterruptedException {
         view.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
 
 
+        //Se crea un usario con email y contraseña y se se comprueba que se haya actualizado en firebase si ha dado un error se muestra un snackbar mostrando el error
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -204,6 +209,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
                         FirebaseUtilsV1.RecreateInstance();
 
                     }
+                    //Se creara el perfil publico del usuario y se introducira el token del dispositivo actual
                     FirebaseUtilsV1.RegistroUsuario(key,new Usuario(apodo,imagen,key),LoginActivity.this);
 
                 } else {
@@ -219,11 +225,12 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
 
     }
 
+    //Es un metodo que loguea al usuario en la base de datos
     public void LoginUser(String email, final String password, final View view) throws InterruptedException {
         view.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
 
-
+        //Se comprueba el usuario si ha dado un error se muestra un snackbar mostrando el error
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -234,6 +241,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
                         FirebaseUtilsV1.RecreateInstance();
 
                     }
+                    //Se introducira el token del dispositivo actual
                     FirebaseUtilsV1.AddDevice(LoginActivity.this);
 
 
@@ -253,6 +261,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
 
     }
 
+    //Metodo que controla la visibilidad de los passwords
     public void AnyadirToggle(EditText e, final TextInputLayout t) {
         e.addTextChangedListener(new TextWatcher() {
             @Override
@@ -275,6 +284,8 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
     }
 
 
+
+    //Metodo que devuelve el tipo de error
     public String ErroresAuth(Exception f) {
 
         if (FirebaseNetworkException.class.equals(f.getClass())) {
@@ -293,6 +304,7 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
         return "Error";
     }
 
+    //Metodo para el cierre del teclado
     public void closeTecladoMovil() {
         View view = this.getCurrentFocus();
         if (view != null) {

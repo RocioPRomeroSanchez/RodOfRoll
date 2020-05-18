@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Adapters.CombatesAsociadosAdaper;
+import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,6 +70,39 @@ public class CombatPersonajeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(adapter);
+
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+
+        ) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+
+                return false;
+            }
+
+
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+                Combatiente.CombatesAsociados combatesAsociados = p.getCombates().get(viewHolder.getAdapterPosition());
+
+                Function<String,Void> function = new Function<String, Void>() {
+                    @Override
+                    public Void apply(String input) {
+                        reference.child(input).removeValue();
+                        return null;
+                    }
+                };
+
+
+                Dialogos.showEliminar("este combate", getActivity(),combatesAsociados.getId(),function).show();
+                adapter.notifyDataSetChanged();
+
+            }
+        } ).attachToRecyclerView(recyclerView);
     }
     public void EscuchadorDelLosCombates(){
 

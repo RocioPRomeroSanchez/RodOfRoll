@@ -33,7 +33,7 @@ public class Usuario implements Serializable {
     }
 
     public void setNombre(String nombre) {
-        nombre = nombre;
+        this.nombre = nombre;
     }
 
     public Usuario(String nombre,String foto, String key) {

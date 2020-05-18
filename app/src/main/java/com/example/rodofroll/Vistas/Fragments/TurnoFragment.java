@@ -3,10 +3,13 @@ package com.example.rodofroll.Vistas.Fragments;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -469,10 +472,59 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         final Spinner spinner;
         final List<Monstruo> monstruos=new ArrayList<>();
         final List<String> nombres = new ArrayList<>();
+        final EditText TiradaEditText;
+        final TextView IniciativatextView;
+        final TextView ResultadotextView;
+
 
         final View myView = inflater.inflate(R.layout.addmonstruodialogo, null);
         aceptarbutton= myView.findViewById(R.id.AceptarButton);
         spinner=myView.findViewById(R.id.spinner);
+        TiradaEditText=myView.findViewById(R.id.Tiradaeditext);
+        IniciativatextView = myView.findViewById(R.id.IniciativatextView);
+        ResultadotextView= myView.findViewById(R.id.ResultadotextView);
+        ImageView dadoimagen = myView.findViewById(R.id.dadoimageView);
+       final EditText dadoeditext = myView.findViewById(R.id.Tiradaeditext);
+
+        dialogBuilder.setView(myView);
+
+
+
+        dadoimagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int num = Dialogos.showDialogoDado(20, v, 1, 0, "Tirada de Iniciativa",getActivity());
+                dadoeditext.setText(String.valueOf(num));
+                dadoeditext.setError(null);
+            }
+        });
+
+        TiradaEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                double num;
+                if(TiradaEditText.getText().toString().isEmpty()){
+                    num= Double.parseDouble(IniciativatextView.getText().toString());
+                }
+                else {
+                    num = Double.parseDouble(TiradaEditText.getText().toString())+ Double.parseDouble(IniciativatextView.getText().toString()) ;
+                }
+                ResultadotextView.setText(String.format("%.0f",num));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         FirebaseUtilsV1.GET_RefMonstruos().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -486,6 +538,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
                     monstruos.add(m);
                     nombres.add(m.getNombre());
+
                 }
 
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(actividad, android.R.layout.simple_spinner_item, nombres);
@@ -499,32 +552,73 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             }
         });
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                IniciativatextView.setText(String.format("%.0f",monstruos.get(position).getModiniciativa()));
+                double num =0;
+                if(TiradaEditText.getText().toString().isEmpty()){
+                    num= Integer.parseInt(IniciativatextView.getText().toString());
+
+                }
+                else {
+                    num = Double.parseDouble(TiradaEditText.getText().toString())+ Double.parseDouble(IniciativatextView.getText().toString()) ;
+                }
+                ResultadotextView.setText(String.format("%.0f",num));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        final AlertDialog alertDialog=  dialogBuilder.show();
+
+
+
+
         aceptarbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(monstruos.size()> 0){
+
+
+                if (monstruos.size() == 0) {
+                    Toast.makeText(getContext(), "Este usuario no tiene personajes asociados", Toast.LENGTH_LONG).show();
+                } else {
+
+                    if(Validacion.ValidarEdit(TiradaEditText)){
 
 
                 Monstruo  monstruo = monstruos.get(spinner.getSelectedItemPosition());
 
 
                 String key = FirebaseUtilsV1.GeneradorKeys();
-                Combate.PersonEnCombate p = new Combate.PersonEnCombate(key, monstruo.getKey(), FirebaseUtilsV1.getKey(),5,false,false,true);
+                Combate.PersonEnCombate p = new Combate.PersonEnCombate(key, monstruo.getKey(), FirebaseUtilsV1.getKey(),Integer.parseInt(ResultadotextView.getText().toString()),false,false,true);
 
 
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).setValue(p);
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("vida").setValue(monstruo.getVida());
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("armadura").setValue(monstruo.getArmadura());
 
+                alertDialog.dismiss();
+
+
                 }
             }
-        });
+        }});
 
-        dialogBuilder.setView(myView);
-        dialogBuilder.show();
+
+
 
     }
+
+
 
     //Cambia el valor de la iniciativa
     public Function FuncionIniciativa(final String key){
