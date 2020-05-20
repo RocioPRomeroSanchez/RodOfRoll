@@ -56,6 +56,8 @@ public abstract class Actividad  extends AppCompatActivity {
                      //opcion borrar cambiamos la imagen del imageview a una por defecto
                     case R.id.opborrar:
                         imagenremp.setImageResource(R.drawable.mago);
+                        imagenremp.setMaxWidth(imagenremp.getWidth());
+                        imagenremp.setMaxHeight(imagenremp.getHeight());
 
                      //despertamos y ejecutamos el metodo de la interfaz pasada
                         if(onTaskCompleted!=null){

@@ -161,6 +161,7 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
             public void onClick(View v) {
                 actividad.MenuEmergenteImagen(imagen,BiografiaFragment.this);
 
+
             }
         });
 
@@ -271,11 +272,12 @@ public class BiografiaFragment extends Fragment implements View.OnClickListener,
         spinner.setSelection(p.getAlineamiento());
         if(p instanceof Personaje){
             exptopeTextView.setText(String.valueOf(((Personaje)p).getExptope()));
-            expTextView.setText(String.valueOf(((Personaje)p).getExp()));
             progressBar.setMax(((Personaje)p).getExptope());
             progressBar.setProgress(((Personaje)p).getExp());
 
         }
+
+        expTextView.setText(String.valueOf(p.getExp()));
 
 
 

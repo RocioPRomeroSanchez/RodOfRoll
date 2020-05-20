@@ -34,11 +34,12 @@
 
                         android:id="@+id/ImagenImageView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="150dp"
+                        android:minWidth="300dp"
                         android:minHeight="150dp"
-                        android:minWidth="340dp"
+                        android:maxWidth="300dp"
                         android:maxHeight="150dp"
-                        android:maxWidth="340dp"
+
                         android:padding="5dp"
                         android:background="@drawable/borde"
                         android:layout_gravity="center"

@@ -189,6 +189,8 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
 
                 }
+
+
                 //Notifamos al adaptador de los cambios
                 adapter.notifyDataSetChanged();
             }
@@ -433,6 +435,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 VidaImageView.setOnClickListener(null);
                 CaImageView.setOnClickListener(null);
 
+
                 VidaImageView.setColorFilter(R.color.colorWhiete);
                 CaImageView.setColorFilter(R.color.colorWhiete);
             }
@@ -648,10 +651,25 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
     public Function FuncionIniciativa(final String key){
         Function f = new Function() {
             @Override
-            public Object apply(Object input) {
+            public Object apply(final Object input) {
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue()!=null) {
+                            FirebaseUtilsV1.SET_Inicaitiva(key, combate, (double) input);
+                        }else {
+                            Toast.makeText(getContext(),"El objeto que intenta modificar no existe",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
-                FirebaseUtilsV1.SET_Inicaitiva(key,combate,(double)input);
                 return null;
             }
         };
@@ -671,14 +689,35 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         return f;
 
     }
-    //Cambia el valor de la ronda
+    //Cambia el valor de la vida del combatiente
     public Function FuncionVida(final String key){
 
         Function f = new Function() {
             @Override
-            public Object apply(Object input) {
+            public Object apply(final Object input) {
 
-                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("vida").setValue(input);
+
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue()!=null) {
+                            FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("vida").setValue((input));
+                        }
+                        else{
+                            Toast.makeText(getContext(),"El objeto que intenta modificar no existe",Toast.LENGTH_LONG).show();
+
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
 
                 return null;
@@ -687,14 +726,35 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         return f;
 
     }
-    //Cambia el valor de la ronda
+    //Cambia el valor de la ca de la ca
     public Function FuncionCA(final String key){
 
         Function f = new Function() {
             @Override
-            public Object apply(Object input) {
+            public Object apply(final Object input) {
 
-                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("armadura").setValue(input);
+
+                FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue()!=null){
+                            FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).child("armadura").setValue(input);
+                        }
+
+                        else{
+                            Toast.makeText(getContext(),"El objeto que intenta modificar no existe",Toast.LENGTH_LONG).show();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
 
 
                 return null;
@@ -703,4 +763,6 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         return f;
 
     }
+
+
 }

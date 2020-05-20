@@ -24,7 +24,7 @@ public class ConversorImagenes {
 
     static public String convertirImagenString(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byte_arr = stream.toByteArray();
         String image_str = Base64.encodeToString(byte_arr, Base64.DEFAULT);
         return image_str;
@@ -36,7 +36,7 @@ public class ConversorImagenes {
             ContentResolver cr = activity.getContentResolver();
             InputStream in = cr.openInputStream(uri);
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize=8;
+            options.inSampleSize=1;
             thumb = BitmapFactory.decodeStream(in,null,options);
         } catch (FileNotFoundException e) {
             Toast.makeText(activity.getApplicationContext() , "File not found" , Toast.LENGTH_SHORT).show();
