@@ -19,7 +19,7 @@ public class Combate {
     }
 
     int ronda;
-    List<PersonEnCombate> ordenTurno;
+    List<DatosCombatiente> ordenTurno;
 
     public Combate(String key, String nombre) {
         this.nombre=nombre;
@@ -45,7 +45,7 @@ public class Combate {
 
     }
 
-    public Combate(String key, String nombre,int ronda, List<PersonEnCombate> personEnCombates) {
+    public Combate(String key, String nombre,int ronda, List<DatosCombatiente> personEnCombates) {
         this.key=key;
         this.nombre=nombre;
         this.ronda=ronda;
@@ -53,7 +53,7 @@ public class Combate {
     }
 
 
-    public static class PersonEnCombate{
+    public static class DatosCombatiente{
 
         String personajekey;
         String usuariokey;
@@ -115,7 +115,7 @@ public class Combate {
             this.keyprincipal = keyprincipal;
         }
 
-        public PersonEnCombate(String key, String personajekey, String usuariokey, int iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
+        public DatosCombatiente(String key, String personajekey, String usuariokey, int iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
             this.personajekey=personajekey;
             this.usuariokey=usuariokey;
             this.iniciativa=iniciativa;
@@ -127,7 +127,7 @@ public class Combate {
             armadura=0;
 
         }
-        public PersonEnCombate(String personajekey, String usuariokey,int iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
+        public DatosCombatiente(String personajekey, String usuariokey,int iniciativa, Boolean turno, Boolean avisar, Boolean ismonster) {
             this.personajekey=personajekey;
             this.usuariokey=usuariokey;
             this.iniciativa=iniciativa;

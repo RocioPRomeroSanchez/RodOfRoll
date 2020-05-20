@@ -28,7 +28,7 @@ import java.util.List;
 
 public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickListener {
 
-    List<Combate.PersonEnCombate> personajeEnCombateoList=new ArrayList<>();
+    List<Combate.DatosCombatiente> personajeEnCombateoList=new ArrayList<>();
     HolderPersonajesCombate holder;
     Combate combate;
     Context context;
@@ -36,7 +36,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
     View.OnClickListener listenercorto;
     ElementoAdapterClick listeneriniciativa;
 
-    public TurnoAdapter(Context context,List<Combate.PersonEnCombate> personajeEnCombateoList,Combate combate) {
+    public TurnoAdapter(Context context,List<Combate.DatosCombatiente> personajeEnCombateoList,Combate combate) {
 
         this.context=context;
         this.personajeEnCombateoList=personajeEnCombateoList;
@@ -52,13 +52,13 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
         holder = new TurnoAdapter.HolderPersonajesCombate(v);
         holder.setClickBtnImagen(new ElementoAdapterClick() {
             @Override
-            public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
+            public void onElementoClick(Combate.DatosCombatiente personEnCombate) {
                 listenerimagen.onElementoClick(personEnCombate);
             }
         });
         holder.setClickBtnIniciativa(new ElementoAdapterClick() {
             @Override
-            public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
+            public void onElementoClick(Combate.DatosCombatiente personEnCombate) {
                 listeneriniciativa.onElementoClick(personEnCombate);
             }
         });
@@ -74,7 +74,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         int numero = Math.abs(position-(personajeEnCombateoList.size()-1));
 
-       Combate.PersonEnCombate p=personajeEnCombateoList.get(numero);
+       Combate.DatosCombatiente p=personajeEnCombateoList.get(numero);
         ((HolderPersonajesCombate)holder).bind(p,context);
     }
 
@@ -114,7 +114,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
         ElementoAdapterClick imagenAdapterClick;
         ElementoAdapterClick iniciativaAdapterClick;
         Combatiente combatiente;
-        Combate.PersonEnCombate personEnCombate;
+        Combate.DatosCombatiente personEnCombate;
         View.OnClickListener listener;
 
 
@@ -132,7 +132,7 @@ public class TurnoAdapter extends RecyclerView.Adapter implements View.OnClickLi
 
 
         }
-        public void bind(final Combate.PersonEnCombate p, Context context) {
+        public void bind(final Combate.DatosCombatiente p, Context context) {
 
             if(p.getTurno()){
                 bordelayout.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));

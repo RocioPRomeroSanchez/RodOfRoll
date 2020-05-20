@@ -1,13 +1,9 @@
 package com.example.rodofroll.Vistas.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +28,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rodofroll.Actividad;
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
-import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.ConversorImagenes;
 import com.example.rodofroll.Objetos.ElementoAdapterClick;
-import com.example.rodofroll.Objetos.InicializarVistas;
 import com.example.rodofroll.Objetos.Monstruo;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Validacion;
@@ -44,11 +38,9 @@ import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Adapters.TurnoAdapter;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
 import com.example.rodofroll.Vistas.Dialogos.Dialogos;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -63,7 +55,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
     Combate combate;
     ImageButton turnobutton;
-    List<Combate.PersonEnCombate> personajeEnCombateoList=new ArrayList<Combate.PersonEnCombate>();
+    List<Combate.DatosCombatiente> personajeEnCombateoList=new ArrayList<Combate.DatosCombatiente>();
     TextView ronda;
     RecyclerView recyclerView;
     DatabaseReference refronda;
@@ -127,7 +119,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
 
     }
-    //Metodo heredado de la interfaz InicializarVistas
+    //Metodo heredado de la interfaz Estructura
     @Override
     public void InicializarComponentes(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -178,7 +170,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
 
                     HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
-                    Combate.PersonEnCombate persona = new Combate.PersonEnCombate(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"), Integer.parseInt(valor.get("iniciativa").toString()), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
+                    Combate.DatosCombatiente persona = new Combate.DatosCombatiente(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"), Integer.parseInt(valor.get("iniciativa").toString()), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
                     try {
                         persona.setVida((int) Long.parseLong(valor.get("vida").toString()));
                         persona.setArmadura((int) Long.parseLong(valor.get("armadura").toString()));
@@ -206,7 +198,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         //al jugador del personaje que es su turno por medio del metodo avisar
         adapter.setClickBtnImagen(new ElementoAdapterClick() {
             @Override
-            public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
+            public void onElementoClick(Combate.DatosCombatiente personEnCombate) {
                 Toast.makeText(getContext(),"Avisando...", Toast.LENGTH_SHORT).show();
 
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(personEnCombate.getKeyprincipal()).child("avisar").setValue(true);
@@ -220,7 +212,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         adapter.setClicBtnIniciativa(new ElementoAdapterClick() {
 
             @Override
-            public void onElementoClick(Combate.PersonEnCombate personEnCombate) {
+            public void onElementoClick(Combate.DatosCombatiente personEnCombate) {
                 Function f = FuncionIniciativa(personEnCombate.getKeyprincipal());
 
                 DialogoCambiarDatos.newInstance(null,100,f,getActivity(),true).show(getFragmentManager(),"Iniciativa");
@@ -237,7 +229,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 int posicion=recyclerView.getChildAdapterPosition(v);
                 //Al estar reordenado por nuestro codigo tenemos que realizar la operacion de restar la posicion al numero de personajes en la lista para obtener el personaje
                 //verdaderamente seleccionado
-                Combate.PersonEnCombate p = personajeEnCombateoList.get(personajeEnCombateoList.size()-1-posicion);
+                Combate.DatosCombatiente p = personajeEnCombateoList.get(personajeEnCombateoList.size()-1-posicion);
                 //Metodo que coloca los datos del personaje en la parte informativa del fragmet
                 SeleccionPersonaje(p);
 
@@ -270,7 +262,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
                 int numero =Math.abs(viewHolder.getAdapterPosition()-(personajeEnCombateoList.size()-1));
-                Combate.PersonEnCombate personEnCombate = (Combate.PersonEnCombate) personajeEnCombateoList.get(numero);
+                Combate.DatosCombatiente personEnCombate = (Combate.DatosCombatiente) personajeEnCombateoList.get(numero);
 
                 Function<String,Void> function = new Function<String, Void>() {
                     @Override
@@ -289,10 +281,10 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
     }
 
     //Metodo que ocurre al pulsar el boton de pasar turno
-    public void PasarTurno(List<Combate.PersonEnCombate> personajeEnCombateoList,Combate combate){
+    public void PasarTurno(List<Combate.DatosCombatiente> personajeEnCombateoList,Combate combate){
 
             boolean todosfalso= true;
-            Combate.PersonEnCombate pos=null;
+            Combate.DatosCombatiente pos=null;
             int posi=0;
 
             //Se busca saber si alguno de los personajes en el combate tiene el campo turno a verdadero
@@ -378,7 +370,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
     //Recoloca la informacion del personaje seleccionado en la parte informativa de nuestro layout
 
-    public void SeleccionPersonaje(final Combate.PersonEnCombate personEnCombate){
+    public void SeleccionPersonaje(final Combate.DatosCombatiente personEnCombate){
         //Pregunta a la base de datos por el personaje seleccionado y saca sus datos
 
         vidaTextView.setOnClickListener(null);
@@ -626,7 +618,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
 
                 String key = FirebaseUtilsV1.GeneradorKeys();
-                Combate.PersonEnCombate p = new Combate.PersonEnCombate(key, monstruo.getKey(), FirebaseUtilsV1.getKey(),Integer.parseInt(ResultadotextView.getText().toString()),false,false,true);
+                Combate.DatosCombatiente p = new Combate.DatosCombatiente(key, monstruo.getKey(), FirebaseUtilsV1.getKey(),Integer.parseInt(ResultadotextView.getText().toString()),false,false,true);
 
 
                 FirebaseUtilsV1.GET_RefCombate(combate.getKey()).child("ordenturno").child(key).setValue(p);

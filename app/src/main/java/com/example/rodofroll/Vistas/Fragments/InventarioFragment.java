@@ -3,15 +3,12 @@ package com.example.rodofroll.Vistas.Fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.PeriodicSync;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +25,9 @@ import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
-import com.example.rodofroll.Objetos.InicializarVistas;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
-import com.example.rodofroll.Vistas.Adapters.Adapter;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
 import com.example.rodofroll.Vistas.Dialogos.Dialogos;
 import com.google.firebase.database.DataSnapshot;
@@ -40,11 +35,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class InventarioFragment extends Fragment implements View.OnClickListener, ComunicateToTabsListener, EstructuraFragment {
 

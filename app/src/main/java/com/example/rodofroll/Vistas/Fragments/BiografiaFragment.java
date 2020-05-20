@@ -1,17 +1,13 @@
 package com.example.rodofroll.Vistas.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.arch.core.util.Function;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.rodofroll.Actividad;
@@ -32,16 +27,13 @@ import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.Combatiente;
 import com.example.rodofroll.Objetos.ComunicateToTabsListener;
 import com.example.rodofroll.Objetos.ConversorImagenes;
-import com.example.rodofroll.Objetos.InicializarVistas;
 import com.example.rodofroll.Objetos.Monstruo;
 import com.example.rodofroll.Objetos.OnTaskCompleted;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Dialogos.DialogoCambiarDatos;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 
-import java.util.EventObject;
 import java.util.Objects;
 
 public class BiografiaFragment extends Fragment implements View.OnClickListener,EstructuraFragment,ComunicateToTabsListener, OnTaskCompleted {

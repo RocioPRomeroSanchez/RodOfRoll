@@ -24,11 +24,11 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.ConversorImagenes;
-import com.example.rodofroll.Objetos.InicializarVistas;
 import com.example.rodofroll.Objetos.Personaje;
 import com.example.rodofroll.Objetos.Usuario;
 import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
+import com.example.rodofroll.Vistas.Fragments.EstructuraFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DialogoBuscarCombate extends DialogFragment implements InicializarVistas {
+public class DialogoBuscarCombate extends DialogFragment implements EstructuraFragment {
 
     Activity activity;
     Usuario master;
@@ -275,5 +275,10 @@ public class DialogoBuscarCombate extends DialogFragment implements InicializarV
 
         TiradorEditText();
         InicializarSpinner();
+    }
+
+    @Override
+    public void ComportamientoRecycler() {
+
     }
 }

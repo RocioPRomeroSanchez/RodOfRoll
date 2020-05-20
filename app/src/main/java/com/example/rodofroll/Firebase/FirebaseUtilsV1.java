@@ -215,7 +215,7 @@ public class FirebaseUtilsV1 {
 
 
 
-        Combate.PersonEnCombate personEnCombate = new Combate.PersonEnCombate(p.getKey(),FirebaseUtilsV1.getKey(),iniciativa,false,false,false);
+        Combate.DatosCombatiente personEnCombate = new Combate.DatosCombatiente(p.getKey(),FirebaseUtilsV1.getKey(),iniciativa,false,false,false);
 
         boolean existe = false;
         for(Personaje.CombatesAsociados combatesAsociados: p.getCombates()){
