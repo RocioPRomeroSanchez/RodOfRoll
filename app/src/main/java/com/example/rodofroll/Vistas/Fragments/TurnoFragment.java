@@ -170,7 +170,9 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
 
                     HashMap<String, Object> valor = (HashMap<String, Object>) snapshot.getValue();
-                    Combate.DatosCombatiente persona = new Combate.DatosCombatiente(snapshot.getKey(),(String) valor.get("personajekey"),(String) valor.get("usuariokey"), Integer.parseInt(valor.get("iniciativa").toString()), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
+                    Combate.DatosCombatiente persona =
+                     new Combate.DatosCombatiente(snapshot.getKey(),(String) valor.get("personajekey"),
+                             (String) valor.get("usuariokey"), Integer.parseInt(valor.get("iniciativa").toString()), (Boolean) valor.get("turno"),(Boolean) valor.get("avisar"),(Boolean) valor.get("ismonster"));
                     try {
                         persona.setVida((int) Long.parseLong(valor.get("vida").toString()));
                         persona.setArmadura((int) Long.parseLong(valor.get("armadura").toString()));
@@ -194,8 +196,8 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
         });
 
-        //Evento que ocurre al clickear en la imagen del cardview con forma de campana crea un toast para informar al usuario que se avisara
-        //al jugador del personaje que es su turno por medio del metodo avisar
+        //Evento que ocurre al clickear en la imagen del cardview con forma de campana crea un toast para informar al usuario que avisara
+        //al jugador del personaje de que es su turno
         adapter.setClickBtnImagen(new ElementoAdapterClick() {
             @Override
             public void onElementoClick(Combate.DatosCombatiente personEnCombate) {
@@ -261,9 +263,11 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
+                //Se hace de esta manera porque estan reordenados descendentemente y firebase solo muestra los datos de forma ascendente al ordenar
                 int numero =Math.abs(viewHolder.getAdapterPosition()-(personajeEnCombateoList.size()-1));
                 Combate.DatosCombatiente personEnCombate = (Combate.DatosCombatiente) personajeEnCombateoList.get(numero);
 
+                //Creamos una funcion para eliminar la clave pasada por argumento
                 Function<String,Void> function = new Function<String, Void>() {
                     @Override
                     public Void apply(String input) {
@@ -272,6 +276,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                     }
                 };
 
+                //Mostramos un dialogo de eliminacion
                 Dialogos.showEliminar("", getActivity(),personEnCombate.getKeyprincipal(),function).show();
                 adapter.notifyDataSetChanged();
 
@@ -300,9 +305,12 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             //en nuestra lista seria el último (recordemos que la lista esta ordenada ascendetemente de mes a mas)
             //También seteamos el valor de la ronda del combate y la inicializamos a 1
             if(todosfalso){
+                //Los combatientes vienen de forma ascendente , asi que como nosotros necesitamos los datos de forma descendente consideramos al ultimo el primero
                 personajeEnCombateoList.get(personajeEnCombateoList.size()-1).setTurno(true, combate);
 
                 FirebaseUtilsV1.SET_Ronda(1,combate);
+                ronda.setText(String.valueOf(1));
+                combate.setRonda(1);
 
 
             }
@@ -318,6 +326,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                     //Aque estamos recuperando el valor de la ronda y al pasar del ultimo al primero tenemos que aumentarlo en uno
                     int rondaint = combate.getRonda();
                     rondaint++;
+                    FirebaseUtilsV1.SET_Ronda(rondaint,combate);
 
                     combate.setRonda(rondaint);
                     ronda.setText(String.valueOf(combate.getRonda()));
@@ -356,7 +365,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         }
     }
 
-    //Eliminar Escuchadores
+    //Eliminar Escuchadores de ka base de datos
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -674,6 +683,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
             @Override
             public Object apply(Object input) {
                 FirebaseUtilsV1.SET_Ronda(input,combate);
+                combate.setRonda((int) (double)input);
 
                 return null;
             }

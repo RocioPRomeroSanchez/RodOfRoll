@@ -113,8 +113,6 @@ public class Dialogos {
         final TextView nombretiradatextview = v.findViewById(R.id.NombreTiradatextView);
         ImageView whatsappimage = v.findViewById(R.id.idwhatsapp);
 
-
-
         if(NombreTirada.isEmpty()){
             nombretiradatextview.setVisibility(View.GONE);
         }
@@ -126,8 +124,6 @@ public class Dialogos {
         String cadena="";
 
         int suma = 0;
-
-
         for (int i = 0; i < numero; i++) {
             int n = r.nextInt(tipodado) + 1;
             cadena+=n;
@@ -135,7 +131,6 @@ public class Dialogos {
             if(i!=numero-1){
                 cadena+=";";
             }
-
         }
         int res = suma+modificador;
         resultado.setText(String.valueOf(res) );
@@ -154,13 +149,21 @@ public class Dialogos {
             @Override
             public void onClick(View v) {
 
+                //Creamos un Intent con la accion de enviar
                 Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+                //Ponemos el tipo de dato que vamos a enviar texto plano
                 whatsappIntent.setType("text/plain");
+                //Seteamos hacia que aplicacion tiene que ir
                 whatsappIntent.setPackage("com.whatsapp");
-                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*"+nombretiradatextview.getText().toString()+"*"+"\n"+"Informacion:"+info.getText().toString()+"\n"+"Resultado:"+resultado.getText().toString()+"\nDados:"+tiradastextview.getText().toString());
+                //Enviamos los datos
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*"+nombretiradatextview.getText().toString()+"*"+
+                        "\n"+"Informacion:"+info.getText().toString()+"\n"+
+                        "Resultado:"+resultado.getText().toString()+"\nDados:"+tiradastextview.getText().toString());
                 try {
+                    //Iniciamos
                     activity.startActivity(whatsappIntent);
                 } catch (android.content.ActivityNotFoundException ex) {
+                    //Si hay un error mostramos un Toast
                     Toast.makeText(activity,  "Whatsapp no instalado", Toast.LENGTH_SHORT).show();
 
                 }

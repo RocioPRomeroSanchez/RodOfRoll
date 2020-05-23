@@ -16,8 +16,10 @@ import com.example.rodofroll.R;
 
 import java.util.Random;
 
+//Es el Fragment que controla la animacion de incio
 public class CargandoFragment extends Fragment {
 
+    //Es el objeto Lottie que sirve para contener la informacion la animacion
     LottieAnimationView mLottie;
 
     public LottieAnimationView getmLottie() {
@@ -26,16 +28,18 @@ public class CargandoFragment extends Fragment {
 
     @Nullable
     @Override
+    //Al crear el fragment se carga la vista del fragment y se inicializa el objeto lottie
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.cargando_layout,container,false);
         mLottie= view.findViewById(R.id.animacion);
 
+       //Se llama al metodo aleatorio
         Aleatorio();
         return view;
     }
 
-
+    //Se procede a decidir aleatoriamente entre las tres animaciones aleatorias que hay
     private void Aleatorio() {
 
         Random aleatorio = new Random();
@@ -54,11 +58,8 @@ public class CargandoFragment extends Fragment {
                 break;
         }
 
+        //Se ejecuta la animacion
         PlayAnimacion();
-
-
-
-
     }
     public void PlayAnimacion(){
         mLottie.playAnimation();
@@ -67,6 +68,7 @@ public class CargandoFragment extends Fragment {
         mLottie.cancelAnimation();
     }
 
+    //Al destruir el fragment se para la animacion para prevenir errores
     @Override
     public void onDestroyView() {
         super.onDestroyView();

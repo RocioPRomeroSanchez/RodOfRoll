@@ -31,15 +31,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //miramos que el mensaje no llegue vacio y creamos dos varibles que corresponderan con el titulo de la notificacion y el cuerpo
         if(remoteMessage.getData().size()>0){
 
+            //Guardamos el titulo
             notificationTitle = remoteMessage.getData().get("title");
+            //Guardamos el cuerpo de los datos que nos llegan
             notificationBody =remoteMessage.getData().get("body");
         }
 
-       if (remoteMessage.getNotification() != null) {
+       /*if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             notificationTitle = remoteMessage.getNotification().getTitle();
             notificationBody = remoteMessage.getNotification().getBody();
-        }
+        }*/
 
         sendNotification(notificationTitle, notificationBody);
     }
@@ -49,17 +51,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager nm;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Notificacion de master";
-            String description = "Nuevos datos en tus combates creados";
+            //Creamos el nombre del canal
+            CharSequence name = "Notificaciones";
+            String description = "Nuevos datos ";
+
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("Master", name, importance);
+            NotificationChannel channel = new NotificationChannel("RodRoll", name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+
             nm= getSystemService(NotificationManager.class);
             nm.createNotificationChannel(channel);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplication(), "Master")
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplication(), "RodRoll")
                     .setSmallIcon(R.drawable.carta)
                     .setContentTitle(notificationTitle)
                     .setContentText(notificationBody)

@@ -120,8 +120,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
-
         switch (v.getId()) {
 
             //Al teclear al texto de Login/Registrar se mostraran o se ocultaran distintos elementos
@@ -158,7 +156,6 @@ public class LoginActivity extends Actividad implements View.OnClickListener {
                 closeTecladoMovil();
                 //boolpass comprueba que todos los editext que deben verse en las dos opciones esten correctos
                 boolean boolpass = true;
-
 
                 if (acceso == Acceso.Registrarse) {
 
