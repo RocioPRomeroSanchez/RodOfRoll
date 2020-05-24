@@ -17,8 +17,9 @@
     <LinearLayout
         android:id="@+id/bordelayout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:layout_height="wrap_content">
+        android:gravity="center">
 
 
         <LinearLayout
@@ -26,15 +27,17 @@
             android:id="@+id/FondoLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="50dp"
             android:layout_margin="5dp"
             android:background="#243D94"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:textAlignment="center">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="TextView"
                 android:textAlignment="center"
@@ -46,8 +49,9 @@
                 android:id="@+id/IniciativaLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
 
+
+                android:layout_margin="3dp"
                 android:background="@color/colorPrimary"
                 android:orientation="vertical"
                 android:padding="4dp">
@@ -79,12 +83,13 @@
 
             <ImageView
                 android:id="@+id/AvisarImagen"
-                android:layout_width="74dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:layout_gravity="center_vertical|end"
+                android:layout_weight="1"
+
+                android:visibility="invisible"
                 app:srcCompat="@drawable/avisar"
                 tools:ignore="VectorDrawableCompat" />
 

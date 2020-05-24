@@ -41,31 +41,23 @@
 
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="80dp"
-                    android:layout_height="113dp"
-                    android:layout_gravity="bottom"
+                <ImageView
                     android:layout_weight="1"
+                    android:id="@+id/PersonajeimageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:padding="5dp"
                     android:background="@drawable/borde"
-                    android:gravity="center">
+                    android:layout_gravity="center"
+                    android:src="@drawable/heart">
 
-                    <ImageView
-                        android:id="@+id/PersonajeimageView"
-
-                        android:layout_width="120dp"
-                        android:layout_height="80dp"
-
-                        android:layout_weight="0"
-                        android:maxHeight="100dp"
-                        android:padding="5dp"
-                        android:src="@drawable/mago" />
-                </LinearLayout>
+                </ImageView>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center"
-                    android:layout_weight="2"
+
                     android:gravity="center">
 
                     <FrameLayout
@@ -138,8 +130,6 @@
                             android:id="@+id/CAImageView"
                             android:layout_width="120dp"
                             android:layout_height="120dp"
-
-
                             android:layout_gravity="center"
                             android:backgroundTint="#00F0E6E6"
                             android:src="@drawable/shield">
