@@ -4,9 +4,10 @@ import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 
 import java.util.List;
 
-
+//El objeto Combate que da estructura a los datos de un combate que estan en Firebase
 public class Combate {
 
+    //Nombre del combate e id
     String nombre;
     String key;
 
@@ -19,6 +20,7 @@ public class Combate {
     }
 
     int ronda;
+    //Es la lista de iniciativas
     List<DatosCombatiente> ordenTurno;
 
     public Combate(String key, String nombre) {
@@ -53,6 +55,7 @@ public class Combate {
     }
 
 
+    //Representa los datos que tiene un combatiente
     public static class DatosCombatiente{
 
         String personajekey;
@@ -81,12 +84,14 @@ public class Combate {
         int armadura;
 
 
+        //Sirve para sabe si es un monstruo o un personaje
         public boolean isIsmonster() {
             return ismonster;
         }
 
         boolean ismonster;
 
+        //Accedemos a su turno
         public Boolean getTurno() {
             return turno;
         }
@@ -162,14 +167,7 @@ public class Combate {
             return iniciativa;
         }
 
-        public void setIniciativa(int iniciativa) {
-            this.iniciativa = iniciativa;
-        }
 
-
-        public void Avisar(Combate combate) {
-            FirebaseUtilsV1.SET_Turno(combate.getKey(),this.keyprincipal,true);
-        }
     }
 
 

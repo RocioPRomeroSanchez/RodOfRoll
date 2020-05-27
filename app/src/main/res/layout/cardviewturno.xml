@@ -39,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:minWidth="50dp"
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -83,8 +84,8 @@
 
             <ImageView
                 android:id="@+id/AvisarImagen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
 
                 android:layout_gravity="center_vertical|end"
                 android:layout_weight="1"

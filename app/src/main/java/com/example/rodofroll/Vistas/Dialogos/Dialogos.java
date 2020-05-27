@@ -61,36 +61,34 @@ public class Dialogos {
         aceptarbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Validacion.ValidarEdit(editText)){
-                    String imagen =convertirImagenString(((BitmapDrawable)imageView.getDrawable()).getBitmap());
-
-                    if(combatiente instanceof  Personaje){
-                        Combatiente p = new Personaje(editText.getText().toString(),imagen);
-                        try {
-                            FirebaseUtilsV1.AnyadirCombatiente(p);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    else {
-                        Combatiente m = new Monstruo(editText.getText().toString(),imagen);
-                        try {
-                            FirebaseUtilsV1.AnyadirCombatiente(m);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    alertDialog.dismiss();
+                if((editText.getText().toString()).length() > 13){
+                    editText.setError("Tiene demasiados caracteres máximo 13");
 
                 }
-                else{
-                    Toast.makeText(context, "Tiene que haber una imagen",Toast.LENGTH_LONG).show();
+                else if(Validacion.ValidarEdit(editText)) {
+                        String imagen = convertirImagenString(((BitmapDrawable) imageView.getDrawable()).getBitmap());
+
+                        if (combatiente instanceof Personaje) {
+                            Combatiente p = new Personaje(editText.getText().toString(), imagen);
+                            try {
+                                FirebaseUtilsV1.AnyadirCombatiente(p);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        } else {
+                            Combatiente m = new Monstruo(editText.getText().toString(), imagen);
+                            try {
+                                FirebaseUtilsV1.AnyadirCombatiente(m);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        alertDialog.dismiss();
+
+                    }
                 }
-
-
-            }
         });
         cancelarbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +181,7 @@ public class Dialogos {
             mensaje="¿Estas seguro?";
         }
         else{
-            mensaje="De verdad deseas eliminar a"+nombre;
+            mensaje="De verdad deseas eliminar a "+nombre;
         }
 
         builder.setMessage(mensaje)

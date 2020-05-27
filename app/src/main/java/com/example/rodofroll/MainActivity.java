@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +55,9 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
     private OnTaskCompleted listener;
     //Tarea
     AsynTarea tarea;
+
+    ImageView imagen;
+    TextView nombre;
 
 
 
@@ -106,8 +110,17 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
 
     }
+
+    public void CambiarDatosMenu(String nombre, Bitmap imagen){
+        if(this.nombre !=null&& this.imagen!=null){
+            this.nombre.setText(nombre);
+            this.imagen.setImageBitmap(imagen);
+        }
+
+
+    }
     //Metodo que crea el menu lateral
-    public void CrearMenus(int tipomenu) {
+    private void CrearMenus(int tipomenu) {
         //Inicializamos el servicio que escucha el cambio de usuario
         startService(new Intent(getApplicationContext(), ListenUserService.class));
 
@@ -127,8 +140,8 @@ public class MainActivity extends Actividad implements onSelectedItemListener {
 
         //Inicializamos el Nombre y la foto que se muestra en el menu
         View hView = navigationView.getHeaderView(0);
-        TextView nombre = (TextView) hView.findViewById(R.id.identiftextView);
-        ImageView imagen = hView.findViewById(R.id.usuarioimagen);
+        nombre = (TextView) hView.findViewById(R.id.identiftextView);
+         imagen = hView.findViewById(R.id.usuarioimagen);
 
         String apodo = FirebaseUtilsV1.getDatosUser().getNombre();
         String foto= FirebaseUtilsV1.getDatosUser().getFoto();

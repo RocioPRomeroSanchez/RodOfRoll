@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+//Como un mosntruo y un personaje comparten ciertos atributos hemos creado un objeto padre del que puedan heredar
 public abstract class Combatiente implements Serializable {
 
 
@@ -33,7 +33,7 @@ public abstract class Combatiente implements Serializable {
     int exp;
     String key;
 
-    List<CombatesAsociados> combates= new ArrayList<>();
+    List<CombateAsociado> combates= new ArrayList<>();
 
 
     HashMap<String, Object> atributos;
@@ -44,7 +44,7 @@ public abstract class Combatiente implements Serializable {
         return level;
     }
 
-
+    //Son todos los alineamientos que pueden tener los heroes
     public static String[] alineamientos = new String[]{
             "Legal bueno",
             "Neutral bueno",
@@ -175,7 +175,7 @@ public abstract class Combatiente implements Serializable {
         return descripcion;
     }
 
-    public List<CombatesAsociados> getCombates() {
+    public List<CombateAsociado> getCombates() {
         return combates;
     }
 
@@ -208,7 +208,7 @@ public abstract class Combatiente implements Serializable {
         this.level = 0;
         this.exp = 0;
     }
-
+    //Sirve para reorganizar los datos en Firebase
     protected void  ReorganizarPersonaje(){
         atributos = new HashMap<>();
         atributos.put("vida", vida);
@@ -239,6 +239,7 @@ public abstract class Combatiente implements Serializable {
 
 
     }
+    //Sirve para crear el objeto completo que ira en Firebase
     public HashMap<String,Object> Map(){
         HashMap<String, HashMap<String, Object>> principal = new HashMap<>();
         principal.put("atributos",atributos);
@@ -249,7 +250,8 @@ public abstract class Combatiente implements Serializable {
         return objetPrincipal;
     }
 
-    public static class CombatesAsociados{
+    //Es un objeto que sirve para contener los datos del combate asociado al que este personaje
+    public static class CombateAsociado{
         String masterkey;
         String combatekey;
 
@@ -273,7 +275,7 @@ public abstract class Combatiente implements Serializable {
             return combatekey;
         }
 
-        public CombatesAsociados(String masterkey, String combatekey, String id) {
+        public CombateAsociado(String masterkey, String combatekey, String id) {
             this.masterkey = masterkey;
             this.combatekey = combatekey;
             this.id=id;

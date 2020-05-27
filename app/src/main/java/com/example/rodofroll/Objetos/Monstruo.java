@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Monstruo extends Combatiente {
-    List<Personaje.CombatesAsociados> combates= new ArrayList<>();
+    List<Personaje.CombateAsociado> combates= new ArrayList<>();
 
     public Monstruo(Object atributos, Object biografia, String key) {
         this.atributos = (HashMap<String, Object>) atributos;
@@ -54,17 +54,17 @@ public class Monstruo extends Combatiente {
 
     }
 
-    public List<Personaje.CombatesAsociados> getCombates() {
+    public List<Personaje.CombateAsociado> getCombates() {
         return combates;
     }
 
-    public void setCombates(List<Personaje.CombatesAsociados> combates) {
+    public void setCombates(List<Personaje.CombateAsociado> combates) {
         this.combates = combates;
     }
 
 
-    public Personaje.CombatesAsociados GetCombateAsociado(String key, String masterkey){
-        for(Personaje.CombatesAsociados c : combates){
+    public Personaje.CombateAsociado GetCombateAsociado(String key, String masterkey){
+        for(Personaje.CombateAsociado c : combates){
             if(c.getCombatekey().equals(key)&&c.getMasterkey().equals(masterkey)){
                 return c;
             }

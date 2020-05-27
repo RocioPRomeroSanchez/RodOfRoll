@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.Objetos.Combate;
 import com.example.rodofroll.Objetos.Personaje;
-import com.example.rodofroll.Objetos.Combatiente.CombatesAsociados;
+import com.example.rodofroll.Objetos.Combatiente.CombateAsociado;
 import com.example.rodofroll.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,12 +21,12 @@ import java.util.List;
 
 public class CombatesAsociadosAdaper extends RecyclerView.Adapter implements View.OnClickListener {
 
-    List<CombatesAsociados> listacombates;
+    List<CombateAsociado> listacombates;
     View.OnClickListener listenercorto;
 
 
 
-    public CombatesAsociadosAdaper(List<Personaje.CombatesAsociados> listacombates ){
+    public CombatesAsociadosAdaper(List<Personaje.CombateAsociado> listacombates ){
         this.listacombates=listacombates;
     }
     @NonNull
@@ -40,7 +40,7 @@ public class CombatesAsociadosAdaper extends RecyclerView.Adapter implements Vie
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        CombatesAsociados combate=listacombates.get(position);
+        CombateAsociado combate=listacombates.get(position);
         ((CombatAsociadosHolder)holder).bind(combate);
     }
 
@@ -69,7 +69,7 @@ public class CombatesAsociadosAdaper extends RecyclerView.Adapter implements Vie
             super(itemView);
             nombre=itemView.findViewById(R.id.textView);
         }
-        public void bind(final CombatesAsociados combatesAsociados){
+        public void bind(final CombateAsociado combatesAsociados){
 
             FirebaseUtilsV1.GET_RefCombates(combatesAsociados.getMasterkey()).child(combatesAsociados.getCombatekey()).child("nombre").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

@@ -62,12 +62,12 @@ public class PerRecyclerViewFragment extends Fragment {
                     Personaje p = new Personaje(principal.get("atributos"),principal.get("biografia"),principal.get("inventario"), snapshot.getKey());
 
                     HashMap<String,Object> combates = (HashMap<String, Object>)principal.get("combates");
-                    List<Personaje.CombatesAsociados> combatesAsociados= new ArrayList<>();
+                    List<Personaje.CombateAsociado> combatesAsociados= new ArrayList<>();
                     if(combates!=null){
                         for (Map.Entry<String,Object> s :combates.entrySet()) {
                             String combateid = (String) ((HashMap<String,Object>)s.getValue()).get("combateid");
                             String masterid = (String) ((HashMap<String,Object>)s.getValue()).get("masterid");
-                            combatesAsociados.add(new Personaje.CombatesAsociados(masterid,combateid, snapshot.getKey()));
+                            combatesAsociados.add(new Personaje.CombateAsociado(masterid,combateid, snapshot.getKey()));
                         }
                         p.setCombates(combatesAsociados);
                     }

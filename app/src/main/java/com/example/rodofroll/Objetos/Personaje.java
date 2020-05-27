@@ -12,9 +12,6 @@ import java.util.List;
 public class Personaje extends Combatiente {
 
 
-
-
-
     HashMap<String, Object> inventario;
     Dinero dinero=new Dinero();
     double peso;
@@ -39,6 +36,10 @@ public class Personaje extends Combatiente {
         return pesolimit;
     }
 
+    public void setPesolimit(double pesolimit){
+        this.pesolimit=pesolimit;
+    }
+
 
     public Personaje() {
     }
@@ -46,7 +47,7 @@ public class Personaje extends Combatiente {
 
 
 
-    public void setCombates(List<CombatesAsociados> combates) {
+    public void setCombates(List<CombateAsociado> combates) {
         this.combates = combates;
     }
 
@@ -159,6 +160,8 @@ public class Personaje extends Combatiente {
 
     }
 
+
+    @Override
     public HashMap<String,Object> Map(){
 
         HashMap<String, HashMap<String, Object>> principal = new HashMap<>();
@@ -194,6 +197,7 @@ public class Personaje extends Combatiente {
         public double getPeso() {
             return peso;
         }
+
 
         public void setPeso(double peso) {
             this.peso = peso;

@@ -95,7 +95,9 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
         OroTextView.setText(String.format("%.0f",p.getDinero().oro));
         PlataTextView.setText(String.format("%.0f",p.getDinero().plata));
         CobreTextView.setText(String.format("%.0f",p.getDinero().cobre));
-        PesoLimitTextView.setText(String.format("%.0f",p.getPesolimit()));
+        PesoLimitTextView.setText(String.valueOf(p.getPesolimit()));
+        PesoTextView.setText(String.valueOf(p.getPeso()));
+
     }
 
     @Override
@@ -139,10 +141,13 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(getContext(),"Ha intentado poner un peso incoherente con el peso actual",Toast.LENGTH_LONG).show();
                     PesoLimitTextView.setText(String.valueOf(contadorpeso));
                     numero=contadorpeso;
+
+                    p.setPesolimit(contadorpeso);
                 }
 
 
                 FirebaseUtilsV1.SET_PesoLimit(numero,p);
+                p.setPesolimit( Double.parseDouble(PesoLimitTextView.getText().toString()));
                 return null;
             }
         };
@@ -182,7 +187,7 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
                     if(!Validacion.EsUnNuemroReal(PesoEditText.getText().toString())){
                         PesoEditText.setError("No se puede interpretar como un numero");
                     }
-                else if(Double.parseDouble(PesoEditText.getText().toString())+contadorpeso>Double.parseDouble(PesoLimitTextView.getText().toString())){
+                else if(Double.parseDouble(PesoEditText.getText().toString())+contadorpeso>p.getPesolimit()){
                     PesoEditText.setError("No puedes llevar tanto peso");
                 }
                 else{

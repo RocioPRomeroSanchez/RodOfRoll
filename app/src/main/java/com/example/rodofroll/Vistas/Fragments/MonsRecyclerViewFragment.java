@@ -68,12 +68,12 @@ public class MonsRecyclerViewFragment extends Fragment{
                     Monstruo monstruo = new Monstruo(principal.get("atributos"),principal.get("biografia"), snapshot.getKey());
 
                     HashMap<String,Object> combates = (HashMap<String, Object>)principal.get("combates");
-                    List<Combatiente.CombatesAsociados> combatesAsociados= new ArrayList<>();
+                    List<Combatiente.CombateAsociado> combatesAsociados= new ArrayList<>();
                     if(combates!=null){
                         for (Map.Entry<String,Object> s :combates.entrySet()) {
                             String combateid = (String) ((HashMap<String,Object>)s.getValue()).get("combateid");
                             String masterid = (String) ((HashMap<String,Object>)s.getValue()).get("masterid");
-                            combatesAsociados.add(new Personaje.CombatesAsociados(masterid,combateid,snapshot.getKey()));
+                            combatesAsociados.add(new Personaje.CombateAsociado(masterid,combateid,snapshot.getKey()));
                         }
                         monstruo.setCombates(combatesAsociados);
                     }

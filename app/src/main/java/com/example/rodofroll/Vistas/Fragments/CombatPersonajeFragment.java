@@ -87,7 +87,7 @@ public class CombatPersonajeFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
-                Combatiente.CombatesAsociados combatesAsociados = p.getCombates().get(viewHolder.getAdapterPosition());
+                Combatiente.CombateAsociado combatesAsociados = p.getCombates().get(viewHolder.getAdapterPosition());
 
                 Function<String,Void> function = new Function<String, Void>() {
                     @Override
@@ -111,10 +111,10 @@ public class CombatPersonajeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                p.getCombates().removeAll(p.getCombates());
-                Combatiente.CombatesAsociados combateasociado=null;
+                Combatiente.CombateAsociado combateasociado=null;
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                     HashMap<String,Object> principal= (HashMap<String, Object>) snapshot.getValue();
-                    combateasociado = new Combatiente.CombatesAsociados((String) principal.get("masterid"),(String) principal.get("combateid"),snapshot.getKey());
+                    combateasociado = new Combatiente.CombateAsociado((String) principal.get("masterid"),(String) principal.get("combateid"),snapshot.getKey());
                     p.getCombates().add(combateasociado);
                 }
 

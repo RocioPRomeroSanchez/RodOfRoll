@@ -34,7 +34,7 @@ import java.util.Objects;
 
 public class VidaCombatFragment extends Fragment  {
 
-    Combatiente.CombatesAsociados combate;
+    Combatiente.CombateAsociado combate;
     Personaje combatiente;
     DatabaseReference referenceinfo;
     ValueEventListener listener;
@@ -48,7 +48,7 @@ public class VidaCombatFragment extends Fragment  {
     int vida;
     int armadura;
 
-    public VidaCombatFragment(Combatiente.CombatesAsociados combate, Combatiente combatiente1) {
+    public VidaCombatFragment(Combatiente.CombateAsociado combate, Combatiente combatiente1) {
         this.combate = combate;
         this.combatiente=(Personaje) combatiente1;
         this.nombrecombate=nombrecombate;

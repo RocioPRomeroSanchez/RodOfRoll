@@ -17,8 +17,10 @@ import androidx.fragment.app.Fragment;
 import com.example.rodofroll.Firebase.FirebaseUtilsV1;
 import com.example.rodofroll.MainActivity;
 import com.example.rodofroll.Objetos.ConversorImagenes;
+import com.example.rodofroll.Objetos.Validacion;
 import com.example.rodofroll.R;
 import com.example.rodofroll.Vistas.Dialogos.Dialogos;
+import com.google.android.gms.tasks.Task;
 
 public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
@@ -72,8 +74,10 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
             case R.id.ModifButton:
 
-                FirebaseUtilsV1.setUserDetalls(editText.getText().toString(),ConversorImagenes.convertirImagenString(((BitmapDrawable)userimageView.getDrawable()).getBitmap()));
-                ((MainActivity)getActivity()).CrearMenus(R.menu.principalmenu);
+                if(Validacion.ValidarEdit(editText)) {
+                    FirebaseUtilsV1.setUserDetalls(editText.getText().toString(), ConversorImagenes.convertirImagenString(((BitmapDrawable) userimageView.getDrawable()).getBitmap()));
+                    ((MainActivity) getActivity()).CambiarDatosMenu(editText.getText().toString(), ((BitmapDrawable) userimageView.getDrawable()).getBitmap());
+                }
 
                 break;
 
