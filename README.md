@@ -1,8 +1,7 @@
 ## RodOfRoll
 Es un proyecto Final de FP Superior de DAM. Que consiste en una aplicación para gestionar partidas de Rol.
-(d)
+[](MemoriaDelProyecto.pdf)
 
-	
 ## Tecnologías
 El proyecto se crea con:
 * Versión de Lorem: 12.3
