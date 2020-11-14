@@ -9,10 +9,11 @@
 
 <h3>Instalación</h3>
 <ul>
-  <li>Clonar el proyecto e instalarlo en Android</li>
+  <li>Clonar el proyecto e instalarlo en AndroidStudio</li>
   <li>
 	  <a href=https://firebase.google.com/docs/android/setup?hl=es>Añadir Firebase a la app de AndroidStudio</a>
-	</li>
+  </li>
+	<li><a href="https://firebase.google.com/docs/functions/get-started?hl=es">Instalación de Firebase Functions</a></li>	
   </ul>
   
 	
