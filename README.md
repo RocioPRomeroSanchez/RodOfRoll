@@ -11,7 +11,7 @@
 <ul>
   <li>Clonar el proyecto e instalarlo en Android</li>
   <li>
-	  <a src=https://firebase.google.com/docs/android/setup?hl=es>Añadir Firebase a app de AndroidStudio</a>
+	  <a href=https://firebase.google.com/docs/android/setup?hl=es>Añadir Firebase a la app de AndroidStudio</a>
 	</li>
   </ul>
   
