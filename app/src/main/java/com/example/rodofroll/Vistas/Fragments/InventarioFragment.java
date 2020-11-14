@@ -137,6 +137,8 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
             @Override
             public Object apply(Object input) {
                 double numero = (double)input;
+                //Si ponemos un peso limite estando cargados con un peso superior a este mostramos un Toast mostrando este error y ponemos el peso limite
+                // igual al peso total que tenemos cargado
                 if(Double.parseDouble(PesoLimitTextView.getText().toString())< contadorpeso){
                     Toast.makeText(getContext(),"Ha intentado poner un peso incoherente con el peso actual",Toast.LENGTH_LONG).show();
                     PesoLimitTextView.setText(String.valueOf(contadorpeso));
@@ -162,6 +164,7 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
 
     }
 
+    //Muestra el dialogo para incluir una cosa y su peso
     public void showDialogoCosas(final MainActivity mainActivity){
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mainActivity);
         LayoutInflater inflater = mainActivity.getLayoutInflater();
@@ -210,6 +213,7 @@ public class InventarioFragment extends Fragment implements View.OnClickListener
 
     }
 
+    //Describe el comportamiento del Recycler
     public void ComportamientoRecycler(){
 
         cosaList=new ArrayList<>();

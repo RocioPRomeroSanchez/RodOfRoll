@@ -26,6 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
+//Gestiona los datos del personaje o monstruo y controla los tabs
 public class FichaPersonajeFragment extends Fragment {
 
 
@@ -96,6 +97,7 @@ public class FichaPersonajeFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mviewPager.setCurrentItem(tab.getPosition());
+                //Cuando pulsamos al fragment 3 mostramos el boton anyadir para el inventario
                 if(tab.getPosition()==2){
                     button.setVisibility(View.VISIBLE);
                     button.setImageResource(R.drawable.plus);

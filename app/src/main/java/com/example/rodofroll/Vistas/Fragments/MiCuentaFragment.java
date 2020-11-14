@@ -31,6 +31,7 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
 
     @Nullable
     @Override
+    //Sucede cuando creamos la vista
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.micuenta,container,false);
 
@@ -54,6 +55,7 @@ public class MiCuentaFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    //Gestiona los eventos de los botones
     public void onClick(View v) {
 
         switch (v.getId()){

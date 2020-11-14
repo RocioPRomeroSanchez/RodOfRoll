@@ -386,6 +386,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         caTextView.setOnClickListener(null);
 
 
+        //Si no es un monstruo se pregunta por la referencia de los personajes
             if (!personEnCombate.isIsmonster()) {
 
 
@@ -394,36 +395,42 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            HashMap principal = (HashMap) dataSnapshot.getValue();
-                            Personaje p = new Personaje(principal.get("atributos"), principal.get("biografia"), principal.get("inventario"), dataSnapshot.getKey());
-                            nombreTextView.setText(p.getNombre());
-                            personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
-
-                            HashMap<String, Object> combates = (HashMap<String, Object>) principal.get("combates");
-
-
-                            if(combates!=null) {
-                                for (Map.Entry<String, Object> c : combates.entrySet()) {
-
-
-                                    if (((HashMap<String, Object>) c.getValue()).get("masterid").equals(FirebaseUtilsV1.getKey()) && ((HashMap<String, Object>) c.getValue()).get("combateid").equals(combate.getKey())) {
-
-
-                                        int vida = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("vida").toString());
-                                        int ca = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("armadura").toString());
-
-                                        vidaactualTextView.setText(String.valueOf(vida));
-                                        caatualTextView.setText(String.valueOf(String.valueOf(ca)));
-                                        vidaTextView.setText("/" + String.format("%.0f", p.getVida()));
-                                        caTextView.setText("/" + (String.format("%.0f", p.getArmadura())));
-
-
-                                        break;
-                                    }
+                               HashMap principal = (HashMap) dataSnapshot.getValue();
+                                if(principal==null){
+                                    Toast.makeText(getContext(),"El elemento no existe",Toast.LENGTH_LONG).show();
 
                                 }
-                            }
-                        }
+                               else {
+                                    Personaje p = new Personaje(principal.get("atributos"), principal.get("biografia"), principal.get("inventario"), dataSnapshot.getKey());
+                                    nombreTextView.setText(p.getNombre());
+                                    personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(p.getImagen()));
+
+                                    HashMap<String, Object> combates = (HashMap<String, Object>) principal.get("combates");
+
+
+                                    if (combates != null) {
+                                        for (Map.Entry<String, Object> c : combates.entrySet()) {
+
+
+                                            if (((HashMap<String, Object>) c.getValue()).get("masterid").equals(FirebaseUtilsV1.getKey()) && ((HashMap<String, Object>) c.getValue()).get("combateid").equals(combate.getKey())) {
+
+
+                                                int vida = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("vida").toString());
+                                                int ca = Integer.parseInt(((HashMap<String, Object>) c.getValue()).get("armadura").toString());
+
+                                                vidaactualTextView.setText(String.valueOf(vida));
+                                                caatualTextView.setText(String.valueOf(String.valueOf(ca)));
+                                                vidaTextView.setText("/" + String.format("%.0f", p.getVida()));
+                                                caTextView.setText("/" + (String.format("%.0f", p.getArmadura())));
+
+
+                                                break;
+                                            }
+
+                                        }
+                                    }
+                                }
+                           }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -443,12 +450,17 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
 
 
         else{
+            //Sie es un monstruo se pregunta por la referencia de los montruos
             FirebaseUtilsV1.GET_RefMonstruo(FirebaseUtilsV1.getKey(),personEnCombate.getPersonajekey()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                     final HashMap principal = (HashMap) dataSnapshot.getValue();
 
-                    if(principal!=null){
+                    if(principal==null){
+                        Toast.makeText(getContext(),"El elemento no existe",Toast.LENGTH_LONG).show();
+
+                    }
+                    else{
                         final Monstruo monstruo = new Monstruo(principal.get("atributos"), principal.get("biografia"), dataSnapshot.getKey());
                         nombreTextView.setText(monstruo.getNombre());
                         personajeImageView.setImageBitmap(ConversorImagenes.convertirStringBitmap(monstruo.getImagen()));
@@ -493,6 +505,7 @@ public class TurnoFragment extends Fragment implements EstructuraFragment, View.
         }
     }
 
+    //Cargamos un dialogo para anyadir a un monstruo
     public void showDialogoAddMonstruo(final Actividad mainActivity){
         final androidx.appcompat.app.AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mainActivity);
         LayoutInflater inflater = mainActivity.getLayoutInflater();

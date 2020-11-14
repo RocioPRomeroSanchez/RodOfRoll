@@ -184,6 +184,8 @@ public class MonsRecyclerViewFragment extends Fragment{
     }
 
 
+    //Siempre hay que borrar el listener a no ser que sea un SingleEventValue
+    //Porque el ValueEvent escucha todo el tiempo
     @Override
     public void onDestroyView() {
         super.onDestroyView();

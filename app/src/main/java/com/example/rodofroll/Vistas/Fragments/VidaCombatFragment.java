@@ -78,12 +78,13 @@ public class VidaCombatFragment extends Fragment  {
 
         referenceinfo=  FirebaseUtilsV1.GET_RefPersonaje(FirebaseUtilsV1.getKey(),combatiente.getKey()).child("combates").child(combate.getId());
 
+        //Creamos una animacion para el corazon
 
         Animation anim = new ScaleAnimation(
-                1f, 1.03f, // Start and end values for the X axis scaling
-                1f,1.03f // Start and end values for the Y axis scaling
+                1f, 1.03f,
+                1f,1.03f
         );
-        anim.setFillAfter(true); // Needed to keep the result of the animation
+        anim.setFillAfter(true);
         anim.setDuration(2000);
         anim.setRepeatCount(Animation.INFINITE);
         VidaimageView.startAnimation(anim);
