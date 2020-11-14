@@ -6,6 +6,15 @@
   <li>AndroidStudio</li>
   <li>Firebase</li>
 </ul>
+
+<h3>Instalación</h3>
+<ul>
+  <li>Clonar el proyecto e instalarlo en Android</li>
+  <li>
+	  <a src=https://firebase.google.com/docs/android/setup?hl=es>Añadir Firebase a app de AndroidStudio</a>
+	</li>
+  </ul>
+  
 	
 <h3>Para más información sugiero que le echeis un ojo a la memoria del proyecto</h3>
  <a href="MemoriaDelProyecto.pdf">Memoria del proyecto</a>
