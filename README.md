@@ -13,7 +13,7 @@
   <li>Clonar el proyecto e instalarlo en AndroidStudio</li>
   <li><a href=https://firebase.google.com/docs/android/setup?hl=es>Añadir Firebase a la app de AndroidStudio</a></li>
   <li><a href="https://firebase.google.com/docs/functions/get-started?hl=es">Instalación de Firebase Functions</a></li>	
-  <li><a href="index.js">Sustituir la el archivo index de la carpeta functions que habréis generado  por el siguiente</a></li>	
+  <li><a href="index.js">Sustituir la el archivo index de la carpeta functions que habréis generado  por el de este enlace</a></li>	
 </ul>
   
 	
