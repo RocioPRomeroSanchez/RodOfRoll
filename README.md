@@ -3,9 +3,9 @@ Es un proyecto Final de FP Superior de DAM. Que consiste en una aplicación para
 #### Para mas información sugiero que le echeis un ojo a la memoria del proyecto
 [Memoria del proyecto](MemoriaDelProyecto.pdf)
 ## Tecnologías
-El proyecto se crea con:
-* Versión de Lorem: 12.3
-* Versión Ipsum: 2.33
+El proyecto se ha creado:
+* Con AndroidStudio
+* Firebase
 * Versión de la biblioteca Ament: 999
 	
 ## Preparar
