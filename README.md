@@ -1,6 +1,7 @@
  <img src="caduceo.JPG" width="10%" height="10%"></img>
 <h1> RodOfRoll </h1>
 <p>Es un proyecto Final de FP Superior de DAM. Que consiste en una aplicación para gestionar partidas de Rol.</p>
+<p>Podréis guardar los datos de vuestros personajes y controlar la iniciativa de vuestros jugadores</p>
 <h3>Tecnologías</h3>
 <ul>
   <li>AndroidStudio</li>
