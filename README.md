@@ -5,8 +5,6 @@ Es un proyecto Final de FP Superior de DAM. Que consiste en una aplicación para
 ## Tecnologías
 El proyecto se ha creado:
 * Con AndroidStudio
-* Firebase
-* Versión de la biblioteca Ament: 999
+* Firebase RealtimeDatabase
 	
-## Preparar
-Para ejecutar este proyecto, instálelo localmente usando npm:
+
